@@ -13,3 +13,7 @@ h1 {
   border: 1px solid #ccc;
   background: #fff;
 }
+#energyChart{
+  width: 500px;
+  height: 330px;
+}

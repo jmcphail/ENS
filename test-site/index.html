@@ -7,9 +7,26 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+
   <h1>Welcome to the Test Site</h1>
+
   <p>This is a live test page for JavaScript and frontend experiments.</p>
+  
   <div id="output"></div>
+
+  <div id="chartToggleButtons">
+    <button id="powerGenToggle">Power Generation Button</button>
+    <button id="energyGenToggle">Energy Generation Button</button>
+  </div>
+
+  <div id="energyIntervalButtons">
+    <button id="dailyEnergyButton">Daily Energy Generation</button>
+    <button id="monthlyEnergyButton">Monthly Energy Generation</button>
+    <button id="yearlyEnergyButton">Yearly Energy Generation</button>
+  </div>
+
+  <object type="text/html" data="energy_chart.html" id="energyChart"></object>
+
   <script src="js/script.js"></script>
 </body>
 </html>
