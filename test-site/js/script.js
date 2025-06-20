@@ -1,4 +1,4 @@
-// use <script src="https://cdn.jsdelivr.net/gh/jmcphail/ENS/test-site/js/script.js"></script> in RUNSAM
+// use <script src="jmcphail.github.io/ENS/test-site/js/script.js"></script> in RUNSAM
 
 
 
