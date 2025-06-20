@@ -11,5 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
 //Testing RunSam
 const myH1 = document.getElementById("myH1");
 const testButton = document.getElementById("testButton");
-
-myH1.textContent = "Testing with random addition to url";
+const buttonHeader = document.getElementById("buttonHeader");
+myH1.textContent = "The Javascript works!";
+testButton.onclick = function(){
+  buttonHeader.textContent = "The button works!";
+}
