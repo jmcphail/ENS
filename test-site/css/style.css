@@ -1,0 +1,15 @@
+body {
+  font-family: sans-serif;
+  margin: 2rem;
+  background-color: #f9f9f9;
+  color: #333;
+}
+h1 {
+  color: #2c3e50;
+}
+#output {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  background: #fff;
+}
