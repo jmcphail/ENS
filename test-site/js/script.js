@@ -12,6 +12,4 @@ document.addEventListener("DOMContentLoaded", function () {
 const myH1 = document.getElementById("myH1");
 const testButton = document.getElementById("testButton");
 
-testButton.onclick = function(){
-  myH1.textContent = "This Test";
-}
+myH1.textContent = "final updating test";
