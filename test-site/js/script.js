@@ -12,4 +12,4 @@ document.addEventListener("DOMContentLoaded", function () {
 const myH1 = document.getElementById("myH1");
 const testButton = document.getElementById("testButton");
 
-myH1.textContent = "final final final updating test";
+myH1.textContent = "Testing with random addition to url";
