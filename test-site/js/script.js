@@ -8,14 +8,14 @@ document.addEventListener("DOMContentLoaded", function () {
   output.textContent = "JavaScript is working! Edit js/script.js to get started.";
 });
 
-energyGenToggle = document.getElementById("energyGenToggle");
-powerGenToggle = document.getElementById("powerGenToggle");
-energyGenElements = document.getElementById("energyChartElements");
-dailyEnergyButton = document.getElementById("dailyEnergyButton");
-monthlyEnergyButton = document.getElementById("monthlyEnergyButton");
-yearlyEnergyButton = document.getElementById("yearlyEnergyButton");
+const energyGenToggle = document.getElementById("energyGenToggle");
+const powerGenToggle = document.getElementById("powerGenToggle");
+const energyGenElements = document.getElementById("energyChartElements");
+const dailyEnergyButton = document.getElementById("dailyEnergyButton");
+const monthlyEnergyButton = document.getElementById("monthlyEnergyButton");
+const yearlyEnergyButton = document.getElementById("yearlyEnergyButton");
 
-isVisible = true;
+let isVisible = true;
 energyGenToggle.onclick = function(){
   energyChartVisibility();
 }
