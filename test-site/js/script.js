@@ -8,11 +8,27 @@ document.addEventListener("DOMContentLoaded", function () {
   output.textContent = "JavaScript is working! Edit js/script.js to get started.";
 });
 
-//Testing RunSam
-const myH1 = document.getElementById("myH1");
-const testButton = document.getElementById("testButton");
-const buttonHeader = document.getElementById("buttonHeader");
-myH1.textContent = "The Javascript works!";
-testButton.onclick = function(){
-  buttonHeader.textContent = "The button works!";
+energyGenToggle = document.getElementById("energyGenToggle");
+powerGenToggle = document.getElementById("powerGenToggle");
+energyGenElements = document.getElementById("energyChartElements");
+dailyEnergyButton = document.getElementById("dailyEnergyButton");
+monthlyEnergyButton = document.getElementById("monthlyEnergyButton");
+yearlyEnergyButton = document.getElementById("yearlyEnergyButton");
+
+isVisible = true;
+energyGenToggle.onclick = function(){
+  energyChartVisibility();
+}
+
+function energyChartVisibility(){
+  if(isVisible){
+    energyGenElements.classList.remove('show');
+    energyGenElements.classList.add('hide');
+    isVisible = false;
+  }
+  else{
+    energyGenElements.classList.remove('hide');
+    energyGenElements.classList.add('show');
+    isVisible = true;
+  }
 }
