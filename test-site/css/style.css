@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   margin: 2rem;
   background-color: #f9f9f9;
   color: #333;
@@ -12,8 +12,79 @@ h1 {
   padding: 1rem;
   border: 1px solid #ccc;
   background: #fff;
+  text-align: center;
+}
+#energyChartElements{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+}
+#energyGenLabel{
+  font-size: 40px;
+  margin: 20px;
+  font-weight: bold;
 }
 #energyChart{
-  width: 500px;
-  height: 330px;
+  flex-shrink: 0;
+  width:1000px;
+  height:600px;
+  margin:20px;
+  text-align:center;
+}
+#chartToggleButtons{
+  padding: 20px;
+  background-color: rgba(146, 143, 143, 0.121);
+  width: fit-content;
+  height: fit-content;
+  text-align: center;
+}
+#energyIntervalButtons{
+  padding: 10px;
+  background-color:hsla(120, 79%, 44%, 0.1);
+  width: 50%;
+  text-align: center;
+  margin: auto;
+}
+#dailyEnergyButton{
+  padding: 10px;
+  font-size: 1.25rem;
+  background-color: hsla(120, 92%, 45%, 0.788);
+  border-radius: 8px;
+  border: 2px solid hsl(120, 98%, 17%);
+  margin:5px;
+}
+#dailyEnergyButton:hover{
+  box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
+}
+#dailyEnergyButton:active{
+  opacity:85%;
+}
+#monthlyEnergyButton{
+  padding: 10px;
+  font-size: 1.25rem;
+  background-color: hsla(120, 92%, 35%, 0.788);
+  border-radius: 8px;
+  border: 2px solid hsl(120, 98%, 17%);
+  margin:5px;
+}
+#monthlyEnergyButton:hover{
+  box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
+}
+#monthlyEnergyButton:active{
+  opacity:85%;
+}
+#yearlyEnergyButton{
+  padding: 10px;
+  font-size: 1.25rem;
+  background-color: hsla(120, 92%, 25%, 0.788);
+  border-radius: 8px;
+  border: 2px solid hsl(120, 98%, 17%);
+  margin:5px;
+}
+#yearlyEnergyButton:hover{
+  box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
+}
+#yearlyEnergyButton:active{
+  opacity:85%;
 }
