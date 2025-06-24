@@ -74,8 +74,6 @@ async function fetchEnergyData() {
             label: "Daily Energy (Wh)",
             data: values,
             backgroundColor: getBackgroundColor(values),
-            borderColor: "rgba(54, 162, 235, 1)",
-            borderWidth: 1,
             maintainAspectRatio: false
           }]
         },
