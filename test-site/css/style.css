@@ -70,10 +70,24 @@ h1 {
 #dailyEnergyButton:active{
   opacity:85%;
 }
-#monthlyEnergyButton{
+#weeklyEnergyButton{
   padding: 10px;
   font-size: 1.25rem;
   background-color: hsla(120, 92%, 35%, 0.788);
+  border-radius: 8px;
+  border: 2px solid hsl(120, 98%, 17%);
+  margin:5px;
+}
+#weeklyEnergyButton:hover{
+  box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
+}
+#weeklyEnergyButton:active{
+  opacity:85%;
+}
+#monthlyEnergyButton{
+  padding: 10px;
+  font-size: 1.25rem;
+  background-color: hsla(120, 92%, 25%, 0.788);
   border-radius: 8px;
   border: 2px solid hsl(120, 98%, 17%);
   margin:5px;
@@ -82,19 +96,5 @@ h1 {
   box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
 }
 #monthlyEnergyButton:active{
-  opacity:85%;
-}
-#yearlyEnergyButton{
-  padding: 10px;
-  font-size: 1.25rem;
-  background-color: hsla(120, 92%, 25%, 0.788);
-  border-radius: 8px;
-  border: 2px solid hsl(120, 98%, 17%);
-  margin:5px;
-}
-#yearlyEnergyButton:hover{
-  box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
-}
-#yearlyEnergyButton:active{
   opacity:85%;
 }
