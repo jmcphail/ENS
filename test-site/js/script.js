@@ -16,6 +16,7 @@ const powerTimeSliderDisplay = document.getElementById("powerTimeSliderDisplay")
 let isVisible = true;
 let energyChartInstance = null;
 let powerChartInstance = null;
+let powerChartTimeout;
 const BRIGHTNESSCHANGE = 25;
 const DAILYTIMEINTERVAL = "30 days";
 const WEEKLYTIMEINTERVAL = "3 months";
@@ -177,11 +178,16 @@ monthlyEnergyButton.onclick = function(){
   energyGenLabel.textContent = "Monthly Energy Generation for last " + MONTHLYTIMEINTERVAL;
 }
 
-powerTimeSlider.addEventListener('change', () => {
-  const hours = powerTimeSlider.value;
-  powerTimeSliderDisplay.textContent = `${hours} hrs`;
-  const url = getPowerUrl(hours);
-  renderPowerChart(url, hours);
+powerTimeSlider.addEventListener('input', () => {
+  const hoursNow = powerTimeSlider.value;
+  powerTimeSliderDisplay.textContent = `${hoursNow} hrs`;
+
+  clearTimeout(powerChartTimeout);
+  powerChartTimeout = setTimeout(() => {
+    const hours = hoursNow; 
+    const url = getPowerUrl(hours);
+    renderPowerChart(url, hours);
+  }, 25);
 });
 
 onStart();
