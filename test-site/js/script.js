@@ -18,7 +18,7 @@ const energyGenLabel = document.getElementById("energyGenLabel");
 
 let isVisible = true;
 let energyChartInstance = null;
-const BRIGHTNESSCHANGE = 15;
+const BRIGHTNESSCHANGE = 25;
 const DAILYTIMEINTERVAL = "30 days";
 const WEEKLYTIMEINTERVAL = "3 months";
 const MONTHLYTIMEINTERVAL = "12 months";
