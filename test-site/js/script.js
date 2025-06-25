@@ -131,7 +131,7 @@ async function renderPowerChart(dataUrl, hours){
           fill: true,
           borderColor: 'rgb(235, 212, 9)',
           backgroundColor: 'rgb(255, 233, 111)',
-          tension: 0.5
+          tension: 0.5,
         }]
       },
       options: {
@@ -157,6 +157,7 @@ async function renderPowerChart(dataUrl, hours){
 function onStart(){
   const formattedDailyInterval = `-${DAILYTIMEINTERVAL}`;
   renderEnergyChart("DAY", formattedDailyInterval);
+  sliderDecoration();
   renderPowerChart("https://clients.hakaienergy.ca/camosun/get_site_power.php?r=-72 hours",72)
 }
 
@@ -197,6 +198,7 @@ monthlyEnergyButton.onclick = function(){
 }
 
 powerTimeSlider.addEventListener('input', () => {
+  sliderDecoration();
   const hoursNow = powerTimeSlider.value;
   powerTimeSliderDisplay.textContent = `${hoursNow} hrs`;
 
@@ -208,4 +210,16 @@ powerTimeSlider.addEventListener('input', () => {
   }, 25);
 });
 
+function sliderDecoration() {
+  const value = powerTimeSlider.value;
+  const max = powerTimeSlider.max;
+  const percent = (value / max) * 100;
+
+  powerTimeSlider.style.background = `
+    linear-gradient(to right,
+      orange 0%,
+      orange ${percent-1.2}%,
+      #ebe9e7 ${percent-1.2}%,
+      #ebe9e7 100%)`;
+}
 onStart();

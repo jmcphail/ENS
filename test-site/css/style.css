@@ -14,15 +14,17 @@ h1 {
   background: #fff;
   text-align: center;
 }
-.energyChartElements{
+#energyChartElements{
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 100%;
-  -webkit-transform:scale(0.5);
-  -moz-transform:scale(0.5);
-  -ms-transform:scale(0.5);
-  transform:scale(0.5);
+}
+#powerChartElements{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
 }
 .hide{
   opacity: 0;
@@ -38,6 +40,12 @@ h1 {
   font-weight: bold;
 }
 #energyChartContainer{
+  margin: auto;
+  flex-shrink: 0;
+  margin:20px;
+  text-align:center;
+}
+#powerChartContainer{
   margin: auto;
   flex-shrink: 0;
   margin:20px;
@@ -97,4 +105,32 @@ h1 {
 }
 #monthlyEnergyButton:active{
   opacity:85%;
+}
+#powerTimeSliderLabel {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  width: fit-content;
+  margin: 0 auto;
+}
+#powerSliderElements{
+  width: 100%;
+  text-align: center;
+}
+#powerTimeSlider{
+  appearance: none;
+  width: 900px;
+  height: 8px;
+  background: rgb(221, 221, 221);
+  outline: none;
+  border-radius: 5px;
+  padding: 0;
+}
+#powerTimeSlider::-webkit-slider-thumb{
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: orange;
+  border-radius: 50%;
+  cursor: pointer;
 }

@@ -29,9 +29,11 @@
       <canvas id="energyChart" width="1000" height="600"></canvas>
     </div>
   </div>
-  <div id="powerChartElements">
-    <label for="powerTimeSlider" id="powerTimeSliderLabel"> Select Range (hours): <span id="powerTimeSliderDisplay">72 hrs</span></label><br>
-    <input type="range" id="powerTimeSlider" min="6" max="168" value="72" step="6">
+  <div id="powerChartElements" class="powerChartElements">
+    <div id="powerSliderElements">
+      <label for="powerTimeSlider" id="powerTimeSliderLabel"> Select Range (hours): <span id="powerTimeSliderDisplay">72 hrs</span></label><br>
+      <input type="range" id="powerTimeSlider" min="6" max="168" value="72" step="6">
+    </div>
     <div id="powerChartContainer">
       <canvas id="powerChart" width="1000" height="600"></canvas>
     </div>
