@@ -107,26 +107,34 @@ async function renderEnergyChart(timeInterval, timeRange) {
 }
 
 async function renderPowerChart(dataUrl, hours){
-  let ctx = document.getElementById("powerChart").getContext("2d");
-  const rawData = await fetchPowerData(dataUrl);
+    const rawData = await fetchPowerData(dataUrl);
   const { labels, values } = formatChartData(rawData);
-  console.log(labels);
-  console.log(values);
-  powerChartInstance = new Chart(ctx, {
-    type: "line",
-    data:{
-      labels: labels,
-      datasets: [{
-        label: `Power Generation (W) - Last ${hours} hours`,
-        data: values,
-        fill: true,
-        borderColor: 'rgb(235, 212, 9)',
-        backgroundColor: 'rgb(255, 233, 111)',
-        tension: 0.5
-      }]
+  if (powerChartInstance) {
+    powerChartInstance.data.datasets[0].data = values;
+    powerChartInstance.data.labels = labels;
+    powerChartInstance.data.datasets[0].label = `Power Generation (W) - Last ${hours} hours`;
+    powerChartInstance.update();
+  }
+  else{
+    console.log(labels);
+    console.log(values);
+    let ctx = document.getElementById("powerChart").getContext("2d");
+    powerChartInstance = new Chart(ctx, {
+      type: "line",
+      data:{
+        labels: labels,
+        datasets: [{
+          label: `Power Generation (W) - Last ${hours} hours`,
+          data: values,
+          fill: true,
+          borderColor: 'rgb(235, 212, 9)',
+          backgroundColor: 'rgb(255, 233, 111)',
+          tension: 0.5
+        }]
+      }
+    })
     }
-  })
-}
+  }
 
 function onStart(){
   const formattedDailyInterval = `-${DAILYTIMEINTERVAL}`;
@@ -169,17 +177,11 @@ monthlyEnergyButton.onclick = function(){
   energyGenLabel.textContent = "Monthly Energy Generation for last " + MONTHLYTIMEINTERVAL;
 }
 
-powerTimeSlider.addEventListener('input', () => {
+powerTimeSlider.addEventListener('change', () => {
   const hours = powerTimeSlider.value;
   powerTimeSliderDisplay.textContent = `${hours} hrs`;
-  debounceTimeout = setTimeout(() => {
-    const hoursFinal = powerTimeSlider.value;
-    const url = getPowerUrl(hoursFinal);
-  if(powerChartInstance){
-    powerChartInstance.destroy();
-  }
-  renderPowerChart(url, hoursFinal);
-  }, 350);
+  const url = getPowerUrl(hours);
+  renderPowerChart(url, hours);
 });
 
 onStart();
