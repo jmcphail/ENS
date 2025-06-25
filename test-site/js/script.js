@@ -15,6 +15,7 @@ const powerTimeSliderDisplay = document.getElementById("powerTimeSliderDisplay")
 
 let isVisible = true;
 let energyChartInstance = null;
+let powerChartInstance = null;
 const BRIGHTNESSCHANGE = 25;
 const DAILYTIMEINTERVAL = "30 days";
 const WEEKLYTIMEINTERVAL = "3 months";
@@ -62,7 +63,12 @@ async function fetchEnergyData(timeInterval, timeRange){
   console.log(data);
   return data;
 }
-
+async function fetchPowerData(dataUrl){
+  const response = await fetch(dataUrl);
+  const data = await response.json();
+  console.log(data);
+  return data;
+}
 function formatChartData(rawData) {
   const labels = rawData.map(item => item.measurement_date);
   const values = rawData.map(item => item.value);
@@ -98,6 +104,28 @@ async function renderEnergyChart(timeInterval, timeRange) {
       }
     }
   });
+}
+
+async function renderPowerChart(dataUrl, hours){
+  let ctx = document.getElementById("powerChart").getContext("2d");
+  const rawData = await fetchPowerData(dataUrl);
+  const { labels, values } = formatChartData(rawData);
+  console.log(labels);
+  console.log(values);
+  powerChartInstance = new Chart(ctx, {
+    type: "line",
+    data:{
+      labels: labels,
+      datasets: [{
+        label: `Power Generation (W) - Last ${hours} hours`,
+        data: values,
+        fill: true,
+        borderColor: 'rgb(235, 212, 9)',
+        backgroundColor: 'rgb(255, 233, 111)',
+        tension: 0.5
+      }]
+    }
+  })
 }
 
 function onStart(){
@@ -144,7 +172,14 @@ monthlyEnergyButton.onclick = function(){
 powerTimeSlider.addEventListener('input', () => {
   const hours = powerTimeSlider.value;
   powerTimeSliderDisplay.textContent = `${hours} hrs`;
-  const url = getPowerUrl(hours);
+  debounceTimeout = setTimeout(() => {
+    const hoursFinal = powerTimeSlider.value;
+    const url = getPowerUrl(hoursFinal);
+  if(powerChartInstance){
+    powerChartInstance.destroy();
+  }
+  renderPowerChart(url, hoursFinal);
+  }, 350);
 });
 
 onStart();
