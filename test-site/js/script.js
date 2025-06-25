@@ -1,12 +1,7 @@
-// use <script src="jmcphail.github.io/ENS/test-site/js/script.js"></script> in RUNSAM
+  // use <script src="jmcphail.github.io/ENS/test-site/js/script.js"></script> in RUNSAM
 
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-  const output = document.getElementById("output");
-  output.textContent = "JavaScript is working! Edit js/script.js to get started.";
-});
+const output = document.getElementById("output");
+output.textContent = "JavaScript is working! Edit js/script.js to get started.";
 
 const energyGenToggle = document.getElementById("energyGenToggle");
 const powerGenToggle = document.getElementById("powerGenToggle");
@@ -15,6 +10,8 @@ const dailyEnergyButton = document.getElementById("dailyEnergyButton");
 const weeklyEnergyButton = document.getElementById("weeklyEnergyButton");
 const monthlyEnergyButton = document.getElementById("monthlyEnergyButton");
 const energyGenLabel = document.getElementById("energyGenLabel");
+const powerTimeSlider = document.getElementById("powerTimeSlider");
+const powerTimeSliderDisplay = document.getElementById("powerTimeSliderDisplay");
 
 let isVisible = true;
 let energyChartInstance = null;
@@ -36,9 +33,11 @@ function energyChartVisibility(){
     isVisible = true;
   }
 }
+
 function getLargest(previous, next){
     return Math.max(previous, next);
 }
+
 function getBackgroundColor(data){
     let i;
     let colorArray = [];
@@ -54,6 +53,7 @@ function getBackgroundColor(data){
     console.log(colorArray);
     return colorArray;
 }
+
 async function fetchEnergyData(timeInterval, timeRange){
   let url = `https://clients.hakaienergy.ca/camosun/get_site_energy.php?t=${timeInterval}&r=${timeRange}&f=json`
   url = String(url);
@@ -62,12 +62,14 @@ async function fetchEnergyData(timeInterval, timeRange){
   console.log(data);
   return data;
 }
+
 function formatChartData(rawData) {
   const labels = rawData.map(item => item.measurement_date);
   const values = rawData.map(item => item.value);
   return { labels, values };
 }
-async function renderChart(timeInterval, timeRange) {
+
+async function renderEnergyChart(timeInterval, timeRange) {
   const rawData = await fetchEnergyData(timeInterval, timeRange);
   const { labels, values } = formatChartData(rawData);
 
@@ -97,10 +99,17 @@ async function renderChart(timeInterval, timeRange) {
     }
   });
 }
+
 function onStart(){
   const formattedDailyInterval = `-${DAILYTIMEINTERVAL}`;
-  renderChart("DAY", formattedDailyInterval);
+  renderEnergyChart("DAY", formattedDailyInterval);
 }
+
+function getPowerUrl(hourCount){
+  const url = `https://clients.hakaienergy.ca/camosun/get_site_power.php?r=-${hourCount} hours`;
+  return url;
+}
+
 energyGenToggle.onclick = function(){
   energyChartVisibility();
 }
@@ -110,24 +119,32 @@ dailyEnergyButton.onclick = function(){
     energyChartInstance.destroy();
   }
   const formattedDailyInterval = `-${DAILYTIMEINTERVAL}`;
-  renderChart("DAY", formattedDailyInterval);
+  renderEnergyChart("DAY", formattedDailyInterval);
   energyGenLabel.textContent = "Daily Energy Generation for last " + DAILYTIMEINTERVAL;
 }
+
 weeklyEnergyButton.onclick = function(){
   if(energyChartInstance){
     energyChartInstance.destroy();
   }
   const formattedWeeklyInterval = `-${WEEKLYTIMEINTERVAL}`;
-  renderChart("WEEK", formattedWeeklyInterval);
+  renderEnergyChart("WEEK", formattedWeeklyInterval);
   energyGenLabel.textContent = "Weekly Energy Generation for last " + WEEKLYTIMEINTERVAL;
 }
+
 monthlyEnergyButton.onclick = function(){
   if(energyChartInstance){
     energyChartInstance.destroy();
   }
   const formattedMonthlyInterval = `-${MONTHLYTIMEINTERVAL}`;
-  renderChart("MONTH", formattedMonthlyInterval);
+  renderEnergyChart("MONTH", formattedMonthlyInterval);
   energyGenLabel.textContent = "Monthly Energy Generation for last " + MONTHLYTIMEINTERVAL;
 }
+
+powerTimeSlider.addEventListener('input', () => {
+  const hours = powerTimeSlider.value;
+  powerTimeSliderDisplay.textContent = `${hours} hrs`;
+  const url = getPowerUrl(hours);
+});
 
 onStart();
