@@ -108,21 +108,22 @@ async function renderEnergyChart(timeInterval, timeRange) {
 }
 
 async function renderPowerChart(dataUrl, hours){
-    const rawData = await fetchPowerData(dataUrl);
+  const rawData = await fetchPowerData(dataUrl);
   const { labels, values } = formatChartData(rawData);
+
   if (powerChartInstance) {
     powerChartInstance.data.datasets[0].data = values;
     powerChartInstance.data.labels = labels;
     powerChartInstance.data.datasets[0].label = `Power Generation (W) - Last ${hours} hours`;
     powerChartInstance.update();
-  }
-  else{
+  } else {
     console.log(labels);
     console.log(values);
-    let ctx = document.getElementById("powerChart").getContext("2d");
+    const ctx = document.getElementById("powerChart").getContext("2d");
+
     powerChartInstance = new Chart(ctx, {
       type: "line",
-      data:{
+      data: {
         labels: labels,
         datasets: [{
           label: `Power Generation (W) - Last ${hours} hours`,
@@ -132,14 +133,31 @@ async function renderPowerChart(dataUrl, hours){
           backgroundColor: 'rgb(255, 233, 111)',
           tension: 0.5
         }]
+      },
+      options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            min: 0,
+            ticks: {
+              callback: label => `${label / 1000}K`,
+              font: { size: 24 }
+            }
+          },
+          x: {
+            display: false
+          }
+        }
       }
-    })
-    }
+    });
   }
+}
 
 function onStart(){
   const formattedDailyInterval = `-${DAILYTIMEINTERVAL}`;
   renderEnergyChart("DAY", formattedDailyInterval);
+  renderPowerChart("https://clients.hakaienergy.ca/camosun/get_site_power.php?r=-72 hours",72)
 }
 
 function getPowerUrl(hourCount){
