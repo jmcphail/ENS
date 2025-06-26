@@ -18,27 +18,28 @@
     <button id="powerGenToggle">Power Generation Chart</button>
     <button id="energyGenToggle">Energy Generation Chart</button>
   </div>
-  <div id="energyChartElements" class="energyChartElements">
-    <label for="energyChart" id="energyGenLabel" >Daily Energy generation for last 30 days</label>
-    <div id="energyIntervalButtons">
-      <button id="dailyEnergyButton">Daily Energy Generation</button>
-      <button id="weeklyEnergyButton">Weekly Energy Generation</button>
-      <button id="monthlyEnergyButton">Monthly Energy Generation</button>
+  <div id="charts">
+    <div id="energyChartElements" class="energyChartElements">
+      <label for="energyChart" id="energyGenLabel" >Daily Energy generation for last 30 days</label>
+      <div id="energyIntervalButtons">
+        <button id="dailyEnergyButton">Daily Energy Generation</button>
+        <button id="weeklyEnergyButton">Weekly Energy Generation</button>
+        <button id="monthlyEnergyButton">Monthly Energy Generation</button>
+      </div>
+      <div id="energyChartContainer">
+        <canvas id="energyChart"></canvas>
+      </div>
     </div>
-    <div id="energyChartContainer">
-      <canvas id="energyChart" width="1000" height="600"></canvas>
+    <div id="powerChartElements" class="powerChartElements">
+      <div id="powerSliderElements">
+        <label for="powerTimeSlider" id="powerTimeSliderLabel"> Select Range (hours): <span id="powerTimeSliderDisplay">72 hrs</span></label><br>
+        <input type="range" id="powerTimeSlider" min="6" max="168" value="72" step="6">
+      </div>
+      <div id="powerChartContainer">
+        <canvas id="powerChart"></canvas>
+      </div>
     </div>
   </div>
-  <div id="powerChartElements" class="powerChartElements">
-    <div id="powerSliderElements">
-      <label for="powerTimeSlider" id="powerTimeSliderLabel"> Select Range (hours): <span id="powerTimeSliderDisplay">72 hrs</span></label><br>
-      <input type="range" id="powerTimeSlider" min="6" max="168" value="72" step="6">
-    </div>
-    <div id="powerChartContainer">
-      <canvas id="powerChart" width="1000" height="600"></canvas>
-    </div>
-  </div>
-    
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/script.js" defer></script>
 </body>

@@ -7,24 +7,25 @@ body {
 h1 {
   color: #2c3e50;
 }
-#output {
-  margin-top: 2rem;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  background: #fff;
-  text-align: center;
-}
 #energyChartElements{
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 100%;
+  gap: 15px;
 }
 #powerChartElements{
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 100%;
+  gap: 15px;
+}
+#charts{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 50px;
 }
 .hide{
   opacity: 0;
@@ -35,21 +36,19 @@ h1 {
   transition: opacity 0.5s ease-in-out;
 }
 #energyGenLabel{
-  font-size: 40px;
-  margin: 20px;
+  font-size: clamp(0.5rem, 3.5vw, 2.5rem);
   font-weight: bold;
+  text-align: center;
 }
-#energyChartContainer{
+#energyChartContainer, #powerChartContainer{
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
   margin: auto;
-  flex-shrink: 0;
-  margin:20px;
-  text-align:center;
 }
-#powerChartContainer{
-  margin: auto;
-  flex-shrink: 0;
-  margin:20px;
-  text-align:center;
+canvas {
+  width: 100% !important;
+  height: auto !important;
 }
 #chartToggleButtons{
   padding: 20px;
@@ -59,18 +58,18 @@ h1 {
   text-align: center;
 }
 #energyIntervalButtons{
-  padding: 10px;
-  width: 50%;
+  display: flex;
+  justify-content: space-between;
   text-align: center;
   margin: auto;
+  gap: 10px;
 }
 #dailyEnergyButton{
-  padding: 10px;
-  font-size: 1.25rem;
+  padding: clamp(4px, 2vw, 10px);
+  font-size: clamp(0.5rem, 2vw, 1.25rem);
   background-color: hsla(120, 92%, 45%, 0.788);
   border-radius: 8px;
   border: 2px solid hsl(120, 98%, 17%);
-  margin:5px;
 }
 #dailyEnergyButton:hover{
   box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
@@ -79,12 +78,11 @@ h1 {
   opacity:85%;
 }
 #weeklyEnergyButton{
-  padding: 10px;
-  font-size: 1.25rem;
+  padding: clamp(0px, 2vw, 10px);
+  font-size: clamp(0.4rem, 2vw, 1.25rem);
   background-color: hsla(120, 92%, 35%, 0.788);
   border-radius: 8px;
   border: 2px solid hsl(120, 98%, 17%);
-  margin:5px;
 }
 #weeklyEnergyButton:hover{
   box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
@@ -93,12 +91,11 @@ h1 {
   opacity:85%;
 }
 #monthlyEnergyButton{
-  padding: 10px;
-  font-size: 1.25rem;
+  padding: clamp(4px, 2vw, 10px);
+  font-size: clamp(0.5rem, 2vw, 1.25rem);
   background-color: hsla(120, 92%, 25%, 0.788);
   border-radius: 8px;
   border: 2px solid hsl(120, 98%, 17%);
-  margin:5px;
 }
 #monthlyEnergyButton:hover{
   box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
@@ -107,10 +104,10 @@ h1 {
   opacity:85%;
 }
 #powerTimeSliderLabel {
-  font-size: 1.5rem;
+  font-size: clamp(0.5rem, 3.5vw, 2rem);
   font-weight: bold;
   text-align: center;
-  width: fit-content;
+  width: 100%;
   margin: 0 auto;
 }
 #powerSliderElements{
@@ -119,7 +116,7 @@ h1 {
 }
 #powerTimeSlider{
   appearance: none;
-  width: 900px;
+  width: 90%;
   height: 8px;
   background: rgb(221, 221, 221);
   outline: none;
