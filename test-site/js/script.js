@@ -1,3 +1,4 @@
+  // use <script src="jmcphail.github.io/ENS/test-site/js/script.js"></script> in RUNSAM
 
 const energyGenToggle = document.getElementById("energyGenToggle");
 const powerGenToggle = document.getElementById("powerGenToggle");
@@ -85,7 +86,11 @@ async function renderEnergyChart(timeInterval, timeRange) {
         label: "Daily Energy (Wh)",
         data: values,
         backgroundColor: getBackgroundColor(values),
-        maintainAspectRatio: true
+        maintainAspectRatio: true,
+        animation: {
+      duration: 1000,
+      easing: "easeOutQuart"
+    },
       }]
     },
     options: {
