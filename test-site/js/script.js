@@ -45,7 +45,9 @@ function powerChartVisibility(){
     isPowerChartVisible = true;
   }
 }
-
+function sumArray(accumulator, element){
+  return accumulator + element;
+}
 function getLargest(previous, next){
     return Math.max(previous, next);
 }
@@ -85,7 +87,19 @@ function formatChartData(rawData) {
   const values = rawData.map(item => item.value);
   return { labels, values };
 }
-
+async function getTotalEnergyProduced(){
+  const rawData = await fetchEnergyData("DAY", "all");
+  const { labels, values } = formatChartData(rawData);
+  totalEnergy = values.reduce(sumArray);
+  return totalEnergy;
+}
+async function getMonthlyEnergyProduced(){
+  const rawData = await fetchEnergyData("DAY", "-1 month");
+  const { labels, values } = formatChartData(rawData);
+  monthlyEnergy = values.reduce(sumArray);
+  console.log(`Monthly Energy: ${monthlyEnergy}`);
+  return monthlyEnergy;
+}
 async function renderEnergyChart(timeInterval, timeRange) {
   const rawData = await fetchEnergyData(timeInterval, timeRange);
   const { labels, values } = formatChartData(rawData);
@@ -167,11 +181,14 @@ async function renderPowerChart(dataUrl, hours){
   }
 }
 
-function onStart(){
+async function onStart(){
   const formattedDailyInterval = `-${DAILYTIMEINTERVAL}`;
   renderEnergyChart("DAY", formattedDailyInterval);
   sliderDecoration();
   renderPowerChart("https://clients.hakaienergy.ca/camosun/get_site_power.php?r=-72 hours",72)
+  const totalEnergy = await getTotalEnergyProduced();
+  console.log(totalEnergy);
+  const monthlyEnergy = getMonthlyEnergyProduced();
 }
 
 function getPowerUrl(hourCount){
