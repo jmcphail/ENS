@@ -10,7 +10,8 @@ const energyGenLabel = document.getElementById("energyGenLabel");
 const powerTimeSlider = document.getElementById("powerTimeSlider");
 const powerTimeSliderDisplay = document.getElementById("powerTimeSliderDisplay");
 
-let isVisible = true;
+let isEnergyChartVisible = true;
+let isPowerChartVisible = true;
 let energyChartInstance = null;
 let powerChartInstance = null;
 let powerChartTimeout;
@@ -21,15 +22,27 @@ const MONTHLYTIMEINTERVAL = "12 months";
 
 
 function energyChartVisibility(){
-  if(isVisible){
+  if(isEnergyChartVisible){
     energyGenElements.classList.remove('show');
     energyGenElements.classList.add('hide');
-    isVisible = false;
+    isEnergyChartVisible = false;
   }
   else{
     energyGenElements.classList.remove('hide');
     energyGenElements.classList.add('show');
-    isVisible = true;
+    isEnergyChartVisible = true;
+  }
+}
+function powerChartVisibility(){
+  if(isPowerChartVisible){
+    powerChartElements.classList.remove('show');
+    powerChartElements.classList.add('hide');
+    isPowerChartVisible = false;
+  }
+  else{
+    powerChartElements.classList.remove('hide');
+    powerChartElements.classList.add('show');
+    isPowerChartVisible = true;
   }
 }
 
@@ -168,6 +181,9 @@ function getPowerUrl(hourCount){
 
 energyGenToggle.onclick = function(){
   energyChartVisibility();
+}
+powerGenToggle.onclick = function(){
+  powerChartVisibility();
 }
 
 dailyEnergyButton.onclick = function(){
