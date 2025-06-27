@@ -7,6 +7,13 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+    <div id="popup" class="popup">
+      <div class="popup-content">
+        <span class="closePopupButton">&times;</span>
+        <h2 id="popupTitle"></h2>
+        <iframe id="popupIFrame" src="" frameborder="0"></iframe>
+      </div>
+    </div>
   <div id="everything">
     <div id="header">
       <div id="titleAndLogo">
@@ -18,12 +25,12 @@
       <div id="buttonRow">
         <button id="powerGenToggle">Show/Hide Power Generation Chart</button>
         <button id="energyGenToggle">Show/Hide Energy Generation Chart</button>
-        <button id="aboutSystem">About System</button>
-        <button id="technicalDetails">Technical Details</button>
-        <button id="moduleProduction">Module Production</button>
-        <button id="externalLinks">External Links</button>
-        <button id="environmentalBenefits">Environmental Benefits</button>
-        <button id="onlineSurvey">Online Survey</button>
+        <button id="moduleProduction" class="linkButton" data-url="https://clients.hakaienergy.ca/camosun/device_grid_original.html" data-title="Module Production">Module Production</button>
+        <button id="aboutSystem" class="linkButton" data-url="https://camosun.libguides.com/solar/home" data-title="About System">About System</button>
+        <button id="technicalDetails" class="linkButton" data-url="https://clients.hakaienergy.ca/camosun/technical_details.html" data-title="Technical Details">Technical Details</button>
+        <button id="externalLinks" class="linkButton" data-url="https://clients.hakaienergy.ca/camosun/assets/backgrounds/qr_codes.jpg" data-title="External Links">External Links</button>
+        <button id="environmentalBenefits" class="linkButton" data-url="https://clients.hakaienergy.ca/camosun/environmental_benefits.html" data-title="Environmental Benefits">Environmental Benefits</button>
+        <button id="onlineSurvey" class="linkButton" data-url="https://camosun.libwizard.com/f/solar" data-title="Online Survey">Online Survey</button>
       </div>
     </div>
     <div id="charts">

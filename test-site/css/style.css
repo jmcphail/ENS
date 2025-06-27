@@ -35,7 +35,12 @@ body {
   font-size: clamp(0.5rem, 2vw, 1.25rem);
   border-radius: 8px;
 }
-
+#buttonRow button:hover {
+  box-shadow: 3px 3px 6px hsla(241, 81%, 48%, 0.788);
+}
+#buttonRow button:active {
+  opacity: 85%;
+}
 #titleAndLogo {
   display: flex;
   flex-direction: row;
@@ -56,7 +61,49 @@ body {
   font-size: clamp(2rem, 5vw, 3rem);
   text-align: center;
 }
+.popup{
+	display : none ;
+	position : fixed ;
+	z-index : 1000 ;
+	left : 0 ;
+	top : 0 ;
+	width : 100% ;
+	height : 100% ;
+	overflow : auto ;
+	background-color : rgba(0,0,0,0.5) ;
+}
 
+.popup-content{
+	background-color : #fefefe ;
+	margin : 5% auto ;
+	padding : 20px ;
+	border-radius : 10px ;
+	width : 90% ;
+	max-width : 1920px ;
+	box-shadow : 0 0 15px rgba(0,0,0,0.3) ;
+	position : relative ;
+}
+
+.popup-content iframe{
+	width : 100% ;
+	height : 800px ;
+	border : none ;
+	margin-top : 20px ;
+}
+
+.closePopupButton{
+	position : absolute ;
+	top : 10px ;
+	right : 15px ;
+	color : #aaa ;
+	font-size : 28px ;
+	font-weight : bold ;
+	cursor : pointer ;
+}
+
+.closePopupButton:hover{
+	color : #000 ;
+}
 #energyChartElements,
 #powerChartElements {
   display: flex;

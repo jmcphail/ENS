@@ -117,6 +117,7 @@ async function getMonthlyEnergyProduced(){
   console.log(`Monthly Energy: ${monthlyEnergy}`);
   return monthlyEnergy;
 }
+
 async function renderEnergyChart(timeInterval, timeRange) {
   const rawData = await fetchEnergyData(timeInterval, timeRange);
   const { labels, values } = formatChartData(rawData);
@@ -200,6 +201,7 @@ async function renderPowerChart(dataUrl, hours){
 
 async function onStart(){
   const formattedDailyInterval = `-${DAILYTIMEINTERVAL}`;
+  document.getElementById("popup").style.display = "none";
   renderEnergyChart("DAY", formattedDailyInterval);
   sliderDecoration();
   renderPowerChart("https://clients.hakaienergy.ca/camosun/get_site_power.php?r=-72 hours",72)
@@ -259,7 +261,31 @@ powerTimeSlider.addEventListener('input', () => {
     renderPowerChart(url, hours);
   }, 25);
 });
+document.querySelectorAll(".linkButton").forEach(button => {
+  button.addEventListener("click", function () {
+    const url = this.getAttribute("data-url");
+    const title = this.getAttribute("data-title");
 
+    const noCacheUrl = url + (url.includes('?') ? '&' : '?') + 'nocache=' + new Date().getTime();
+    document.getElementById("popupIFrame").src = noCacheUrl;
+    document.getElementById("popupTitle").textContent = title;
+
+    document.getElementById("popup").style.display = "block";
+  });
+});
+
+document.querySelector(".closePopupButton").addEventListener("click", function () {
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("popupIFrame").src = ""; // stop playback if video, etc.
+});
+
+window.addEventListener("click", function (event) {
+  const modal = document.getElementById("popup");
+  if (event.target === modal) {
+    modal.style.display = "none";
+    document.getElementById("popupIFrame").src = "";
+  }
+});
 function sliderDecoration() {
   const value = powerTimeSlider.value;
   const max = powerTimeSlider.max;
