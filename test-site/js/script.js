@@ -18,7 +18,7 @@ let powerChartTimeout;
 const BRIGHTNESSCHANGE = 25;
 const DAILYTIMEINTERVAL = "30 days";
 const WEEKLYTIMEINTERVAL = "3 months";
-const MONTHLYTIMEINTERVAL = "12 msonths";
+const MONTHLYTIMEINTERVAL = "12 months";
 
 
 function energyChartVisibility(){
