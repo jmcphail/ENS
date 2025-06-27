@@ -4,109 +4,174 @@ body {
   background-color: rgb(255, 255, 255);
   color: #333;
 }
-h1 {
-  color: #2c3e50;
+#everything {
+  display: flex;
+  gap: 50px;
+  flex-direction: column;
+  align-items: center;
 }
-#energyChartElements{
+
+#header {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: rgb(240, 240, 240);
+  padding: 25px;
+  width: 100%;
+}
+
+#buttonRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+#buttonRow button {
+  background-color: rgb(83, 120, 219);
+  color: rgb(255, 255, 255);
+  padding: clamp(7px, 2.5vw, 14px);
+  font-size: clamp(0.5rem, 2vw, 1.25rem);
+  border-radius: 8px;
+}
+
+#titleAndLogo {
+  display: flex;
+  flex-direction: row;
+  align-items: top;
+  justify-content: start;
+}
+
+#camosunLogo {
+  height: 100%;
+  width: clamp(2rem, 15vw, 17rem);
+}
+
+#titleBlock {
+  width: 85vw;
+}
+
+#title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  text-align: center;
+}
+
+#energyChartElements,
+#powerChartElements {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 850px;
-  width: 100%;
+  width: 850px;
+  max-width: 100%;
   gap: 15px;
 }
-#powerChartElements{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 850px;
-  width: 100%;
-  gap: 15px;
-  height: auto;
-}
-#charts{
+
+#charts {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 50px;
+  width: 100%;
+  max-width: 1800px;
+  margin: auto;
 }
-.hide{
+
+.hide {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
-.show{
+
+.show {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
-#energyGenLabel{
+
+#energyGenLabel {
   font-size: clamp(0.5rem, 3.5vw, 2.5rem);
   font-weight: bold;
   text-align: center;
 }
 
-#energyChartContainer, #powerChartContainer{
+#energyChartContainer,
+#powerChartContainer {
   position: relative;
   width: 100%;
   max-width: 900px;
   margin: auto;
 }
+
 canvas {
-  width: 100% !important;
-  height: auto !important;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
-#chartToggleButtons{
+
+#chartToggleButtons {
   padding: 20px;
   background-color: rgba(146, 143, 143, 0.121);
   width: fit-content;
   height: fit-content;
   text-align: center;
 }
-#energyIntervalButtons{
+
+#energyIntervalButtons {
   display: flex;
   justify-content: space-between;
   text-align: center;
   margin: auto;
   gap: 10px;
 }
-#dailyEnergyButton{
+
+#dailyEnergyButton {
   padding: clamp(4px, 2vw, 10px);
   font-size: clamp(0.5rem, 2vw, 1.25rem);
   background-color: hsla(120, 92%, 45%, 0.788);
   border-radius: 8px;
   border: 2px solid hsl(120, 98%, 17%);
 }
-#dailyEnergyButton:hover{
+
+#dailyEnergyButton:hover {
   box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
 }
-#dailyEnergyButton:active{
-  opacity:85%;
+
+#dailyEnergyButton:active {
+  opacity: 85%;
 }
-#weeklyEnergyButton{
+
+#weeklyEnergyButton {
   padding: clamp(0px, 2vw, 10px);
   font-size: clamp(0.4rem, 2vw, 1.25rem);
   background-color: hsla(120, 92%, 35%, 0.788);
   border-radius: 8px;
   border: 2px solid hsl(120, 98%, 17%);
 }
-#weeklyEnergyButton:hover{
+
+#weeklyEnergyButton:hover {
   box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
 }
-#weeklyEnergyButton:active{
-  opacity:85%;
+
+#weeklyEnergyButton:active {
+  opacity: 85%;
 }
-#monthlyEnergyButton{
+
+#monthlyEnergyButton {
   padding: clamp(4px, 2vw, 10px);
   font-size: clamp(0.5rem, 2vw, 1.25rem);
   background-color: hsla(120, 92%, 25%, 0.788);
   border-radius: 8px;
   border: 2px solid hsl(120, 98%, 17%);
 }
-#monthlyEnergyButton:hover{
+
+#monthlyEnergyButton:hover {
   box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
 }
-#monthlyEnergyButton:active{
-  opacity:85%;
+
+#monthlyEnergyButton:active {
+  opacity: 85%;
 }
+
 #powerTimeSliderLabel {
   font-size: clamp(0.5rem, 3.5vw, 2rem);
   font-weight: bold;
@@ -114,11 +179,13 @@ canvas {
   width: 100%;
   margin: 0 auto;
 }
-#powerSliderElements{
+
+#powerSliderElements {
   width: 100%;
   text-align: center;
 }
-#powerTimeSlider{
+
+#powerTimeSlider {
   appearance: none;
   width: 90%;
   height: 8px;
@@ -127,7 +194,8 @@ canvas {
   border-radius: 5px;
   padding: 0;
 }
-#powerTimeSlider::-webkit-slider-thumb{
+
+#powerTimeSlider::-webkit-slider-thumb {
   appearance: none;
   width: 20px;
   height: 20px;
@@ -135,3 +203,4 @@ canvas {
   border-radius: 50%;
   cursor: pointer;
 }
+

@@ -7,36 +7,45 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-
-  <h1>Welcome to the Test Site</h1>
-
-  <p>This is a live test page for JavaScript and frontend experiments.</p>
-  
-  <div id="output"></div>
-
-  <div id="chartToggleButtons">
-    <button id="powerGenToggle">Power Generation Chart</button>
-    <button id="energyGenToggle">Energy Generation Chart</button>
-  </div>
-  <div id="charts">
-    <div id="energyChartElements" class="energyChartElements">
-      <label for="energyChart" id="energyGenLabel" >Daily Energy generation for last 30 days</label>
-      <div id="energyIntervalButtons">
-        <button id="dailyEnergyButton">Daily Energy Generation</button>
-        <button id="weeklyEnergyButton">Weekly Energy Generation</button>
-        <button id="monthlyEnergyButton">Monthly Energy Generation</button>
+  <div id="everything">
+    <div id="header">
+      <div id="titleAndLogo">
+        <img src="images/camosun logo.png" alt="Camosun Logo" id="camosunLogo">
+        <div id="titleBlock">
+          <h1 id="title">Alan Batey Library Solar Display</h1><br>
+        </div>
       </div>
-      <div id="energyChartContainer">
-        <canvas id="energyChart"></canvas>
+      <div id="buttonRow">
+        <button id="powerGenToggle">Show/Hide Power Generation Chart</button>
+        <button id="energyGenToggle">Show/Hide Energy Generation Chart</button>
+        <button id="aboutSystem">About System</button>
+        <button id="technicalDetails">Technical Details</button>
+        <button id="moduleProduction">Module Production</button>
+        <button id="externalLinks">External Links</button>
+        <button id="environmentalBenefits">Environmental Benefits</button>
+        <button id="onlineSurvey">Online Survey</button>
       </div>
     </div>
-    <div id="powerChartElements" class="powerChartElements">
-      <div id="powerSliderElements">
-        <label for="powerTimeSlider" id="powerTimeSliderLabel"> Select Range (hours): <span id="powerTimeSliderDisplay">72 hrs</span></label><br>
-        <input type="range" id="powerTimeSlider" min="6" max="168" value="72" step="6">
+    <div id="charts">
+      <div id="energyChartElements" class="energyChartElements">
+        <label for="energyChart" id="energyGenLabel" >Daily Energy generation for last 30 days</label>
+        <div id="energyIntervalButtons">
+          <button id="dailyEnergyButton">Daily Energy Generation</button>
+          <button id="weeklyEnergyButton">Weekly Energy Generation</button>
+          <button id="monthlyEnergyButton">Monthly Energy Generation</button>
+        </div>
+        <div id="energyChartContainer">
+          <canvas id="energyChart"></canvas>
+        </div>
       </div>
-      <div id="powerChartContainer">
-        <canvas id="powerChart"></canvas>
+      <div id="powerChartElements" class="powerChartElements">
+        <div id="powerSliderElements">
+          <label for="powerTimeSlider" id="powerTimeSliderLabel"> Select Range (hours): <span id="powerTimeSliderDisplay">72 hrs</span></label><br>
+          <input type="range" id="powerTimeSlider" min="6" max="168" value="72" step="6">
+        </div>
+        <div id="powerChartContainer">
+          <canvas id="powerChart"></canvas>
+        </div>
       </div>
     </div>
   </div>
