@@ -1,7 +1,6 @@
   // use <script src="jmcphail.github.io/ENS/test-site/js/script.js"></script> in RUNSAM
 
-const energyGenToggle = document.getElementById("energyGenToggle");
-const powerGenToggle = document.getElementById("powerGenToggle");
+const chartToggle = document.getElementById("chartToggle");
 const energyGenElements = document.getElementById("energyChartElements");
 const dailyEnergyButton = document.getElementById("dailyEnergyButton");
 const weeklyEnergyButton = document.getElementById("weeklyEnergyButton");
@@ -9,9 +8,11 @@ const monthlyEnergyButton = document.getElementById("monthlyEnergyButton");
 const energyGenLabel = document.getElementById("energyGenLabel");
 const powerTimeSlider = document.getElementById("powerTimeSlider");
 const powerTimeSliderDisplay = document.getElementById("powerTimeSliderDisplay");
+const chartDiv = document.getElementById("charts");
 
-let isEnergyChartVisible = true;
-let isPowerChartVisible = true;
+let areChartsVisible = true;
+let isBackgroundImageVisible = false;
+let backgroundImageSwitcher = 1;
 let energyChartInstance = null;
 let powerChartInstance = null;
 let powerChartTimeout;
@@ -21,28 +22,38 @@ const WEEKLYTIMEINTERVAL = "3 months";
 const MONTHLYTIMEINTERVAL = "12 months";
 
 
-function energyChartVisibility(){
-  if(isEnergyChartVisible){
-    energyGenElements.classList.remove('show');
-    energyGenElements.classList.add('hide');
-    isEnergyChartVisible = false;
-  }
-  else{
-    energyGenElements.classList.remove('hide');
-    energyGenElements.classList.add('show');
-    isEnergyChartVisible = true;
-  }
-}
-function powerChartVisibility(){
-  if(isPowerChartVisible){
+function chartsVisibility(){
+  if(areChartsVisible){
     powerChartElements.classList.remove('show');
     powerChartElements.classList.add('hide');
-    isPowerChartVisible = false;
+    energyGenElements.classList.remove('show');
+    energyGenElements.classList.add('hide');
+    chartToggle.textContent = "Show Charts"
+    areChartsVisible = false;
   }
   else{
     powerChartElements.classList.remove('hide');
     powerChartElements.classList.add('show');
-    isPowerChartVisible = true;
+    energyGenElements.classList.remove('hide');
+    energyGenElements.classList.add('show');
+    chartToggle.textContent = "Show Background Image"
+    areChartsVisible = true;
+  }
+}
+function backgroundImageVisibility(){
+  if(isBackgroundImageVisible){
+    chartDiv.classList.remove(`background-image${backgroundImageSwitcher}`);
+    isBackgroundImageVisible = false;
+  }
+  else{
+    if(backgroundImageSwitcher == 1){
+      backgroundImageSwitcher = 2;
+    }
+    else{
+      backgroundImageSwitcher = 1;
+    }
+    chartDiv.classList.add(`background-image${backgroundImageSwitcher}`);
+    isBackgroundImageVisible = true;
   }
 }
 //from https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references
@@ -200,6 +211,8 @@ async function renderPowerChart(dataUrl, hours){
 }
 
 async function onStart(){
+  chartsVisibility()
+  backgroundImageVisibility()
   const formattedDailyInterval = `-${DAILYTIMEINTERVAL}`;
   document.getElementById("popup").style.display = "none";
   renderEnergyChart("DAY", formattedDailyInterval);
@@ -215,11 +228,9 @@ function getPowerUrl(hourCount){
   return url;
 }
 
-energyGenToggle.onclick = function(){
-  energyChartVisibility();
-}
-powerGenToggle.onclick = function(){
-  powerChartVisibility();
+chartToggle.onclick = function(){
+  chartsVisibility()
+  backgroundImageVisibility()
 }
 
 dailyEnergyButton.onclick = function(){

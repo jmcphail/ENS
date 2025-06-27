@@ -111,6 +111,7 @@ body {
   align-items: center;
   width: 850px;
   max-width: 100%;
+  max-height: 75%;
   gap: 15px;
 }
 
@@ -120,20 +121,29 @@ body {
   justify-content: center;
   gap: 50px;
   width: 100%;
-  max-width: 1800px;
+  max-width: 2000px;
   margin: auto;
+  height: 70vh;
 }
 
 .hide {
   opacity: 0;
-  transition: opacity 0.5s ease-in-out;
 }
 
 .show {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
-
+.background-image1{
+  background-image: url('../images/Camosun\ 1.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.background-image2{
+  background-image: url('../images/Camosun\ 2.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 #energyGenLabel {
   font-size: clamp(0.5rem, 3.5vw, 2.5rem);
   font-weight: bold;
@@ -250,4 +260,3 @@ canvas {
   border-radius: 50%;
   cursor: pointer;
 }
-
