@@ -45,6 +45,23 @@ function powerChartVisibility(){
     isPowerChartVisible = true;
   }
 }
+//from https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references
+function getSmartphonesCharged(energy){
+  const smartphones = (energy/0.019).toFixed(0);
+  return smartphones;
+}
+function getCO2(energy){
+  const CO2 = energy*(1.375**(-4));
+  return CO2;
+}
+function getTreeCount(energy){
+  const CO2 = getCO2(energy);
+  const trees = (CO2/0.06).toFixed(0);
+}
+function getGasolineGallons(energy){
+  const CO2 = getCO2(energy);
+  const gasoline = (CO2/8.887**(-3)).toFixed(2);
+}
 function sumArray(accumulator, element){
   return accumulator + element;
 }
