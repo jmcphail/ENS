@@ -19,7 +19,19 @@ body {
   padding: 25px;
   width: 100%;
 }
-
+#systemStats{
+  display: flex;
+  flex-direction:  row;
+  gap: 100px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+#systemStats h2{
+  color: rgba(88,89,91,255);
+}
+#systemStats span{
+  color:rgba(145,189,55,255);
+}
 #buttonRow {
   display: flex;
   flex-direction: row;
@@ -44,8 +56,8 @@ body {
 #titleAndLogo {
   display: flex;
   flex-direction: row;
-  align-items: top;
   justify-content: start;
+  align-items: center;
 }
 
 #camosunLogo {
@@ -60,6 +72,7 @@ body {
 #title {
   font-size: clamp(2rem, 5vw, 3rem);
   text-align: center;
+
 }
 .popup{
 	display : none ;

@@ -9,6 +9,10 @@ const energyGenLabel = document.getElementById("energyGenLabel");
 const powerTimeSlider = document.getElementById("powerTimeSlider");
 const powerTimeSliderDisplay = document.getElementById("powerTimeSliderDisplay");
 const chartDiv = document.getElementById("charts");
+const currentPower = document.getElementById("currentPower");
+const dailyEnergy = document.getElementById("dailyEnergy");
+const monthlyEnergy = document.getElementById("monthlyEnergy");
+const lifetimeEnergy = document.getElementById("lifetimeEnergy");
 
 let areChartsVisible = true;
 let isBackgroundImageVisible = false;
@@ -57,21 +61,24 @@ function backgroundImageVisibility(){
   }
 }
 //from https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references
+function getCO2(energy){
+  const CO2 = energy * 9.9e-6;
+  return CO2;
+}
 function getSmartphonesCharged(energy){
   const smartphones = (energy/0.019).toFixed(0);
   return smartphones;
 }
-function getCO2(energy){
-  const CO2 = energy*(1.375**(-4));
-  return CO2;
-}
 function getTreeCount(energy){
   const CO2 = getCO2(energy);
   const trees = (CO2/0.06).toFixed(0);
+  return trees;
 }
 function getGasolineGallons(energy){
   const CO2 = getCO2(energy);
-  const gasoline = (CO2/8.887**(-3)).toFixed(2);
+  const gasolineLiters = CO2/0.002347;
+  const gasolineGallons = gasolineLiters/3.785;
+  return gasolineGallons.toFixed(2);
 }
 function sumArray(accumulator, element){
   return accumulator + element;
@@ -116,10 +123,10 @@ function formatChartData(rawData) {
   return { labels, values };
 }
 async function getTotalEnergyProduced(){
-  const rawData = await fetchEnergyData("DAY", "all");
-  const { labels, values } = formatChartData(rawData);
-  totalEnergy = values.reduce(sumArray);
-  return totalEnergy;
+  const response = await fetch("https://clients.hakaienergy.ca/camosun/api-update.php?api=systems_summary");
+  const rawData = await response.json();
+  console.log(rawData.energy_lifetime);
+  return rawData.energy_lifetime;
 }
 async function getMonthlyEnergyProduced(){
   const rawData = await fetchEnergyData("DAY", "-1 month");
