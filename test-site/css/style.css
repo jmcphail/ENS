@@ -14,7 +14,6 @@ body {
 #header {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   background-color: rgb(240, 240, 240);
   padding: 25px;
   width: 100%;
@@ -25,12 +24,16 @@ body {
   gap: 100px;
   justify-content: center;
   flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 #systemStats h2{
   color: rgba(88,89,91,255);
+  font-size: clamp(0.75rem, 2.5vw, 1.5rem);
+  font-weight: bold;
 }
 #systemStats span{
   color:rgba(145,189,55,255);
+  font-size: clamp(0.5rem, 2vw, 1.25rem);
 }
 #buttonRow {
   display: flex;
