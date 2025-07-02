@@ -12,7 +12,7 @@ const chartDiv = document.getElementById("charts");
 const currentPower = document.getElementById("currentPower");
 const dailyEnergy = document.getElementById("dailyEnergy");
 const monthlyEnergy = document.getElementById("monthlyEnergy");
-const lifetimeEnergy = document.getElementById("lifetimeEnergy");
+const totalEnergy = document.getElementById("lifetimeEnergy");
 
 let areChartsVisible = true;
 let isBackgroundImageVisible = false;
@@ -131,11 +131,36 @@ async function getTotalEnergyProduced(){
 async function getMonthlyEnergyProduced(){
   const rawData = await fetchEnergyData("DAY", "-1 month");
   const { labels, values } = formatChartData(rawData);
-  monthlyEnergy = values.reduce(sumArray);
+  const monthlyEnergy = values.reduce(sumArray);
   console.log(`Monthly Energy: ${monthlyEnergy}`);
   return monthlyEnergy;
 }
-
+async function getDailyEnergyProduced(){
+  const response = await fetch("https://clients.hakaienergy.ca/camosun/api-update.php?api=systems_summary");
+  const rawData = await response.json();
+  console.log(rawData.energy_today);
+  return rawData.energy_today;
+}
+async function getCurrentPower(){
+  const response = await fetch("https://clients.hakaienergy.ca/camosun/get_site_power.php?r=latest");
+  const rawData = await response.json();
+  console.log(rawData[0].value);
+  return rawData[0].value;
+}
+async function setEnergies(){
+  let dailyEnergyAmount = await getDailyEnergyProduced();
+  dailyEnergyAmount /= 1000;
+  dailyEnergy.textContent = `${dailyEnergyAmount.toFixed(2)} kWh`;
+  let monthlyEnergyAmount = await getMonthlyEnergyProduced();
+  monthlyEnergyAmount /= 1000;
+  monthlyEnergy.textContent = `${monthlyEnergyAmount.toFixed(2)} kWh`;
+  let totalEnergyAmount = await getTotalEnergyProduced();
+  totalEnergyAmount /= 1000;
+  totalEnergy.textContent = `${totalEnergyAmount.toFixed(2)} kWh`;
+  let currentPowerAmount = await getCurrentPower();
+  currentPowerAmount /= 1000;
+  currentPower.textContent = `${currentPowerAmount.toFixed(2)} kW`;
+}
 async function renderEnergyChart(timeInterval, timeRange) {
   const rawData = await fetchEnergyData(timeInterval, timeRange);
   const { labels, values } = formatChartData(rawData);
@@ -225,9 +250,7 @@ async function onStart(){
   renderEnergyChart("DAY", formattedDailyInterval);
   sliderDecoration();
   renderPowerChart("https://clients.hakaienergy.ca/camosun/get_site_power.php?r=-72 hours",72)
-  const totalEnergy = await getTotalEnergyProduced();
-  console.log(totalEnergy);
-  const monthlyEnergy = getMonthlyEnergyProduced();
+  setEnergies();
 }
 
 function getPowerUrl(hourCount){
