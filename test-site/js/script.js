@@ -91,15 +91,12 @@ function getBackgroundColor(data){
     let i;
     let colorArray = [];
     const largest = data.reduce(getLargest);
-    console.log(largest);
     for(i = 0; i < data.length; i++){
         const colorPercent = 50-(BRIGHTNESSCHANGE*(data[i]/largest));
-        console.log(colorPercent);
         let chartColor = `hsl(96,100%,${colorPercent}%)`;
         chartColor = String(chartColor);
         colorArray.push(chartColor);
     }
-    console.log(colorArray);
     return colorArray;
 }
 
@@ -108,13 +105,11 @@ async function fetchEnergyData(timeInterval, timeRange){
   url = String(url);
   const response = await fetch(url);
   const data = await response.json();
-  console.log(data);
   return data;
 }
 async function fetchPowerData(dataUrl){
   const response = await fetch(dataUrl);
   const data = await response.json();
-  console.log(data);
   return data;
 }
 function formatChartData(rawData) {
@@ -125,26 +120,22 @@ function formatChartData(rawData) {
 async function getTotalEnergyProduced(){
   const response = await fetch("https://clients.hakaienergy.ca/camosun/api-update.php?api=systems_summary");
   const rawData = await response.json();
-  console.log(rawData.energy_lifetime);
   return rawData.energy_lifetime;
 }
 async function getMonthlyEnergyProduced(){
   const rawData = await fetchEnergyData("DAY", "-1 month");
   const { labels, values } = formatChartData(rawData);
   const monthlyEnergy = values.reduce(sumArray);
-  console.log(`Monthly Energy: ${monthlyEnergy}`);
   return monthlyEnergy;
 }
 async function getDailyEnergyProduced(){
   const response = await fetch("https://clients.hakaienergy.ca/camosun/api-update.php?api=systems_summary");
   const rawData = await response.json();
-  console.log(rawData.energy_today);
   return rawData.energy_today;
 }
 async function getCurrentPower(){
   const response = await fetch("https://clients.hakaienergy.ca/camosun/get_site_power.php?r=latest");
   const rawData = await response.json();
-  console.log(rawData[0].value);
   return rawData[0].value;
 }
 async function setEnergies(){
@@ -205,8 +196,6 @@ async function renderPowerChart(dataUrl, hours){
     powerChartInstance.data.datasets[0].label = `Power Generation (W) - Last ${hours} hours`;
     powerChartInstance.update();
   } else {
-    console.log(labels);
-    console.log(values);
     const ctx = document.getElementById("powerChart").getContext("2d");
 
     powerChartInstance = new Chart(ctx, {
