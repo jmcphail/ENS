@@ -142,12 +142,12 @@ body {
   transition: opacity 0.5s ease-in-out;
 }
 .button-pressed{
-  background-color: rgba(213,35,73,255);
+  background-color: rgb(82, 167, 45);
   color: white;
 }
 .alternate-background-button{
   color: white;
-  background-color: rgb(31, 68, 215);
+  background-color: rgb(49, 156, 217);
 }
 .button-default{
   background-color: white;
