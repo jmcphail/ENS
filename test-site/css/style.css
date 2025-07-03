@@ -17,7 +17,7 @@ body {
   background-color: rgb(240, 240, 240);
   padding: 25px;
   width: 100%;
-  border: solid rgba(88,89,91,255);
+  border: 2px solid rgba(88,89,91,255);
   box-shadow: 2px 2px 15px rgb(151, 151, 151);
 }
 #systemStats{
@@ -44,18 +44,18 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
+  background-color: white;
 }
 
 #buttonRow button {
-  background-color: #547bce;
-  color: rgb(255, 255, 255);
+  color: black;
   padding: clamp(7px, 2.5vw, 14px);
   font-size: clamp(0.5rem, 2vw, 1.25rem);
   border-radius: 8px;
-  box-shadow: 2px 2px 10px rgb(78, 99, 168);
+  border: none;
 }
 #buttonRow button:hover {
-  box-shadow: 3px 3px 6px hsla(241, 81%, 48%, 0.788);
+  background-color: rgb(216, 216, 216);
 }
 #buttonRow button:active {
   opacity: 85%;
