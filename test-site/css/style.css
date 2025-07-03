@@ -49,9 +49,10 @@ body {
 
 #buttonRow button {
   padding: clamp(7px, 2.5vw, 14px);
-  font-size: clamp(0.5rem, 2vw, 1.25rem);
+  font-size: clamp(0.5rem, 2.25vw, 1.5rem);
   border-radius: 8px;
   border: none;
+  font-family: sans-serif;
 }
 
 #buttonRow button:active {
