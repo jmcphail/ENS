@@ -14,6 +14,7 @@ const currentPower = document.getElementById("currentPower");
 const dailyEnergy = document.getElementById("dailyEnergy");
 const monthlyEnergy = document.getElementById("monthlyEnergy");
 const totalEnergy = document.getElementById("lifetimeEnergy");
+const totalPower = document.getElementById("totalPower");
 
 let areChartsVisible = true;
 let isBackgroundImageVisible = false;
@@ -114,6 +115,11 @@ function setPressedButtonColors(object){
 function setStyle() {
   resetButtonColors();
 }
+function setTotalPower(valueArray){
+  let totalPowerValue = valueArray.reduce(sumArray);
+  totalPowerValue /= 1000;
+  totalPower.textContent = `${totalPowerValue.toFixed(2)} kW`;
+}
 async function fetchEnergyData(timeInterval, timeRange){
   let url = `https://clients.hakaienergy.ca/camosun/get_site_energy.php?t=${timeInterval}&r=${timeRange}&f=json`
   url = String(url);
@@ -206,10 +212,12 @@ async function renderPowerChart(dataUrl, hours){
 
   if (powerChartInstance) {
     powerChartInstance.data.datasets[0].data = values;
+    setTotalPower(values);
     powerChartInstance.data.labels = labels;
     powerChartInstance.data.datasets[0].label = `Power Generation (W) - Last ${hours} hours`;
     powerChartInstance.update();
   } else {
+    setTotalPower(values);
     const ctx = document.getElementById("powerChart").getContext("2d");
 
     powerChartInstance = new Chart(ctx, {

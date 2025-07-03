@@ -181,7 +181,13 @@ body {
   max-width: 850px;
   margin: auto;
 }
+#totalPowerTitle{
+  font-size: clamp(0.5rem, 3vw, 2.25rem);
+}
 
+#totalPower{
+  color: rgb(255, 102, 0);
+}
 canvas {
   width: 100%;
   max-width: 100%;
