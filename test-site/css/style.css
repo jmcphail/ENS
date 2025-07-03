@@ -48,15 +48,12 @@ body {
 }
 
 #buttonRow button {
-  color: black;
   padding: clamp(7px, 2.5vw, 14px);
   font-size: clamp(0.5rem, 2vw, 1.25rem);
   border-radius: 8px;
   border: none;
 }
-#buttonRow button:hover {
-  background-color: rgb(216, 216, 216);
-}
+
 #buttonRow button:active {
   opacity: 85%;
 }
@@ -81,55 +78,37 @@ body {
   text-align: center;
 
 }
-.popup{
-	display : none ;
-	position : fixed ;
-	z-index : 1000 ;
-	left : 0 ;
-	top : 0 ;
-	width : 100% ;
-	height : 100% ;
-	overflow : auto ;
-	background-color : rgba(0,0,0,0.5) ;
+#popup {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 10;
+  box-shadow: 2px 2px 15px rgb(151, 151, 151);
 }
 
-.popup-content{
-	background-color : #fefefe ;
-	margin : 5% auto ;
-	padding : 20px ;
-	border-radius : 10px ;
-	width : 90% ;
-	max-width : 1920px ;
-	box-shadow : 0 0 15px rgba(0,0,0,0.3) ;
-	position : relative ;
+.popup-content {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
 }
 
-.popup-content iframe{
-	width : 100% ;
-	height : 800px ;
-	border : none ;
-	margin-top : 20px ;
-}
-
-.closePopupButton{
-	position : absolute ;
-	top : 10px ;
-	right : 15px ;
-	color : #aaa ;
-	font-size : 28px ;
-	font-weight : bold ;
-	cursor : pointer ;
-}
-
-.closePopupButton:hover{
-	color : #000 ;
+.popup-content iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
 }
 #energyChartElements,
 #powerChartElements {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 850px;
+  width: 800px;
   max-width: 100%;
   max-height: 75%;
   gap: 15px;
@@ -143,14 +122,15 @@ body {
 
 }
 #charts {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 50px;
+  gap: 30px;
   width: 100%;
-  max-width: 2000px;
+  max-width: 1920px;
   margin: auto;
-  height: 70vh;
+  height: 75vh;
 }
 .hide {
   opacity: 0;
@@ -159,6 +139,21 @@ body {
 .show {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
+}
+.button-pressed{
+  background-color: rgba(213,35,73,255);
+  color: white;
+}
+.alternate-background-button{
+  color: white;
+  background-color: rgb(31, 68, 215);
+}
+.button-default{
+  background-color: white;
+  color: black;
+}
+.button-default:hover {
+  background-color: rgb(216, 216, 216);
 }
 .background-image1{
   background-image: url('../images/Camosun\ 1.jpg');
@@ -182,7 +177,7 @@ body {
 #powerChartContainer {
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 850px;
   margin: auto;
 }
 

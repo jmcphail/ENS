@@ -1,6 +1,7 @@
   // use <script src="jmcphail.github.io/ENS/test-site/js/script.js"></script> in RUNSAM
 
 const chartToggle = document.getElementById("chartToggle");
+const backgroundImageButton = document.getElementById("backgroundImageSwitcher");
 const energyGenElements = document.getElementById("energyChartElements");
 const dailyEnergyButton = document.getElementById("dailyEnergyButton");
 const weeklyEnergyButton = document.getElementById("weeklyEnergyButton");
@@ -25,41 +26,41 @@ const DAILYTIMEINTERVAL = "30 days";
 const WEEKLYTIMEINTERVAL = "3 months";
 const MONTHLYTIMEINTERVAL = "12 months";
 
+function hideCharts(){
+  powerChartElements.classList.remove('show');
+  powerChartElements.classList.add('hide');
+  energyGenElements.classList.remove('show');
+  energyGenElements.classList.add('hide');
+  areChartsVisible = false;
+}
+function showCharts(){
+  powerChartElements.classList.remove('hide');
+  powerChartElements.classList.add('show');
+  energyGenElements.classList.remove('hide');
+  energyGenElements.classList.add('show');
+  areChartsVisible = true;
+  resetButtonColors();
+  setPressedButtonColors(chartToggle);
+}
+function hideBackgroundImage(){
+  chartDiv.classList.remove(`background-image${backgroundImageSwitcher}`);
+  isBackgroundImageVisible = false;
+}
+function backgroundImageAlternator(){
+  resetButtonColors();
+  if(backgroundImageSwitcher == 1){
+    setPressedButtonColors(backgroundImageButton);
+    backgroundImageSwitcher = 2;
+  }
+  else{
+    backgroundImageButton.classList.remove("button-default");
+    backgroundImageButton.classList.add("alternate-background-button");
+    backgroundImageSwitcher = 1;
+  }
+  chartDiv.classList.add(`background-image${backgroundImageSwitcher}`);
+  isBackgroundImageVisible = true;
+}
 
-function chartsVisibility(){
-  if(areChartsVisible){
-    powerChartElements.classList.remove('show');
-    powerChartElements.classList.add('hide');
-    energyGenElements.classList.remove('show');
-    energyGenElements.classList.add('hide');
-    chartToggle.textContent = "Show Charts"
-    areChartsVisible = false;
-  }
-  else{
-    powerChartElements.classList.remove('hide');
-    powerChartElements.classList.add('show');
-    energyGenElements.classList.remove('hide');
-    energyGenElements.classList.add('show');
-    chartToggle.textContent = "Show Background Image"
-    areChartsVisible = true;
-  }
-}
-function backgroundImageVisibility(){
-  if(isBackgroundImageVisible){
-    chartDiv.classList.remove(`background-image${backgroundImageSwitcher}`);
-    isBackgroundImageVisible = false;
-  }
-  else{
-    if(backgroundImageSwitcher == 1){
-      backgroundImageSwitcher = 2;
-    }
-    else{
-      backgroundImageSwitcher = 1;
-    }
-    chartDiv.classList.add(`background-image${backgroundImageSwitcher}`);
-    isBackgroundImageVisible = true;
-  }
-}
 //from https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references
 function getCO2(energy){
   const CO2 = energy * 9.9e-6;
@@ -99,7 +100,20 @@ function getBackgroundColor(data){
     }
     return colorArray;
 }
-
+function resetButtonColors(){
+  document.querySelectorAll("#buttonRow button").forEach(button => {
+    button.classList.remove("button-pressed");
+    button.classList.remove("alternate-background-button");
+    button.classList.add("button-default");
+  });
+}
+function setPressedButtonColors(object){
+  object.classList.remove("button-default");
+  object.classList.add("button-pressed");
+}
+function setStyle() {
+  resetButtonColors();
+}
 async function fetchEnergyData(timeInterval, timeRange){
   let url = `https://clients.hakaienergy.ca/camosun/get_site_energy.php?t=${timeInterval}&r=${timeRange}&f=json`
   url = String(url);
@@ -232,8 +246,8 @@ async function renderPowerChart(dataUrl, hours){
 }
 
 async function onStart(){
-  chartsVisibility()
-  backgroundImageVisibility()
+  setStyle();
+  showCharts();
   const formattedDailyInterval = `-${DAILYTIMEINTERVAL}`;
   document.getElementById("popup").style.display = "none";
   renderEnergyChart("DAY", formattedDailyInterval);
@@ -246,10 +260,20 @@ function getPowerUrl(hourCount){
   const url = `https://clients.hakaienergy.ca/camosun/get_site_power.php?r=-${hourCount} hours`;
   return url;
 }
-
+function destroyPopup(){
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("popupIFrame").src = "";
+}
 chartToggle.onclick = function(){
-  chartsVisibility()
-  backgroundImageVisibility()
+  destroyPopup()
+  hideBackgroundImage();
+  showCharts();
+}
+backgroundImageButton.onclick = function(){
+  destroyPopup();  
+  hideCharts();
+  hideBackgroundImage();
+  backgroundImageAlternator();
 }
 
 dailyEnergyButton.onclick = function(){
@@ -293,29 +317,20 @@ powerTimeSlider.addEventListener('input', () => {
 });
 document.querySelectorAll(".linkButton").forEach(button => {
   button.addEventListener("click", function () {
+    hideCharts();
+    hideBackgroundImage();
+    resetButtonColors();
+    setPressedButtonColors(this);
     const url = this.getAttribute("data-url");
     const title = this.getAttribute("data-title");
 
     const noCacheUrl = url + (url.includes('?') ? '&' : '?') + 'nocache=' + new Date().getTime();
     document.getElementById("popupIFrame").src = noCacheUrl;
-    document.getElementById("popupTitle").textContent = title;
 
     document.getElementById("popup").style.display = "block";
   });
 });
 
-document.querySelector(".closePopupButton").addEventListener("click", function () {
-  document.getElementById("popup").style.display = "none";
-  document.getElementById("popupIFrame").src = ""; // stop playback if video, etc.
-});
-
-window.addEventListener("click", function (event) {
-  const modal = document.getElementById("popup");
-  if (event.target === modal) {
-    modal.style.display = "none";
-    document.getElementById("popupIFrame").src = "";
-  }
-});
 function sliderDecoration() {
   const value = powerTimeSlider.value;
   const max = powerTimeSlider.max;

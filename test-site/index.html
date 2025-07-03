@@ -7,16 +7,11 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <div id="popup" class="popup">
-      <div class="popup-content">
-        <span class="closePopupButton">&times;</span>
-        <h2 id="popupTitle"></h2>
-        <iframe id="popupIFrame" src="" frameborder="0"></iframe>
-      </div>
-    </div>
+
   <div id="everything">
     <div id="buttonRow">
-      <button id="chartToggle">Show Charts</button>
+      <button id="chartToggle">Home</button>
+      <button id="backgroundImageSwitcher">See Array</button>
       <button id="moduleProduction" class="linkButton" data-url="https://clients.hakaienergy.ca/camosun/device_grid_original.html" data-title="Module Production">Module Production</button>
       <button id="aboutSystem" class="linkButton" data-url="https://camosun.libguides.com/solar/home" data-title="About System">About System</button>
       <button id="technicalDetails" class="linkButton" data-url="https://clients.hakaienergy.ca/camosun/technical_details.html" data-title="Technical Details">Technical Details</button>
@@ -39,6 +34,11 @@
       </div>
     </div>
     <div id="charts">
+      <div id="popup" class="popup">
+        <div class="popup-content">
+          <iframe id="popupIFrame" src="" frameborder="0"></iframe>
+        </div>
+      </div>
       <div id="energyChartElements" class="energyChartElements">
         <label for="energyChart" id="energyGenLabel" >Daily Energy generation for last 30 days</label>
         <div id="energyIntervalButtons">
