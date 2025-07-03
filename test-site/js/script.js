@@ -117,8 +117,9 @@ function setStyle() {
 }
 function setTotalPower(valueArray){
   let totalPowerValue = valueArray.reduce(sumArray);
-  totalPowerValue /= 1000;
-  totalPower.textContent = `${totalPowerValue.toFixed(2)} kW`;
+  //power is every 15 minutes
+  totalPowerValue /= 4000;
+  totalPower.textContent = `${totalPowerValue.toFixed(2)} kWh`;
 }
 async function fetchEnergyData(timeInterval, timeRange){
   let url = `https://clients.hakaienergy.ca/camosun/get_site_energy.php?t=${timeInterval}&r=${timeRange}&f=json`
