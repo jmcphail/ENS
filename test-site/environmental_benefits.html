@@ -17,7 +17,7 @@
       min-height: 100vh;
     }
     .container {
-      max-width: 1000px;
+      max-width: 1400px;
       width: 90%;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -27,19 +27,29 @@
     .card {
       background: white;
       border-radius: 12px;
-      padding: 20px;
-      text-align: center;
+      width: 25vw;
+      height: 30vh;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
     .card:hover {
       transform: scale(1.05);
     }
     .icon {
-      width: 48px;
-      height: 48px;
+      width: 128px;
+      height: 128px;
       margin: 0 auto;
       animation: float 2s infinite ease-in-out;
+    }
+    .icon img{
+      width:100%;
+      height: auto;
+      background-color: transparent;
     }
     @keyframes float {
       0% { transform: translateY(0); }
@@ -47,18 +57,15 @@
       100% { transform: translateY(0); }
     }
     .label {
-      font-size: 1.2rem;
+      font-size: 1.6rem;
       margin-top: 10px;
       color: #444;
     }
     .value {
-      font-size: 1.6rem;
+      font-size: 2rem;
       font-weight: bold;
       color: #2e7d32;
       margin-top: 5px;
-    }
-    svg {
-      fill: #2e7d32;
     }
   </style>
 </head>
@@ -66,42 +73,42 @@
   <div class="container">
     <div class="card">
       <div class="icon">
-        <img src="images/tree_icon.png">
+        <img src="images/tree_icon.png" alt="Tree Image">
       </div>
       <div class="label">Equivalent Trees Planted</div>
       <div class="value" id="treesPlanted">100</div>
     </div>
     <div class="card">
       <div class="icon">
-        <img src="images/car_icon.png">
+        <img src="images/car_icon.png" alt="Car Image">
       </div>
-      <div class="label">Electric cars powered for a year:</div>
+      <div class="label">Electric cars powered (1 yr)</div>
       <div class="value" id="carsPowered">N/A cars</div>
     </div>
     <div class="card">
       <div class="icon">
-        <img src="images/CO2_icon.png">
+        <img src="images/CO2_icon.png" alt="CO2 Image">
       </div>
       <div class="label">CO₂ Emissions Avoided</div>
       <div class="value" id="CO2Avoided">9,491 kg</div>
     </div>
     <div class="card">
       <div class="icon">
-        <img src="images/phone_icon.png">
+        <img src="images/phone_icon.png" alt="Phone Image">
       </div>
       <div class="label">Phones Charged</div>
       <div class="value" id="phonesCharged">10000</div>
     </div>
     <div class="card">
       <div class="icon">
-        <img src="images/sun_icon.png">
+        <img src="images/sun_icon.png" alt="Sun Image">
       </div>
       <div class="label">Days of Clean Energy</div>
       <div class="value" id="operatingDays">98</div>
     </div>
     <div class="card">
       <div class="icon">
-        <img src="images/gas_icon.png">
+        <img src="images/gas_icon.png" alt="Gas Image">
       </div>
       <div class="label">Gallons of gasoline offset</div>
       <div class="value"  id="gasolineGallons">N/A gallons</div>
