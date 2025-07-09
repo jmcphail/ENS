@@ -76,7 +76,7 @@
         <img src="images/tree_icon.png" alt="Tree Image">
       </div>
       <div class="label">Equivalent Trees Planted</div>
-      <div class="value" id="treesPlanted">100</div>
+      <div class="value" id="treesPlanted">N/A Trees</div>
     </div>
     <div class="card">
       <div class="icon">
@@ -90,21 +90,21 @@
         <img src="images/CO2_icon.png" alt="CO2 Image">
       </div>
       <div class="label">CO₂ Emissions Avoided</div>
-      <div class="value" id="CO2Avoided">9,491 kg</div>
+      <div class="value" id="CO2Avoided">N/A tCO₂e</div>
     </div>
     <div class="card">
       <div class="icon">
         <img src="images/phone_icon.png" alt="Phone Image">
       </div>
       <div class="label">Phones Charged</div>
-      <div class="value" id="phonesCharged">10000</div>
+      <div class="value" id="phonesCharged">N/A phones</div>
     </div>
     <div class="card">
       <div class="icon">
         <img src="images/sun_icon.png" alt="Sun Image">
       </div>
       <div class="label">Days of Clean Energy</div>
-      <div class="value" id="operatingDays">98</div>
+      <div class="value" id="operatingDays">N/A days</div>
     </div>
     <div class="card">
       <div class="icon">
@@ -126,7 +126,7 @@
       return CO2;
     }
     function getSmartphonesCharged(energy){
-      const smartphones = (energy/0.019).toFixed(0);
+      const smartphones = (energy/0.02035).toFixed(0);
       return smartphones;
     }
     function getTreeCount(energy){
@@ -136,12 +136,11 @@
     }
     function getGasolineGallons(energy){
       const CO2 = getCO2(energy);
-      const gasolineLiters = CO2/0.002347;
-      const gasolineGallons = gasolineLiters/3.785;
+      const gasolineGallons = CO2/0.0093715;
       return gasolineGallons.toFixed(2);
     }
     function getYearlyCarsPowered(energy){
-      const yearlyCarsPowered = (energy/3078).toFixed(0);
+      const yearlyCarsPowered = (energy/3071).toFixed(0);
       return yearlyCarsPowered;
     }
     async function getOperationalTime(){
