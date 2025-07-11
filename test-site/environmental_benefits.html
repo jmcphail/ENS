@@ -211,7 +211,6 @@
       energy /= 1000;
       let yearlyEnergy = await getYearlyEnergyProduced();
       yearlyEnergy /= 1000;
-      console.log(`Yearly Energy: ${yearlyEnergy} kW`);
       const operatingDaysValue = await getOperationalTime();
       const carsPoweredValue = getYearlyCarsPowered(energy);
       const gasolineGallonsValue = getGasolineGallons(energy);
@@ -219,11 +218,8 @@
       const treesPlantedValue = getTreeCount(energy);
       const phonesChargedValue = getSmartphonesCharged(energy);
       const kmsDrivenValue = getKmsDriven(energy);
-      console.log(kmsDrivenValue);
       const displayHoursValue = getDisplayHours(energy);
-      console.log(displayHoursValue);
       const yearlyTrashValue = getLitterRemoved(yearlyEnergy);
-      console.log(yearlyTrashValue);
       treesPlanted.textContent = `${treesPlantedValue} trees`;
       carsPowered.textContent = `${carsPoweredValue} cars`;
       gasolineGallons.textContent = `${gasolineGallonsValue} gallons`;
