@@ -86,14 +86,14 @@
       transition: all 0.7s ease-in-out;
     }
     #documentation-title{
-      font-size:4rem; 
+      font-size: clamp(1.5rem, 4.5vw, 2.5rem);
       color:#2e7d32; 
       margin:0;
     }
+    #documentation-equation{
+      font-size: clamp(0.75rem, 2.5vw, 1.5rem);
+    }
   </style>
-  <script type="text/javascript" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
 </head>
 <body>
   <div class="container">
@@ -228,7 +228,12 @@
       const operationalSeconds = rawData.last_report_at - rawData.operational_at;
       return (operationalSeconds / 86400).toFixed(0);
     }
-
+    async function getOperationalSeconds(){
+      const response = await fetch("https://clients.hakaienergy.ca/camosun/api-update.php?api=systems_summary");
+      const rawData = await response.json();
+      const operationalSeconds = rawData.last_report_at - rawData.operational_at;
+      return operationalSeconds;
+    }
     async function getTotalEnergyProduced() {
       const response = await fetch("https://clients.hakaienergy.ca/camosun/api-update.php?api=systems_summary");
       const rawData = await response.json();
@@ -263,28 +268,38 @@
 
     // Animation handler
     document.querySelectorAll(".card").forEach(card => {
-      card.addEventListener("click", () => {
+      card.addEventListener("click", async() => {
         const title = card.getAttribute("data-title");
-        let equationHTML = "";
+        let equationHTML = "Equation Not Found";
+        let statisticHTML = "Statistic Not Found";
+        let operationalSeconds = "0";
+        let operationalDays = "0";
+        try{
+          operationalSeconds = await getOperationalSeconds();
+          operationalDays = (operationalSeconds / 86400).toFixed(0);
+        }
+        catch(error){
+          console.error("Error getting operational seconds:", error);
+        }
         if (card.id === "treeButton") {
           equationHTML = `
             <mrow>
               <mfrac>
-                <mn>200</mn>
+                <mrow><mn>200</mn><mspace width = "0.25em" /><mtext>kg C</mtext></mrow>
                 <mtext>Tree (over 80 years)</mtext>
               </mfrac>
               <mo>×</mo>
               <mfrac>
                 <mrow>
                   <mn>44</mn>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <mtext>kg</mtext>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <msub><mtext>CO</mtext><mn>2</mn></msub>
                 </mrow>
                 <mrow>
                   <mn>12</mn>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <mtext>kg C</mtext>
                 </mrow>
               </mfrac>
@@ -292,16 +307,16 @@
               <mfrac>
                 <mrow>
                   <mn>1</mn>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <mtext>tonne</mtext>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <msub><mtext>CO</mtext><mn>2</mn></msub>
                 </mrow>
                 <mrow>
                   <mn>1000</mn>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <mtext>kg</mtext>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <msub><mtext>CO</mtext><mn>2</mn></msub>
                 </mrow>
               </mfrac>
@@ -309,50 +324,55 @@
               <mfrac>
                 <mrow>
                   <mn>0.733</mn>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <mtext>t</mtext>
-                  <mo>&#xA0;</mo>
-                  <msub><mtext>CO</mtext><mn>2</mn></msub>
+                  <mspace width = "0.25em" />
+                  <msub><mtext>CO</mtext><mn>2</mn></msub><mtext>e</mtext>
                 </mrow>
                 <mtext>Tree (over 80 years)</mtext>
               </mfrac>
             </mrow>`;
+
+            statisticHTML=`The "Average" Canadian tree will sequester about 200kg C over an 80-year period in an urban environment.`;
         }
         else if(card.id === "carButton"){
           equationHTML = `
             <mrow>
               <mfrac>
-                <mrow><mn>189</mn><mo>&#xA0;</mo><mtext>Wh</mtext></mrow>
-                <mrow><mn>1</mn><mo>&#xA0;</mo><mtext>km</mtext></mrow>
+                <mrow><mn>189</mn><mspace width = "0.25em" /><mtext>Wh</mtext></mrow>
+                <mrow><mn>1</mn><mspace width = "0.25em" /><mtext>km</mtext></mrow>
               </mfrac>
               <mo>×</mo>
               <mfrac>
-                <mrow><mn>16249</mn><mo>&#xA0;</mo><mtext>km</mtext></mrow>
-                <mrow><mn>1</mn><mo>&#xA0;</mo><mtext>Electric Vehicle</mtext></mrow>
+                <mrow><mn>16249</mn><mspace width = "0.25em" /><mtext>km</mtext></mrow>
+                <mrow><mn>1</mn><mspace width = "0.25em" /><mtext>Electric Vehicle</mtext></mrow>
               </mfrac>
               <mo>×</mo>
               <mfrac>
-                <mrow><mn>1</mn><mo>&#xA0;</mo><mtext>kWh</mtext></mrow>
-                <mrow><mn>1000</mn><mo>&#xA0;</mo><mtext>Wh</mtext></mrow>
+                <mrow><mn>1</mn><mspace width = "0.25em" /><mtext>kWh</mtext></mrow>
+                <mrow><mn>1000</mn><mspace width = "0.25em" /><mtext>Wh</mtext></mrow>
               </mfrac>
               <mo>=</mo>
               <mfrac>
-                <mrow><mn>3071</mn><mo>&#xA0;</mo><mtext>kWh</mtext></mrow>
-                <mrow><mn>1</mn><mo>&#xA0;</mo><mtext>Electric Vehicle</mtext></mrow>
+                <mrow><mn>3071</mn><mspace width = "0.25em" /><mtext>kWh</mtext></mrow>
+                <mrow><mn>1</mn><mspace width = "0.25em" /><mtext>Electric Vehicle</mtext></mrow>
               </mfrac>
             </mrow>`;
+
+            statisticHTML = `Average energy consumption per km for electric cars: 189Wh<br><br>
+                             Average Km driven by Canadians per year: 16249`
         }
         else if(card.id === "CO2Button"){
           equationHTML = `
             <mrow>
               <mfrac>
-                <mrow><mn>9.9</mn><mo>&#xA0;</mo><mtext>t CO</mtext><msub><mtext>₂</mtext><mtext>e</mtext></msub></mrow>
+                <mrow><mn>9.9</mn><mspace width = "0.25em" /><mtext>t CO</mtext><msub><mtext>₂</mtext></msub><mtext>e</mtext></mrow>
                 <mtext>GWh</mtext>
               </mfrac>
               <mo>×</mo>
               <mfrac>
                 <mtext>GWh</mtext>
-                <mrow><mn>1,000,000</mn><mo>&#xA0;</mo><mtext>kWh</mtext></mrow>
+                <mrow><mn>1,000,000</mn><mspace width = "0.25em" /><mtext>kWh</mtext></mrow>
               </mfrac>
               <mo>=</mo>
               <mfrac>
@@ -361,64 +381,89 @@
                   <mo>×</mo>
                   <msup>
                     <mn>10</mn>
-                    <mrow><mo>&#x2212;</mo><mn>6</mn></mrow>
+                    <mrow><mn>-6</mn></mrow>
                   </msup>
-                  <mo>&#xA0;</mo>
-                  <mtext>t CO</mtext><msub><mtext>₂</mtext><mtext>e</mtext></msub>
+                  <mspace width = "0.25em" />
+                  <mtext>t CO</mtext><msub><mtext>₂</mtext></msub><mtext>e</mtext>
                 </mrow>
                 <mtext>kWh</mtext>
               </mfrac>
             </mrow>`;
+
+            statisticHTML = `BC Hydro's grid emits 9.9 tonnes of CO<sub>2</sub> emissions per GWh of consumed energy`;
+        }
+        else if(card.id === "lifetimeButton"){
+          equationHTML = `
+            <mrow>
+              <mn>${operationalSeconds}</mn><mspace width = "0.25em" /><mtext>operational seconds</mtext>
+              <mspace width = "0.25em" />
+              <mo>x</mo>
+              <mfrac>
+                <mrow><mn>1</mn><mspace width = "0.25em" /><mtext>day</mtext></mrow>
+                <mrow><mn>86400</mn><mspace width = "0.25em" /><mtext>seconds</mtext></mrow>
+              </mfrac>
+              <mspace width = "0.25em" />
+              <mo>=</mo>
+              <mrow><mn>${operationalDays}</mn><mspace width = "0.25em" /><mtext>days operational</mtext></mrow>
+            </mrow>
+        `
+          statisticHTML = `System has been operational for ${operationalSeconds} seconds`;
         }
         else if(card.id === "phoneButton"){
           equationHTML = `
             <mrow>
-              <mn>5000</mn><mo>&#xA0;</mo><mtext>mAh</mtext>
-              <mo>&#x00D7;</mo>
+              <mn>5000</mn><mspace width = "0.25em" /><mtext>mAh</mtext>
+              <mspace width = "0.25em" />
+              <mo>×</mo>
               <mfrac>
                 <mtext>1 Ah</mtext>
                 <mtext>1000 mAh</mtext>
               </mfrac>
-              <mo>&#x00D7;</mo>
-              <mn>3.7</mn><mo>&#xA0;</mo><mtext>V</mtext>
+              <mspace width = "0.25em" />
+              <mo>×</mo>
+              <mn>3.7</mn><mspace width = "0.25em" /><mtext>V</mtext>
               <mo>=</mo>
-              <mn>18.5</mn><mo>&#xA0;</mo><mtext>Wh</mtext>
-            </mrow>
-          </math><br><br>
-          <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+              <mn>18.5</mn><mspace width = "0.25em" /><mtext>Wh of battery capacity</mtext>
+            </mrow><br><br>
+          </math>
+          <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" id="documentation-equation">
             <mrow>
-              <mn>18.5</mn><mo>&#xA0;</mo><mtext>Wh</mtext>
-              <mo>&#x00D7;</mo>
+              <mn>18.5</mn><mspace width = "0.25em" /><mtext>Wh</mtext>
+              <mspace width = "0.25em" />
+              <mo>×</mo>
               <mfrac>
                 <mtext>1 kWh</mtext>
                 <mtext>1000 Wh</mtext>
               </mfrac>
-              <mo>&#x00D7;</mo>
-              <mn>1.1</mn>
+              <mspace width = "0.25em" />
+              <mo>×</mo>
+              <mrow><mn>1.1</mn><mtext>(efficiency)</mtext></mrow>
               <mo>=</mo>
               <mfrac>
-                <mrow><mn>2.035</mn><mo>&#x00D7;</mo><msup><mn>10</mn><mrow><mo>&#x2212;</mo><mn>2</mn></mrow></msup></mrow>
+                <mrow><mn>2.035</mn><mspace width = "0.25em" /><mo>x</mo><msup><mn>10</mn><mrow><mn>-2</mn></mrow></msup><mspace width = "0.25em" /><mtext>kWh</mtext></mrow>
                 <mtext>phone charged</mtext>
               </mfrac>
-              <mo>&#xA0;</mo><mtext>kWh</mtext>
             </mrow>`;
+
+          statisticHTML = `Average phone voltage is 3.7V <br><br>
+                             Higher end of battery capacities is 5000 mAh`;
         }
         else if(card.id === "gasolineButton"){
           equationHTML=`
             <mrow>
               <mfrac>
-                <mrow><mn>2307</mn><mo>&#xA0;</mo><mtext>g CO</mtext><msub><mn>2</mn><mrow/></msub></mrow>
-                <mrow><mtext>L Motor Gasoline</mtext></mrow>
+                <mrow><mn>2307</mn><msub><mtext>g CO</mtext><mn>2</mn></msub></mrow>
+                <mrow><mn>1</mn><mspace width = "0.25em" /><mtext>L Motor Gasoline</mtext></mrow>
               </mfrac>
               <mo>×</mo>
               <mfrac>
-                <mrow><mtext>metric tonne CO</mtext><msub><mn>2</mn><mrow/></msub></mrow>
-                <mrow><mn>1000000</mn><mo>&#xA0;</mo><mtext>g CO</mtext><msub><mn>2</mn><mrow/></msub></mrow>
+                <mrow><mn>1</mn><mspace width = "0.25em" /><msub><mtext>metric tonne CO</mtext><mn>2</mn><mrow/></msub></mrow>
+                <mrow><msup><mn>10</mn><mn>5</mn></msup><mspace width = "0.25em" /><msub><mtext>g CO</mtext><mn>2</mn><mrow/></msub></mrow>
               </mfrac>
               <mo>×</mo>
               <mfrac>
-                <mrow><mtext>L Motor Gasoline</mtext></mrow>
-                <mrow><mn>0.264</mn><mo>&#xA0;</mo><mtext>gallons Motor Gasoline</mtext></mrow>
+                <mrow><mn>1</mn><mspace width = "0.25em" /><mtext>L Motor Gasoline</mtext></mrow>
+                <mrow><mn>0.264</mn><mspace width = "0.25em" /><mtext>gallons Motor Gasoline</mtext></mrow>
               </mfrac>
               <mo>=</mo>
               <mfrac>
@@ -427,26 +472,28 @@
                   <mo>×</mo>
                   <msup>
                     <mn>10</mn>
-                    <mrow><mo>&#x2212;</mo><mn>3</mn></mrow>
+                    <mrow><mn>-3</mn></mrow>
                   </msup>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <mtext>metric tonne CO</mtext><msub><mn>2</mn><mrow/></msub>
                 </mrow>
-                <mrow><mtext>gallon Motor Gasoline</mtext></mrow>
+                <mrow><mn>1</mn><mspace width = "0.25em" /><mtext>gallon Motor Gasoline</mtext></mrow>
               </mfrac>
             </mrow>`;
+
+            statisticHTML = `Motor gasoline emits 2307g of CO<sub>2</sub> emissions per litre of fuel in Canada`;
         }
         else if(card.id === "kmsButton"){
           equationHTML=`
             <mrow>
               <mfrac>
-                <mrow><mn>10.74</mn><mo>&#xA0;</mo><mtext>L gasoline</mtext></mrow>
-                <mrow><mn>100</mn><mo>&#xA0;</mo><mtext>km</mtext></mrow>
+                <mrow><mn>10.74</mn><mspace width = "0.25em" /><mtext>L gasoline</mtext></mrow>
+                <mrow><mn>100</mn><mspace width = "0.25em" /><mtext>km</mtext></mrow>
               </mfrac>
               <mo>×</mo>
               <mfrac>
-                <mrow><mn>1</mn><mo>&#xA0;</mo><mtext>gallon gasoline</mtext></mrow>
-                <mrow><mn>3.785</mn><mo>&#xA0;</mo><mtext>L gasoline</mtext></mrow>
+                <mrow><mn>1</mn><mspace width = "0.25em" /><mtext>gallon gasoline</mtext></mrow>
+                <mrow><mn>3.785</mn><mspace width = "0.25em" /><mtext>L gasoline</mtext></mrow>
               </mfrac>
               <mo>×</mo>
               <mfrac>
@@ -455,13 +502,13 @@
                   <mo>×</mo>
                   <msup>
                     <mn>10</mn>
-                    <mrow><mo>&#x2212;</mo><mn>3</mn></mrow>
+                    <mrow><mn>-3</mn></mrow>
                   </msup>
-                  <mo>&#xA0;</mo>
-                  <mtext>metric tons CO</mtext>
-                  <msub><mn>2</mn><mrow/></msub>
+                  <mspace width = "0.25em" />
+                  <msub><mtext>metric tons CO</mtext>
+                  <mn>2</mn><mrow/></msub>
                 </mrow>
-                <mrow><mn>1</mn><mo>&#xA0;</mo><mtext>gallon gasoline</mtext></mrow>
+                <mrow><mn>1</mn><mspace width = "0.25em" /><mtext>gallon gasoline</mtext></mrow>
               </mfrac>
               <mo>=</mo>
               <mfrac>
@@ -470,47 +517,53 @@
                   <mo>×</mo>
                   <msup>
                     <mn>10</mn>
-                    <mrow><mo>&#x2212;</mo><mn>4</mn></mrow>
+                    <mrow><mn>-4</mn></mrow>
                   </msup>
-                  <mo>&#xA0;</mo>
-                  <mtext>metric tons CO</mtext>
-                  <msub><mn>2</mn><mrow/></msub>
+                  <mspace width = "0.25em" />
+                  <msub><mtext>metric tons CO</mtext>
+                  <mn>2</mn><mrow/></msub>
                 </mrow>
                 <mrow><mtext>km driven by gasoline powered vehicle</mtext></mrow>
               </mfrac>
             </mrow>`;
+
+            statisticHTML = `Average consumed gasoline per 100km of highway and city driving in Canada is 10.74L <br><br>
+                             9.371 x 10<sup>-3</sup> metric tons of CO<sub>2</sub> are emitted per gallon of gasoline consumed`;
         }
         else if(card.id === "displayEnergyButton"){
           equationHTML=`
           <mrow>
-            <mo>(</mo>
+            <mtext>[</mtext>
             <mn>15</mn>
-            <mo>&#xA0;</mo>
+            <mspace width = "0.25em" />
             <mtext>W (Access 4)</mtext>
             <mo>+</mo>
             <mn>200</mn>
-            <mo>&#xA0;</mo>
+            <mspace width = "0.25em" />
             <mtext>W (Monitor)</mtext>
-            <mo>)</mo>
-            <mo>&#xA0;</mo>
-            <mo>&#x00D7;</mo>
+            <mtext>]</mtext>
+            <mspace width = "0.25em" />
+            <mo>x</mo>
             <mfrac>
               <mrow>
                 <mn>1</mn>
-                <mo>&#xA0;</mo>
+                <mspace width = "0.25em" />
                 <mtext>kW</mtext>
               </mrow>
               <mrow>
                 <mn>1000</mn>
-                <mo>&#xA0;</mo>
+                <mspace width = "0.25em" />
                 <mtext>W</mtext>
               </mrow>
             </mfrac>
             <mo>=</mo>
             <mn>0.215</mn>
-            <mo>&#xA0;</mo>
+            <mspace width = "0.25em" />
             <mtext>kW to run system</mtext>
           </mrow>`;
+
+          statisticHTML = `The typical power consumption of the loft D375B display is 200W <br><br>
+                           The power that the Access 4 display chip consumes is 15W`;
         }
         else if(card.id === "litterButton"){
           equationHTML=`
@@ -518,32 +571,35 @@
               <mfrac>
                 <mrow>
                   <mn>72</mn>
-                  <mo>&#xA0;</mo>
                   <mtext>t C emissions from trash in GP</mtext>
                 </mrow>
-                <mtext>year</mtext>
+                <mrow>
+                  <mn>1</mn>
+                  <mspace width = "0.25em" />
+                  <mtext>year</mtext>
+                </mrow>
               </mfrac>
-              <mo>&#xD7;</mo>
+              <mspace width = "0.25em" />
+              <mo>x</mo>
               <mfrac>
                 <mn>1</mn>
                 <mrow>
                   <mn>96400</mn>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <mtext>tons of trash in GP</mtext>
                 </mrow>
               </mfrac>
-              <mo>&#xD7;</mo>
+              <mspace width = "0.25em" />
+              <mo>x</mo>
               <mfrac>
                 <mrow>
                   <mn>44</mn>
-                  <mo>&#xA0;</mo>
                   <mtext>t</mtext>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <msub><mtext>CO</mtext><mn>2</mn></msub>
                 </mrow>
                 <mrow>
                   <mn>12</mn>
-                  <mo>&#xA0;</mo>
                   <mtext>t C</mtext>
                 </mrow>
               </mfrac>
@@ -551,20 +607,22 @@
               <mfrac>
                 <mrow>
                   <mn>1</mn>
-                  <mo>&#xA0;</mo>
                   <mtext>t</mtext>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <msub><mtext>CO</mtext><mn>2</mn></msub>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <mtext>emissions</mtext>
                 </mrow>
                 <mrow>
                   <mn>365 </mn>
-                  <mo>&#xA0;</mo>
+                  <mspace width = "0.25em" />
                   <mtext>tons of trash per year</mtext>
                 </mrow>
               </mfrac>
             </mrow>`;
+
+            statisticHTML = `Photodegradation of floating plastic debris emits 32-122t C of Greenhouse Gas emissions per year (median of 77t C) <br><br>
+                             around 96400 tons of plastic are contained in the Grand Pacific Ocean`;
         }
         const identity = card.id;
         const container = document.querySelector(".container");
@@ -604,7 +662,9 @@
 
         setTimeout(() => {
           clone.innerHTML = `<h1 id="documentation-title">${title}</h1> <br><br>
-                            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">${equationHTML}</math>`
+                             <p id="documentation-statistic">${statisticHTML}</p><br><br>
+                             <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" id="documentation-equation">${equationHTML}</math>`
+
           clone.addEventListener("click", () => {
             Object.assign(clone.style, {
               top: orig.top,
