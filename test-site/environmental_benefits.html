@@ -85,67 +85,88 @@
       border-radius: 0;
       transition: all 0.7s ease-in-out;
     }
+    #documentation-title{
+      font-size:4rem; 
+      color:#2e7d32; 
+      margin:0;
+    }
   </style>
+  <script type="text/javascript" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
 </head>
 <body>
   <div class="container">
-    <button class="card">
+    <button class="card" id="treeButton"
+    data-title = "Avoided emissions from trees in Canada over 80 years"
+    data-equation= "\( \frac{200\ \text{kg C}}{\text{Tree (over 80 years)}} \times \frac{44\ \text{kg CO}_2}{12\ \text{kg C}} \times \frac{1\ \text{tonne CO}_2}{1000\ \text{kg CO}_2} = \frac{0.733\ \text{t CO}_2}{\text{Tree (over 80 years)}} \)"
+    >
       <div class="icon">
         <img src="images/tree_icon.png" alt="Tree Image">
       </div>
       <div class="label">Equivalent Trees Planted</div>
       <div class="value" id="treesPlanted">N/A Trees</div>
     </button>
-    <button class="card">
+    <button class="card" id="carButton"
+    data-title="Energy consumed by the average electric vehicle per year in Canada"
+    >
       <div class="icon">
         <img src="images/car_icon.png" alt="Car Image">
       </div>
       <div class="label">Electric cars powered (1 yr)</div>
       <div class="value" id="carsPowered">N/A cars</div>
     </button>
-    <button class="card">
+    <button class="card" id="CO2Button"
+    data-title="CO2 emissions from the BC Hydro grid"
+    >
       <div class="icon">
         <img src="images/CO2_icon.png" alt="CO2 Image">
       </div>
       <div class="label">CO₂ Emissions Avoided</div>
       <div class="value" id="CO2Avoided">N/A tCO₂e</div>
     </button>
-    <button class="card">
+    <button class="card" id="phoneButton"
+    data-title="Energy that it takes to charge a phone from empty to full battery">
       <div class="icon">
         <img src="images/phone_icon.png" alt="Phone Image">
       </div>
       <div class="label">Phones Charged</div>
       <div class="value" id="phonesCharged">N/A phones</div>
     </button>
-    <button class="card">
+    <button class="card" id="lifetimeButton"
+    data-title="Days that the system has existed">
       <div class="icon">
         <img src="images/sun_icon.png" alt="Sun Image">
       </div>
       <div class="label">Days of Clean Energy</div>
       <div class="value" id="operatingDays">N/A days</div>
     </button>
-    <button class="card">
+    <button class="card" id="gasolineButton"
+    data-title="Metric Tons of CO2 emitted by using a gallon of gasoline">
       <div class="icon">
         <img src="images/gas_icon.png" alt="Gas Image">
       </div>
       <div class="label">Gallons of gasoline offset</div>
       <div class="value" id="gasolineGallons">N/A gallons</div>
     </button>
-    <button class="card">
+    <button class="card" id="kmsButton"
+    data-title="Average metric tons of CO2 emitted per km for 2025 gasoline-powered vehicles">
       <div class="icon">
         <img src="images/gas_icon.png" alt="Kilometers Image">
       </div>
       <div class="label">Kilometers driven by gas vehicle</div>
       <div class="value" id="kmsDriven">N/A Km</div>
     </button>
-    <button class="card">
+    <button class="card" id="displayEnergyButton"
+    data-title="Energy used by the display and display chip">
       <div class="icon">
         <img src="images/gas_icon.png" alt="Display Hours Image">
       </div>
       <div class="label">Hours that the energy can run this display</div>
       <div class="value" id="displayHours">N/A hours</div>
     </button>
-    <button class="card">
+    <button class="card" id="litterButton"
+    data-title="Carbon emissions of trash in the Grand Pacific Ocean garbage patch">
       <div class="icon">
         <img src="images/gas_icon.png" alt="Litter Removed Image">
       </div>
@@ -243,6 +264,88 @@
     // Animation handler
     document.querySelectorAll(".card").forEach(card => {
       card.addEventListener("click", () => {
+        const title = card.getAttribute("data-title");
+        const identity = card.id;
+        console.log(identity);
+        let equationHTML = "";
+        if (card.id === "treeButton") {
+          equationHTML = `
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+              <mrow>
+                <mfrac>
+                  <mn>200</mn>
+                  <mtext>Tree (over 80 years)</mtext>
+                </mfrac>
+                <mo>×</mo>
+                <mfrac>
+                  <mrow>
+                    <mn>44</mn>
+                    <mo>&#xA0;</mo>
+                    <mtext>kg</mtext>
+                    <mo>&#xA0;</mo>
+                    <msub><mtext>CO</mtext><mn>2</mn></msub>
+                  </mrow>
+                  <mrow>
+                    <mn>12</mn>
+                    <mo>&#xA0;</mo>
+                    <mtext>kg C</mtext>
+                  </mrow>
+                </mfrac>
+                <mo>×</mo>
+                <mfrac>
+                  <mrow>
+                    <mn>1</mn>
+                    <mo>&#xA0;</mo>
+                    <mtext>tonne</mtext>
+                    <mo>&#xA0;</mo>
+                    <msub><mtext>CO</mtext><mn>2</mn></msub>
+                  </mrow>
+                  <mrow>
+                    <mn>1000</mn>
+                    <mo>&#xA0;</mo>
+                    <mtext>kg</mtext>
+                    <mo>&#xA0;</mo>
+                    <msub><mtext>CO</mtext><mn>2</mn></msub>
+                  </mrow>
+                </mfrac>
+                <mo>=</mo>
+                <mfrac>
+                  <mrow>
+                    <mn>0.733</mn>
+                    <mo>&#xA0;</mo>
+                    <mtext>t</mtext>
+                    <mo>&#xA0;</mo>
+                    <msub><mtext>CO</mtext><mn>2</mn></msub>
+                  </mrow>
+                  <mtext>Tree (over 80 years)</mtext>
+                </mfrac>
+              </mrow>
+            </math>`
+        }
+        else if(card.id === "carButton"){
+
+        }
+        else if(card.id === "CO2Button"){
+
+        }
+        else if(card.id === "phoneButton"){
+
+        }
+        else if(card.id === "lifetimeButton"){
+
+        }
+        else if(card.id === "gasolineButton"){
+
+        }
+        else if(card.id === "kmsButton"){
+
+        }
+        else if(card.id === "displayEnergyButton"){
+
+        }
+        else if(card.id === "displayEnergyButton"){
+
+        }
         const container = document.querySelector(".container");
         const rect = card.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
@@ -254,7 +357,6 @@
           height: rect.height + "px",
           radius: getComputedStyle(card).borderRadius
         };
-
         const clone = card.cloneNode(true);
         clone.classList.add("expand");
         Object.assign(clone.style, {
@@ -280,7 +382,7 @@
         });
 
         setTimeout(() => {
-          clone.innerHTML = `<h1 style="font-size:4rem; color:#2e7d32; margin:0;">Documentation</h1>`;
+          clone.innerHTML = `<h1 id="documentation-title">${title}</h1>${equationHTML}`
           clone.addEventListener("click", () => {
             Object.assign(clone.style, {
               top: orig.top,
