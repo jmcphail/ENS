@@ -55,9 +55,30 @@ body {
   font-family: sans-serif;
   transition: 0.3s;
 }
-
-#buttonRow button:active {
-  opacity: 85%;
+.button-pressed{
+  background-color: rgb(82, 167, 45);
+  color: white;
+}
+.button-pressed:hover{
+  transform: translateY(-.3rem);
+  box-shadow: 0 1rem 2rem rgba(82, 167, 45, 0.2);
+}
+.alternate-background-button{
+  color: white;
+  background-color: rgb(49, 156, 217);
+}
+.alternate-background-button:hover{
+  transform: translateY(-.3rem);
+  box-shadow: 0 1rem 2rem rgb(49, 156, 217, 0.2);
+}
+.button-default{
+  background-color: white;
+  color: black;
+}
+.button-default:hover {
+  background-color: rgb(216, 216, 216);
+  transform: translateY(-.3rem);
+  box-shadow: 0 1rem 2rem rgba(103, 103, 103, 0.2);
 }
 #titleAndLogo {
   display: flex;
@@ -142,21 +163,6 @@ body {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
-.button-pressed{
-  background-color: rgb(82, 167, 45);
-  color: white;
-}
-.alternate-background-button{
-  color: white;
-  background-color: rgb(49, 156, 217);
-}
-.button-default{
-  background-color: white;
-  color: black;
-}
-.button-default:hover {
-  background-color: rgb(216, 216, 216);
-}
 .background-image1{
   background-image: url('../images/Camosun\ 1.jpg');
   background-repeat: no-repeat;
@@ -222,14 +228,18 @@ canvas {
 .active-energy-button{
   background-color: white !important;
   border: 2px solid #000 !important;
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4) !important;
+}
+.active-energy-button:hover{
+  transform: translateY(-.3rem);
+  box-shadow: 0 1rem 2rem hsla(0, 0%, 0%, 0.2) !important;
 }
 #dailyEnergyButton {
   background-color: hsla(120, 92%, 45%, 0.788);
 }
 
 #dailyEnergyButton:hover {
-  box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
+  transform: translateY(-.3rem);
+  box-shadow: 0 1rem 2rem hsla(120, 92%, 45%, 0.2);
 }
 
 #weeklyEnergyButton {
@@ -237,7 +247,8 @@ canvas {
 }
 
 #weeklyEnergyButton:hover {
-  box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
+  transform: translateY(-.3rem);
+  box-shadow: 0 1rem 2rem hsla(120, 92%, 35%, 0.2);
 }
 
 #monthlyEnergyButton {
@@ -245,7 +256,8 @@ canvas {
 }
 
 #monthlyEnergyButton:hover {
-  box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
+  transform: translateY(-.3rem);
+  box-shadow: 0 1rem 2rem hsla(120, 92%, 25%, 0.2);
 }
 #powerTimeSliderLabel {
   font-size: clamp(0.5rem, 3.5vw, 2rem);
