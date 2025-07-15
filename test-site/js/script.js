@@ -1,7 +1,6 @@
   // use <script src="jmcphail.github.io/ENS/test-site/js/script.js"></script> in RUNSAM
 
 const chartToggle = document.getElementById("chartToggle");
-const backgroundImageButton = document.getElementById("backgroundImageSwitcher");
 const energyGenElements = document.getElementById("energyChartElements");
 const dailyEnergyButton = document.getElementById("dailyEnergyButton");
 const weeklyEnergyButton = document.getElementById("weeklyEnergyButton");
@@ -17,8 +16,6 @@ const totalEnergy = document.getElementById("lifetimeEnergy");
 const totalPower = document.getElementById("totalPower");
 
 let areChartsVisible = true;
-let isBackgroundImageVisible = false;
-let backgroundImageSwitcher = 1;
 let energyChartInstance = null;
 let powerChartInstance = null;
 let powerChartTimeout;
@@ -42,24 +39,6 @@ function showCharts(){
   areChartsVisible = true;
   resetButtonColors();
   setPressedButtonColors(chartToggle);
-}
-function hideBackgroundImage(){
-  chartDiv.classList.remove(`background-image${backgroundImageSwitcher}`);
-  isBackgroundImageVisible = false;
-}
-function backgroundImageAlternator(){
-  resetButtonColors();
-  if(backgroundImageSwitcher == 1){
-    setPressedButtonColors(backgroundImageButton);
-    backgroundImageSwitcher = 2;
-  }
-  else{
-    backgroundImageButton.classList.remove("button-default");
-    backgroundImageButton.classList.add("alternate-background-button");
-    backgroundImageSwitcher = 1;
-  }
-  chartDiv.classList.add(`background-image${backgroundImageSwitcher}`);
-  isBackgroundImageVisible = true;
 }
 
 //from https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references
@@ -276,14 +255,7 @@ function destroyPopup(){
 }
 chartToggle.onclick = function(){
   destroyPopup()
-  hideBackgroundImage();
   showCharts();
-}
-backgroundImageButton.onclick = function(){
-  destroyPopup();  
-  hideCharts();
-  hideBackgroundImage();
-  backgroundImageAlternator();
 }
 
 dailyEnergyButton.onclick = function(){
@@ -328,7 +300,6 @@ powerTimeSlider.addEventListener('input', () => {
 document.querySelectorAll(".linkButton").forEach(button => {
   button.addEventListener("click", function () {
     hideCharts();
-    hideBackgroundImage();
     resetButtonColors();
     setPressedButtonColors(this);
     const url = this.getAttribute("data-url");

@@ -169,18 +169,6 @@ body {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
-.background-image1{
-  background-image: url('../images/Camosun\ 1.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  box-shadow: 2px 2px 15px rgb(151, 151, 151);
-}
-.background-image2{
-  background-image: url('../images/Camosun\ 2.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  box-shadow: 2px 2px 15px rgb(151, 151, 151);
-}
 #energyGenLabel {
   font-size: clamp(0.5rem, 3.5vw, 2.5rem);
   font-weight: bold;
