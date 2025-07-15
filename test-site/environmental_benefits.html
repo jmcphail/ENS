@@ -724,11 +724,12 @@
               height: orig.height,
               borderRadius: orig.radius
             });
+              clone.innerHTML = card.innerHTML;
             clone.addEventListener("transitionend", () => {
               clone.remove();
             }, { once: true });
           }, { once: true });
-        }, 700);
+        }, 650);
       });
     });
   </script>
