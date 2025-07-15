@@ -352,4 +352,11 @@ function sliderDecoration() {
       #ebe9e7 ${percent-1.2}%,
       #ebe9e7 100%)`;
 }
+document.querySelectorAll("#energyIntervalButtons button").forEach(button =>{
+  button.addEventListener("click", () =>{
+    console.log("button pressed");
+    document.querySelector(".active-energy-button")?.classList.remove("active-energy-button");
+    button.classList.add("active-energy-button");
+  })
+})
 onStart();

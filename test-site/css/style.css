@@ -53,6 +53,7 @@ body {
   border-radius: 8px;
   border: none;
   font-family: sans-serif;
+  transition: 0.3s;
 }
 
 #buttonRow button:active {
@@ -211,54 +212,41 @@ canvas {
   gap: 10px;
 }
 
-#dailyEnergyButton {
+#energyIntervalButtons button{
+  transition: 0.3s;
   padding: clamp(4px, 2vw, 10px);
   font-size: clamp(0.5rem, 2vw, 1.25rem);
-  background-color: hsla(120, 92%, 45%, 0.788);
   border-radius: 8px;
   border: 2px solid hsl(120, 98%, 17%);
+}
+.active-energy-button{
+  background-color: white !important;
+  border: 2px solid #000 !important;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4) !important;
+}
+#dailyEnergyButton {
+  background-color: hsla(120, 92%, 45%, 0.788);
 }
 
 #dailyEnergyButton:hover {
   box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
 }
 
-#dailyEnergyButton:active {
-  opacity: 85%;
-}
-
 #weeklyEnergyButton {
-  padding: clamp(0px, 2vw, 10px);
-  font-size: clamp(0.4rem, 2vw, 1.25rem);
   background-color: hsla(120, 92%, 35%, 0.788);
-  border-radius: 8px;
-  border: 2px solid hsl(120, 98%, 17%);
 }
 
 #weeklyEnergyButton:hover {
   box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
 }
 
-#weeklyEnergyButton:active {
-  opacity: 85%;
-}
-
 #monthlyEnergyButton {
-  padding: clamp(4px, 2vw, 10px);
-  font-size: clamp(0.5rem, 2vw, 1.25rem);
   background-color: hsla(120, 92%, 25%, 0.788);
-  border-radius: 8px;
-  border: 2px solid hsl(120, 98%, 17%);
 }
 
 #monthlyEnergyButton:hover {
   box-shadow: 3px 3px 6px hsla(120, 91%, 32%, 0.788);
 }
-
-#monthlyEnergyButton:active {
-  opacity: 85%;
-}
-
 #powerTimeSliderLabel {
   font-size: clamp(0.5rem, 3.5vw, 2rem);
   font-weight: bold;
