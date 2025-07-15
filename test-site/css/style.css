@@ -1,22 +1,19 @@
 body {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  margin: 2rem;
+  margin: 40px;
   background-color: rgb(255, 255, 255);
   color: #333;
 }
 #everything {
   display: flex;
-  gap: 50px;
   flex-direction: column;
   align-items: center;
+  gap: 40px;
 }
 
 #header {
-  display: flex;
-  flex-direction: column;
-  background-color: rgb(240, 240, 240);
+  background-color: rgb(255, 255, 255);
   padding: 25px;
-  width: 100%;
   border: 2px solid rgba(88,89,91,255);
   box-shadow: 2px 2px 15px rgb(151, 151, 151);
 }
@@ -26,7 +23,7 @@ body {
   gap: 100px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 30px;
+  margin: auto;
 }
 #systemStats h2{
   color: rgba(88,89,91,255);
@@ -80,27 +77,28 @@ body {
   transform: translateY(-.3rem);
   box-shadow: 0 1rem 2rem rgba(103, 103, 103, 0.2);
 }
-#titleAndLogo {
+#logoAndTitle {
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  width: 100%;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 #camosunLogo {
   height: 100%;
-  width: clamp(2rem, 15vw, 17rem);
-}
-
-#titleBlock {
-  width: 85vw;
+  width: clamp(7rem, 15vw, 17rem);
+  align-self: flex-start;
 }
 
 #title {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(1.25rem, 5vw, 3rem);
   text-align: center;
-
 }
+#titleBlock{
+  margin: auto;
+}
+
 #popup {
   display: none;
   position: absolute;
@@ -111,6 +109,8 @@ body {
   background-color: rgba(0,0,0,0.5);
   z-index: 10;
   box-shadow: 2px 2px 15px rgb(151, 151, 151);
+  border-radius: 40px;
+  overflow: hidden;
 }
 
 .popup-content {
@@ -119,12 +119,17 @@ body {
   background-color: #fff;
   display: flex;
   flex-direction: column;
+  border-radius: 40px;
+  overflow: hidden;
 }
 
 .popup-content iframe {
   flex: 1;
   width: 100%;
   border: none;
+}
+#popup::-webkit-scrollbar{
+  background-color: red;
 }
 #energyChartElements,
 #powerChartElements {
@@ -133,9 +138,10 @@ body {
   align-items: center;
   width: 800px;
   max-width: 100%;
-  max-height: 75%;
+  height: auto;
   gap: 15px;
   padding: 40px;
+  border-radius: 20px;
 }
 #energyChartElements{
   box-shadow: 2px 2px 15px rgb(194, 194, 194);
@@ -153,7 +159,7 @@ body {
   width: 100%;
   max-width: 1920px;
   margin: auto;
-  height: 75vh;
+  height: 62vh;
 }
 .hide {
   opacity: 0;
@@ -196,9 +202,8 @@ body {
   color: rgb(255, 102, 0);
 }
 canvas {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
+  width: 100% !important;
+  height: auto !important;
   display: block;
 }
 
@@ -216,6 +221,7 @@ canvas {
   text-align: center;
   margin: auto;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 #energyIntervalButtons button{
@@ -225,13 +231,13 @@ canvas {
   border-radius: 8px;
   border: 2px solid hsl(120, 98%, 17%);
 }
-.active-energy-button{
-  background-color: white !important;
-  border: 2px solid #000 !important;
+.inactive-energy-button{
+  background-color: rgb(216, 216, 216) !important;
+  border: none !important;
 }
-.active-energy-button:hover{
+.inactive-energy-button:hover{
   transform: translateY(-.3rem);
-  box-shadow: 0 1rem 2rem hsla(0, 0%, 0%, 0.2) !important;
+  box-shadow: 0 1rem 2rem rgba(133, 133, 133, 0.2) !important;
 }
 #dailyEnergyButton {
   background-color: hsla(120, 92%, 45%, 0.788);

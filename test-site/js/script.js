@@ -262,6 +262,7 @@ async function onStart(){
   renderEnergyChart("DAY", formattedDailyInterval);
   sliderDecoration();
   renderPowerChart("https://clients.hakaienergy.ca/camosun/get_site_power.php?r=-72 hours",72)
+  dailyEnergyButton.classList.remove("inactive-energy-button")
   setEnergies();
 }
 
@@ -353,10 +354,20 @@ function sliderDecoration() {
       #ebe9e7 100%)`;
 }
 document.querySelectorAll("#energyIntervalButtons button").forEach(button =>{
+  button.classList.add("inactive-energy-button");
   button.addEventListener("click", () =>{
-    console.log("button pressed");
-    document.querySelector(".active-energy-button")?.classList.remove("active-energy-button");
-    button.classList.add("active-energy-button");
+    document.querySelectorAll("#energyIntervalButtons button").forEach(button =>{
+      button.classList.add("inactive-energy-button");
+    })
+    button.classList.remove("inactive-energy-button");
   })
 })
+window.addEventListener('resize', () => {
+  if (energyChartInstance) {
+    energyChartInstance.resize();
+  }
+  if (powerChartInstance) {
+    powerChartInstance.resize();
+  }
+});
 onStart();
