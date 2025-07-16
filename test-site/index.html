@@ -16,13 +16,13 @@
       </div>
     </div>
     <div id="buttonRow">
-      <button id="chartToggle">Home</button>
-      <button id="moduleProduction" class="linkButton" data-url="https://clients.hakaienergy.ca/camosun/device_grid_original.html" data-title="Module Production">Module Production</button>
-      <button id="aboutSystem" class="linkButton" data-url="https://camosun.libguides.com/solar/home" data-title="About System">About System</button>
-      <button id="technicalDetails" class="linkButton" data-url="https://clients.hakaienergy.ca/camosun/technical_details.html" data-title="Technical Details">Technical Details</button>
-      <button id="externalLinks" class="linkButton" data-url="https://clients.hakaienergy.ca/camosun/assets/backgrounds/qr_codes.jpg" data-title="External Links">External Links</button>
-      <button id="environmentalBenefits" class="linkButton" data-url="environmental_benefits.html" data-title="Environmental Benefits">Environmental Benefits</button>
-      <button id="onlineSurvey" class="linkButton" data-url="https://camosun.libwizard.com/f/solar" data-title="Online Survey">Online Survey</button>
+      <button id="chartToggle" data-index="0">Home</button>
+      <button id="moduleProduction" class="linkButton" data-url="https://clients.hakaienergy.ca/camosun/device_grid_original.html" data-title="Module Production" data-index="1">Module Production</button>
+      <button id="aboutSystem" class="linkButton" data-url="https://camosun.libguides.com/solar/home" data-title="About System" data-index="2">About System</button>
+      <button id="technicalDetails" class="linkButton" data-url="https://clients.hakaienergy.ca/camosun/technical_details.html" data-title="Technical Details" data-index="3">Technical Details</button>
+      <button id="externalLinks" class="linkButton" data-url="https://clients.hakaienergy.ca/camosun/assets/backgrounds/qr_codes.jpg" data-title="External Links" data-index="4">External Links</button>
+      <button id="environmentalBenefits" class="linkButton" data-url="environmental_benefits.html" data-title="Environmental Benefits" data-index="5">Environmental Benefits</button>
+      <button id="onlineSurvey" class="linkButton" data-url="https://camosun.libwizard.com/f/solar" data-title="Online Survey" data-index="6">Online Survey</button>
     </div>
     <div id="systemStats">
       <h2 id="currentPowerTitle">Current Power: <br><span id="currentPower">N/A</span></h2>
@@ -30,33 +30,40 @@
       <h2 id="monthlyEnergyTitle">Monthly Energy: <br><span id="monthlyEnergy">N/A</span></h2>
       <h2 id="lifetimeEnergyTitle">Lifetime Energy: <br><span id="lifetimeEnergy">N/A</span></h2>
     </div>
-    <div id="charts">
-      <div id="popup" class="popup">
-        <div class="popup-content">
-          <iframe id="popupIFrame" src="" frameborder="0"></iframe>
-        </div>
-      </div>
-      <div id="energyChartElements" class="energyChartElements">
-        <label for="energyChart" id="energyGenLabel" >Daily Energy generation for last 30 days</label>
+    <div id="contentSpace">
+      <div id="charts">
+        <div id="energyChartElements" class="energyChartElements">
+          <label for="energyChart" id="energyGenLabel" >Daily Energy generation for last 30 days</label>
 
-        <div id="energyChartContainer">
-          <canvas id="energyChart"></canvas>
+          <div id="energyChartContainer">
+            <canvas id="energyChart"></canvas>
+          </div>
+          <div id="energyIntervalButtons">
+            <button id="dailyEnergyButton">Daily Energy Generation</button>
+            <button id="weeklyEnergyButton">Weekly Energy Generation</button>
+            <button id="monthlyEnergyButton">Monthly Energy Generation</button>
+          </div>
         </div>
-        <div id="energyIntervalButtons">
-          <button id="dailyEnergyButton">Daily Energy Generation</button>
-          <button id="weeklyEnergyButton">Weekly Energy Generation</button>
-          <button id="monthlyEnergyButton">Monthly Energy Generation</button>
+        <div id="powerChartElements" class="powerChartElements">
+          <div id="powerSliderElements">
+            <label for="powerTimeSlider" id="powerTimeSliderLabel"> Select Range (hours): <span id="powerTimeSliderDisplay">72 hrs</span></label><br>
+            <input type="range" id="powerTimeSlider" min="6" max="168" value="72" step="6">
+          </div>
+          <div id="powerChartContainer">
+            <canvas id="powerChart"></canvas>
+          </div>
+          <h1 id="totalPowerTitle">Total Energy: <span id="totalPower">N/A kW</span></h1>
         </div>
       </div>
-      <div id="powerChartElements" class="powerChartElements">
-        <div id="powerSliderElements">
-          <label for="powerTimeSlider" id="powerTimeSliderLabel"> Select Range (hours): <span id="powerTimeSliderDisplay">72 hrs</span></label><br>
-          <input type="range" id="powerTimeSlider" min="6" max="168" value="72" step="6">
+      <div id="popupA" class="popupA">
+        <div class="popup-contentA">
+          <iframe id="popupIFrameA" src="" frameborder="0"></iframe>
         </div>
-        <div id="powerChartContainer">
-          <canvas id="powerChart"></canvas>
+      </div>
+      <div id="popupB" class="popupB">
+        <div class="popup-contentB">
+          <iframe id="popupIFrameB" src="" frameborder="0"></iframe>
         </div>
-        <h1 id="totalPowerTitle">Total Energy: <span id="totalPower">N/A kW</span></h1>
       </div>
     </div>
   </div>

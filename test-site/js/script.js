@@ -15,6 +15,7 @@ const monthlyEnergy = document.getElementById("monthlyEnergy");
 const totalEnergy = document.getElementById("lifetimeEnergy");
 const totalPower = document.getElementById("totalPower");
 
+let currentElementIndex = 0;
 let areChartsVisible = true;
 let energyChartInstance = null;
 let powerChartInstance = null;
@@ -237,7 +238,6 @@ async function onStart(){
   setStyle();
   showCharts();
   const formattedDailyInterval = `-${DAILYTIMEINTERVAL}`;
-  document.getElementById("popup").style.display = "none";
   renderEnergyChart("DAY", formattedDailyInterval);
   sliderDecoration();
   renderPowerChart("https://clients.hakaienergy.ca/camosun/get_site_power.php?r=-72 hours",72)
@@ -250,11 +250,10 @@ function getPowerUrl(hourCount){
   return url;
 }
 function destroyPopup(){
-  document.getElementById("popup").style.display = "none";
-  document.getElementById("popupIFrame").src = "";
+  document.getElementById("popupA").style.display = "none";
+  document.getElementById("popupIFrameA").src = "";
 }
 chartToggle.onclick = function(){
-  destroyPopup()
   showCharts();
 }
 
@@ -299,16 +298,16 @@ powerTimeSlider.addEventListener('input', () => {
 });
 document.querySelectorAll(".linkButton").forEach(button => {
   button.addEventListener("click", function () {
-    hideCharts();
+    const newElementIndex = this.getAttribute("data-index");
     resetButtonColors();
     setPressedButtonColors(this);
     const url = this.getAttribute("data-url");
     const title = this.getAttribute("data-title");
 
     const noCacheUrl = url + (url.includes('?') ? '&' : '?') + 'nocache=' + new Date().getTime();
-    document.getElementById("popupIFrame").src = noCacheUrl;
+    document.getElementById("popupIFrameA").src = noCacheUrl;
 
-    document.getElementById("popup").style.display = "block";
+    document.getElementById("popupA").style.display = "block";
   });
 });
 
