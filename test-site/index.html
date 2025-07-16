@@ -30,39 +30,43 @@
       <h2 id="monthlyEnergyTitle">Monthly Energy: <br><span id="monthlyEnergy">N/A</span></h2>
       <h2 id="lifetimeEnergyTitle">Lifetime Energy: <br><span id="lifetimeEnergy">N/A</span></h2>
     </div>
-    <div id="contentSpace">
-      <div id="charts">
-        <div id="energyChartElements" class="energyChartElements">
-          <label for="energyChart" id="energyGenLabel" >Daily Energy generation for last 30 days</label>
+    <div id="slideWrapper">
+      <div id="contentSpace">
+        <div id="charts">
+          <div id="chartsContainer">
+            <div id="energyChartElements" class="energyChartElements">
+              <label for="energyChart" id="energyGenLabel" >Daily Energy generation for last 30 days</label>
 
-          <div id="energyChartContainer">
-            <canvas id="energyChart"></canvas>
-          </div>
-          <div id="energyIntervalButtons">
-            <button id="dailyEnergyButton">Daily Energy Generation</button>
-            <button id="weeklyEnergyButton">Weekly Energy Generation</button>
-            <button id="monthlyEnergyButton">Monthly Energy Generation</button>
+              <div id="energyChartContainer">
+                <canvas id="energyChart"></canvas>
+              </div>
+              <div id="energyIntervalButtons">
+                <button id="dailyEnergyButton">Daily Energy Generation</button>
+                <button id="weeklyEnergyButton">Weekly Energy Generation</button>
+                <button id="monthlyEnergyButton">Monthly Energy Generation</button>
+              </div>
+            </div>
+            <div id="powerChartElements" class="powerChartElements">
+              <div id="powerSliderElements">
+                <label for="powerTimeSlider" id="powerTimeSliderLabel"> Select Range (hours): <span id="powerTimeSliderDisplay">72 hrs</span></label><br>
+                <input type="range" id="powerTimeSlider" min="6" max="168" value="72" step="6">
+              </div>
+              <div id="powerChartContainer">
+                <canvas id="powerChart"></canvas>
+              </div>
+              <h1 id="totalPowerTitle">Total Energy: <span id="totalPower">N/A kW</span></h1>
+            </div>
           </div>
         </div>
-        <div id="powerChartElements" class="powerChartElements">
-          <div id="powerSliderElements">
-            <label for="powerTimeSlider" id="powerTimeSliderLabel"> Select Range (hours): <span id="powerTimeSliderDisplay">72 hrs</span></label><br>
-            <input type="range" id="powerTimeSlider" min="6" max="168" value="72" step="6">
+        <div id="popupA" class="popupA">
+          <div class="popup-contentA">
+            <iframe id="popupIFrameA" src="" frameborder="0"></iframe>
           </div>
-          <div id="powerChartContainer">
-            <canvas id="powerChart"></canvas>
+        </div>
+        <div id="popupB" class="popupB">
+          <div class="popup-contentB">
+            <iframe id="popupIFrameB" src="" frameborder="0"></iframe>
           </div>
-          <h1 id="totalPowerTitle">Total Energy: <span id="totalPower">N/A kW</span></h1>
-        </div>
-      </div>
-      <div id="popupA" class="popupA">
-        <div class="popup-contentA">
-          <iframe id="popupIFrameA" src="" frameborder="0"></iframe>
-        </div>
-      </div>
-      <div id="popupB" class="popupB">
-        <div class="popup-contentB">
-          <iframe id="popupIFrameB" src="" frameborder="0"></iframe>
         </div>
       </div>
     </div>

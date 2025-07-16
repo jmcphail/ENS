@@ -1,5 +1,7 @@
   // use <script src="jmcphail.github.io/ENS/test-site/js/script.js"></script> in RUNSAM
 
+const slideElement = document.getElementById("contentSpace");
+const chartDiv = document.getElementById("charts");
 const chartToggle = document.getElementById("chartToggle");
 const energyGenElements = document.getElementById("energyChartElements");
 const dailyEnergyButton = document.getElementById("dailyEnergyButton");
@@ -8,7 +10,6 @@ const monthlyEnergyButton = document.getElementById("monthlyEnergyButton");
 const energyGenLabel = document.getElementById("energyGenLabel");
 const powerTimeSlider = document.getElementById("powerTimeSlider");
 const powerTimeSliderDisplay = document.getElementById("powerTimeSliderDisplay");
-const chartDiv = document.getElementById("charts");
 const currentPower = document.getElementById("currentPower");
 const dailyEnergy = document.getElementById("dailyEnergy");
 const monthlyEnergy = document.getElementById("monthlyEnergy");
@@ -24,23 +25,6 @@ const BRIGHTNESSCHANGE = 25;
 const DAILYTIMEINTERVAL = "30 days";
 const WEEKLYTIMEINTERVAL = "3 months";
 const MONTHLYTIMEINTERVAL = "12 months";
-
-function hideCharts(){
-  powerChartElements.classList.remove('show');
-  powerChartElements.classList.add('hide');
-  energyGenElements.classList.remove('show');
-  energyGenElements.classList.add('hide');
-  areChartsVisible = false;
-}
-function showCharts(){
-  powerChartElements.classList.remove('hide');
-  powerChartElements.classList.add('show');
-  energyGenElements.classList.remove('hide');
-  energyGenElements.classList.add('show');
-  areChartsVisible = true;
-  resetButtonColors();
-  setPressedButtonColors(chartToggle);
-}
 
 //from https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references
 function getCO2(energy){
@@ -236,7 +220,6 @@ async function renderPowerChart(dataUrl, hours){
 
 async function onStart(){
   setStyle();
-  showCharts();
   const formattedDailyInterval = `-${DAILYTIMEINTERVAL}`;
   renderEnergyChart("DAY", formattedDailyInterval);
   sliderDecoration();
@@ -254,7 +237,11 @@ function destroyPopup(){
   document.getElementById("popupIFrameA").src = "";
 }
 chartToggle.onclick = function(){
-  showCharts();
+  slideElement.classList.remove("slideToFirstFrame");
+  slideElement.classList.remove("slideToSecondFrame");
+  slideElement.classList.add("slideToCharts");
+  resetButtonColors();
+  setPressedButtonColors(chartToggle);
 }
 
 dailyEnergyButton.onclick = function(){
@@ -298,6 +285,8 @@ powerTimeSlider.addEventListener('input', () => {
 });
 document.querySelectorAll(".linkButton").forEach(button => {
   button.addEventListener("click", function () {
+    slideElement.classList.remove("slideToCharts");
+    slideElement.classList.add("slideToFirstFrame");
     const newElementIndex = this.getAttribute("data-index");
     resetButtonColors();
     setPressedButtonColors(this);
