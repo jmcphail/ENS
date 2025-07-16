@@ -16,6 +16,8 @@ const monthlyEnergy = document.getElementById("monthlyEnergy");
 const totalEnergy = document.getElementById("lifetimeEnergy");
 const totalPower = document.getElementById("totalPower");
 
+let istransitioning = false;
+let  noCacheUrl = "";
 let currentElementIndex = 0;
 let areChartsVisible = true;
 let energyChartInstance = null;
@@ -25,6 +27,7 @@ const BRIGHTNESSCHANGE = 25;
 const DAILYTIMEINTERVAL = "30 days";
 const WEEKLYTIMEINTERVAL = "3 months";
 const MONTHLYTIMEINTERVAL = "12 months";
+const animationTime = 2100;
 
 //from https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references
 function getCO2(energy){
@@ -64,6 +67,21 @@ function getBackgroundColor(data){
         colorArray.push(chartColor);
     }
     return colorArray;
+}
+function clearTransforms(element){
+  const classes = [
+    "firstFramePos",
+    "secondFramePos",
+    "slideToCharts",
+    "slide-right-iframe",
+    "slide-left-iframe",
+    "slide-right-chart",
+    "slide-left-chart"
+  ];
+  classes.forEach(cls => slideElement.classList.remove(cls));
+
+  // Trigger reflow to allow re-adding same class for repeated animations
+  void slideElement.offsetWidth;
 }
 function resetButtonColors(){
   document.querySelectorAll("#buttonRow button").forEach(button => {
@@ -237,11 +255,18 @@ function destroyPopup(){
   document.getElementById("popupIFrameA").src = "";
 }
 chartToggle.onclick = function(){
-  slideElement.classList.remove("slideToFirstFrame");
-  slideElement.classList.remove("slideToSecondFrame");
-  slideElement.classList.add("slideToCharts");
+  if(istransitioning) return;
+  clearTransforms(slideElement);
+  if(currentElementIndex != 0){
+    console.log("returning to chart");
+    slideElement.classList.add("firstFramePos");  
+    slideElement.classList.add("slide-left-chart"); 
+    istransitioning= true;
+    setTimeout(() =>{istransitioning = false}, animationTime)
+  }
   resetButtonColors();
   setPressedButtonColors(chartToggle);
+  currentElementIndex = 0;
 }
 
 dailyEnergyButton.onclick = function(){
@@ -285,21 +310,48 @@ powerTimeSlider.addEventListener('input', () => {
 });
 document.querySelectorAll(".linkButton").forEach(button => {
   button.addEventListener("click", function () {
-    slideElement.classList.remove("slideToCharts");
-    slideElement.classList.add("slideToFirstFrame");
-    const newElementIndex = this.getAttribute("data-index");
+    if(istransitioning){
+      return;
+    }
     resetButtonColors();
     setPressedButtonColors(this);
     const url = this.getAttribute("data-url");
     const title = this.getAttribute("data-title");
-
-    const noCacheUrl = url + (url.includes('?') ? '&' : '?') + 'nocache=' + new Date().getTime();
-    document.getElementById("popupIFrameA").src = noCacheUrl;
-
-    document.getElementById("popupA").style.display = "block";
+    noCacheUrl = url + (url.includes('?') ? '&' : '?') + 'nocache=' + new Date().getTime();
+    const newElementIndex = parseInt(this.getAttribute("data-index"), 10);
+    if(currentElementIndex == 0){
+      document.getElementById("popupIFrameA").src = noCacheUrl;
+      clearTransforms(slideElement);
+      slideElement.classList.add("slide-right-chart");
+    }
+    else if(newElementIndex > currentElementIndex){
+      clearTransforms(slideElement);
+      document.getElementById("popupIFrameB").src = noCacheUrl;
+      console.log("element is to the right");
+      slideElement.classList.add("firstFramePos");     
+      slideElement.classList.add("slide-right-iframe");
+    }
+    else if(newElementIndex < currentElementIndex){
+      clearTransforms(slideElement);
+      document.getElementById("popupIFrameA").src = noCacheUrl;
+      console.log("element is to the left");
+      slideElement.classList.add("secondFramePos");
+      slideElement.classList.add("slide-left-iframe")
+    }
+    istransitioning = true;
+    sliderTimeout = setTimeout(onSlideTransitionEnd, animationTime);
+    currentElementIndex = newElementIndex;
   });
 });
-
+function onSlideTransitionEnd() {
+  console.log("sliding complete");
+  if (slideElement.classList.contains("slide-right-iframe")) {
+    document.getElementById("popupIFrameA").src = noCacheUrl;
+  } else {
+    document.getElementById("popupIFrameB").src = noCacheUrl;
+  }
+  istransitioning = false;
+}
 function sliderDecoration() {
   const value = powerTimeSlider.value;
   const max = powerTimeSlider.max;
@@ -329,4 +381,5 @@ window.addEventListener('resize', () => {
     powerChartInstance.resize();
   }
 });
+
 onStart();

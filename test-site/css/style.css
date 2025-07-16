@@ -107,7 +107,6 @@ body {
   display: flex;
   box-sizing: border-box;
   gap: 30px;
-  transition: all 1s;
 }
 #popupA, #popupB {
   height: 100%;
@@ -288,12 +287,45 @@ canvas {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
-.slideToFirstFrame{
+.firstFramePos{
   transform: translateX(-33.3333333%);
 }
-.slideToSecondFrame{
+.secondFramePos{
   transform: translateX(-66.66666666%);
 }
-.slideToCharts{
+.chartPos{
   transform: translateX(0%);
+}
+.slide-right-iframe, .slide-left-iframe, .slide-right-chart,.slide-left-chart{
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards
+}
+.slide-right-iframe{
+  animation-name: slide-right-animation-iframe;
+}
+.slide-left-iframe{
+  animation-name: slide-left-animation-iframe;
+}
+.slide-right-chart{
+  animation-name: slide-right-animation-chart;
+}
+.slide-left-chart{
+  animation-name: slide-left-animation-chart;
+}
+@keyframes slide-right-animation-iframe{
+  20%{transform: translateX(-29%);}
+  100%{transform: translateX(-66.6666666%);}
+}
+@keyframes slide-left-animation-iframe{
+  20%{transform: translateX(-70%);}
+  100%{transform: translateX(-33.33333333%);} 
+}
+@keyframes slide-right-animation-chart{
+  20%{transform: translateX(3%);}
+  100%{transform: translateX(-33.3333333%);}
+}
+@keyframes slide-left-animation-chart{
+  20%{transform: translateX(-37%);}
+  100%{transform: translateX(0%);} 
 }
