@@ -29,7 +29,16 @@ const WEEKLYTIMEINTERVAL = "3 months";
 const MONTHLYTIMEINTERVAL = "12 months";
 const animationTime = 2100;
 
-//from https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-calculations-and-references
+document.querySelectorAll("#energyIntervalButtons button").forEach(button =>{
+  button.classList.add("inactive-energy-button");
+  button.addEventListener("click", () =>{
+    document.querySelectorAll("#energyIntervalButtons button").forEach(button =>{
+      button.classList.add("inactive-energy-button");
+    })
+    button.classList.remove("inactive-energy-button");
+  })
+})
+
 function getCO2(energy){
   const CO2 = energy * 9.9e-6;
   return CO2;
@@ -96,6 +105,8 @@ function setPressedButtonColors(object){
 }
 function setStyle() {
   resetButtonColors();
+  setPressedButtonColors(chartToggle);
+  dailyEnergyButton.classList.remove("inactive-energy-button")
 }
 function setTotalPower(valueArray){
   let totalPowerValue = valueArray.reduce(sumArray);
@@ -242,7 +253,6 @@ async function onStart(){
   renderEnergyChart("DAY", formattedDailyInterval);
   sliderDecoration();
   renderPowerChart("https://clients.hakaienergy.ca/camosun/get_site_power.php?r=-72 hours",72)
-  dailyEnergyButton.classList.remove("inactive-energy-button")
   setEnergies();
 }
 
@@ -257,6 +267,7 @@ function destroyPopup(){
 chartToggle.onclick = function(){
   if(istransitioning) return;
   clearTransforms(slideElement);
+
   if(currentElementIndex != 0){
     console.log("returning to chart");
     slideElement.classList.add("firstFramePos");  
@@ -364,15 +375,6 @@ function sliderDecoration() {
       #ebe9e7 ${percent-1.2}%,
       #ebe9e7 100%)`;
 }
-document.querySelectorAll("#energyIntervalButtons button").forEach(button =>{
-  button.classList.add("inactive-energy-button");
-  button.addEventListener("click", () =>{
-    document.querySelectorAll("#energyIntervalButtons button").forEach(button =>{
-      button.classList.add("inactive-energy-button");
-    })
-    button.classList.remove("inactive-energy-button");
-  })
-})
 window.addEventListener('resize', () => {
   if (energyChartInstance) {
     energyChartInstance.resize();
