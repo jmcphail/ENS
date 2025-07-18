@@ -9,6 +9,7 @@
 		}
 	],
 	"settings": {
-		"liveServer.settings.multiRootWorkspaceName": "Camosun Project"
+		"liveServer.settings.multiRootWorkspaceName": "Testing for Camosun Project",
+		"liveServer.settings.port": 5501
 	}
 }

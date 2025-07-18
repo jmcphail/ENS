@@ -70,28 +70,27 @@
       box-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
       animation: pulse 2s infinite;
     }
+    #arrayContainer{
+      display: flex;
+      gap: 1000px;
+    }
+    .arrayImages{
+      position: absolute;
+      z-index: 1;
+      width: 952.5px;
+      height: 536px;
+      top: 0px;
+      left: 0px;
+    }
     #leftArray, #middleArray, #rightArray, #bottomArray{
       position: relative;
-      width: 1905px;
-      height: 1072px;
-      background-size: cover;
-
-    }
-    #leftArray{
-      background-image: url("images/array_wall_left.JPG");     
-    }
-    #middleArray{
-      background-image: url("images/array_wall_middle.JPG");
-    }
-    #rightArray{
-      background-image: url("images/array_wall_right.JPG");
-    }
-    #bottomArray{
-      background-image: url("images/array_bottom.JPG");
+      width: 1920px;
+      height: 1080px;
     }
     #leftArrayContent, #middleArrayContent, #rightArrayContent, #bottomArrayContent{
       position: absolute;
       display: grid;
+      z-index: 3;
     }
     #leftArrayContent div, #middleArrayContent div, #rightArrayContent div, #bottomArrayContent div{
       display: flex;
@@ -101,51 +100,55 @@
       color: rgb(255, 255, 255);
     }
     #leftArrayContent{
-      grid-template-columns: repeat(5, 170px);
-      grid-auto-rows: 320px;
-      top: 365px;
-      left: 475px;
-      grid-column-gap: 5px;
+      grid-template-columns: repeat(5, 85px);
+      grid-auto-rows: 160px;
+      top: 600px;
+      left: 237.5px;
+      grid-column-gap: 2.5px;
     }
     #leftArrayContent div{
       background-color: rgba(204, 0, 0, 0.418);
+      font-size: 9px;
     }
     #middleArrayContent{
-      grid-template-columns: repeat(6, 155px);
-      grid-auto-rows: 300px;
-      grid-row-gap: 10px;
-      grid-column-gap: 11.5px;
-      top: 240px;
-      left: 515px;
+      grid-template-columns: repeat(6, 77.5px);
+      grid-auto-rows: 150px;
+      grid-row-gap: 5px;
+      grid-column-gap: 5.75px;
+      top: 600px;
+      left: 257.5px;
     }
    #middleArrayContent div span{
-    font-size: 20px;
+    font-size: 10px;
    }
     #middleArrayContent div{
       background-color: rgba(204, 0, 0, 0.418);
     }
     #rightArrayContent{
-      grid-template-columns: repeat(4, 150px);
-      grid-auto-rows: 300px;
-      top: 165px;
-      left: 740px;
-      grid-column-gap: 14px;
-      grid-row-gap: 5px;
+      grid-template-columns: repeat(4, 75px);
+      grid-auto-rows: 150px;
+      top: 600px;
+      left: 370px;
+      grid-column-gap: 7px;
+      grid-row-gap: 2.5px;
     }
     #rightArrayContent div{
       background-color: rgba(204, 0, 0, 0.418);
     }
+   #rightArrayContent div span{
+    font-size: 10px;
+   }
     #bottomArrayContent{
-      grid-template-columns: repeat(23,65px);
-      grid-auto-rows: 120px;
-      grid-row-gap: 40px;
-      grid-column-gap: 3px;
-      top: 210px;
-      left: 105px;
+      grid-template-columns: repeat(23,32.5px);
+      grid-auto-rows: 60px;
+      grid-row-gap: 20px;
+      grid-column-gap: 1.5px;
+      top: 600px;
+      left: 52.5px;
     }
     #bottomArrayContent div{
       background-color: rgba(204, 0, 0, 0.418);
-      gap: 8px;
+      gap: 4px;
     }
    #bottomArrayContent div span{
     font-size: 8px;
@@ -212,7 +215,7 @@
     <h2>Microinverter Grid (Power at Selected Time)</h2>
     <div id="sliderWrapper" style="display: flex; flex-direction: column; gap: 10px;">
       <label for="datePicker">Select Date:</label>
-      <input type="date" id="datePicker" style="width: 200px;" /><br><br>
+      <input type="date" id="datePicker" style="width: 200px;" min="2025-06-09"/><br><br>
 
       <label for="timeSlider">Select Time: <span id="timeLabel"></span></label><br>
       <input type="range" id="timeSlider" min="0" max="287" step="1" value="287" />
@@ -225,50 +228,24 @@
     <div id="sitePowerValue" style="font-size: 20px; font-weight: bold; color: #c00; margin-top: 10px;">
       Site Power: -- W
     </div>
-  <div id="leftArray">
-    <div id="leftArrayContent"></div>
-  </div>
-  <div id="middleArray">
-    <div id="middleArrayContent">
-      <div id="inverter1">
-        <h1>99 W</h1>
-        <h1>99 kW</h1>
-      </div>
-      <div id="inverter2">
-        <h1>99 W</h1>
-        <h1>99 kW</h1>
-      </div>
-      <div id="inverter3">
-        <h1>99 W</h1>
-        <h1>99 kW</h1>
-      </div>
-      <div id="inverter4">
-        <h1>99 W</h1>
-        <h1>99 kW</h1>
-      </div>
-      <div id="inverter5">
-        <h1>99 W</h1>
-        <h1>99 kW</h1>
-      </div>
-      <div id="inverter6">
-        <h1>99 W</h1>
-        <h1>99 kW</h1>
-      </div>
-      <div id="inverter7">
-        <h1>99 W</h1>
-        <h1>99 kW</h1>
-      </div>
-      <div id="inverter8">
-        <h1>99 W</h1>
-        <h1>99 kW</h1>
-      </div>
+  <div id="arrayContainer">
+    <div id="leftArray">
+      <img src="images/array_wall_left.JPG" class="arrayImages">
+      <div id="leftArrayContent"></div>
     </div>
-  </div>
-  <div id="rightArray">
-    <div id="rightArrayContent"></div>
-  </div>
-  <div id="bottomArray">
-    <div id="bottomArrayContent"></div>  
+
+    <div id="middleArray">
+      <img src="images/array_wall_middle.JPG" class="arrayImages">
+      <div id="middleArrayContent"></div>
+    </div>
+    <div id="rightArray">
+      <img src="images/array_wall_right.JPG" class="arrayImages">
+      <div id="rightArrayContent"></div>
+    </div>
+    <div id="bottomArray">
+      <img src="images/array_bottom.JPG" class="arrayImages">
+      <div id="bottomArrayContent"></div>  
+    </div>
   </div>
   <hr style="margin: 0; border: none; height: 1px; background: #ccc;">
   <div class="grid" id="grid" style="width: 90%; padding: 10px; box-sizing: border-box; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px;"></div>
@@ -394,40 +371,6 @@
       {serial : 202407025280, array: "bottom", orientation : "portrait"},
       {serial : 202407025472, array: "bottom", orientation : "portrait"}
     ]
-    async function loadDevices() {
-      try {
-        const res = await fetch("https://clients.hakaienergy.ca/camosun/api-update.php?api=systems_devices");
-        if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
-        const json = await res.json();
-
-        if (!json.devices || !json.devices.micros || !Array.isArray(json.devices.micros)) {
-          console.error("Malformed JSON:", json);
-          grid.innerHTML = "<p>Device list malformed or empty.</p>";
-          return;
-        }
-
-        devices = json.devices.micros.map(d => d.serial_number);
-
-        if (!datePicker.value) {
-          const now = new Date();
-          now.setDate(now.getDate() - 1);
-          datePicker.value = now.toISOString().split('T')[0];
-        }
-
-        const today = new Date();
-        
-        if (today.getHours() < 23) {
-          today.setDate(today.getDate() - 1);
-        }
-        datePicker.max = today.toISOString().split('T')[0];
-        buildGrid();
-        await constrainSliderToSunHours();
-        loadPowerData().then(updateAll);
-      } catch (err) {
-        console.error("Device load error:", err);
-        grid.innerHTML = "<p>Failed to load device list.</p>";
-      }
-    }
 
     async function constrainSliderToSunHours() {
       const dateStr = datePicker.value;
@@ -444,7 +387,7 @@
         slider.value = slider.max;
       }
     }
-    function buildGridUpdated(inverterArray){
+    function buildGrid(inverterArray){
       if(typeof inverterArray == "undefined"){
         return;
       }
@@ -456,7 +399,6 @@
         const cell = document.createElement("div");
         cell.id= `inverter-${inverterIndex}`;
         cell.innerHTML = `
-          <span class="serial">${inverter.serial}</span>
           <span class="power">loading...</span>
           <span class="kwh">- kWh</span>`;
         if(inverter.orientation == "landscape-top"){
@@ -481,20 +423,6 @@
         }
       })
     }
-    function buildGrid() {
-      grid.innerHTML = "";
-      devices.forEach(serial => {
-        const cell = document.createElement("div");
-        cell.className = "cell";
-        cell.id = `cell-${serial}`;
-        cell.innerHTML = `
-          <span class="serial">${serial}</span>
-          <span class="power">loading...</span>
-          <span class="kwh">- kWh</span>
-        `;
-        grid.appendChild(cell);
-      });
-    }
 
     function sliderToTime(sliderValue) {
       const selectedDate = datePicker.value;
@@ -504,28 +432,29 @@
       date.setMinutes(sliderValue * 5);
 
       const pad = n => n.toString().padStart(2, '0');
+      console.log(`${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:00`)
       return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:00`;
     }
 
     async function updateSummaryChart() {
-  const selectedDate = datePicker.value;
-  document.getElementById("summaryDate").textContent = selectedDate;
-  const ctx = document.getElementById("dailyChart").getContext("2d");
+      const selectedDate = datePicker.value;
+      document.getElementById("summaryDate").textContent = selectedDate;
+      const ctx = document.getElementById("dailyChart").getContext("2d");
 
-  try {
-    const res = await fetch(`https://clients.hakaienergy.ca/camosun/get_site_power.php?r=${selectedDate}`);
-    const json = await res.json();
+      try {
+        const res = await fetch(`https://clients.hakaienergy.ca/camosun/get_site_power.php?r=${selectedDate}`);
+        const json = await res.json();
 
-    const filtered = json.filter(e => e.measurement_date.startsWith(selectedDate));
-    const dataPoints = filtered.map(e => {
-      const [h, m] = e.measurement_date.split(" ")[1].split(":");
-      return { x: (parseInt(h) * 60 + parseInt(m)) / 5, y: e.value };
-    });
-    
-    // Update visible site power at current slider step
-    const currentStep = parseInt(slider.value);
-    let nearest = dataPoints.reduce((a, b) => Math.abs(b.x - currentStep) < Math.abs(a.x - currentStep) ? b : a, dataPoints[0]);
-    document.getElementById("sitePowerValue").textContent = `Site Power: ${nearest?.y ?? '--'} W`;
+        const filtered = json.filter(e => e.measurement_date.startsWith(selectedDate));
+        const dataPoints = filtered.map(e => {
+          const [h, m] = e.measurement_date.split(" ")[1].split(":");
+          return { x: (parseInt(h) * 60 + parseInt(m)) / 5, y: e.value };
+        });
+        
+        // Update visible site power at current slider step
+        const currentStep = parseInt(slider.value);
+        let nearest = dataPoints.reduce((a, b) => Math.abs(b.x - currentStep) < Math.abs(a.x - currentStep) ? b : a, dataPoints[0]);
+        document.getElementById("sitePowerValue").textContent = `Site Power: ${nearest?.y ?? '--'} W`;
 
 
 
@@ -600,19 +529,22 @@
   }
 } 
 
-    async function loadPowerData() {
+    async function loadPowerData(inverterArray) {
+      if(typeof inverterArray == "undefined"){
+        console.error("array does not exist");
+      }
       loadingOverlay.style.display = 'flex';
       powerCache = {};
-      const promises = devices.map(async serial => {
+      const promises = inverterArray.map(async inverter => {
         try {
-          const url = `https://clients.hakaienergy.ca/camosun/get_device_power.php?device_id=${serial}&r=${datePicker.value}`;
+          const url = `https://clients.hakaienergy.ca/camosun/get_device_power.php?device_id=${inverter.serial}&r=${datePicker.value}`;
           const res = await fetch(url);
           if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
           const json = await res.json();
-          powerCache[serial] = json;
+          powerCache[inverter.serial] = json;
         } catch (err) {
-          console.warn(`Error loading ${serial}:`, err);
-          powerCache[serial] = [];
+          console.warn(`Error loading ${inverter.serial}:`, err);
+          powerCache[inverter.serial] = [];
         }
       });
       await Promise.all(promises);
@@ -631,21 +563,25 @@
       return (totalWatts * 5 / 60 / 1000).toFixed(2); // convert to kWh, rounded
     }
 
-    function updateAll() {
+    function updateAll(inverterArray) {
+      if(typeof inverterArray == "undefined"){
+        console.error("inverter array does not exist");
+        return;
+      }
       updateSummaryChart();
       const timeStr = sliderToTime(parseInt(slider.value));
       if (!timeStr) return;
       timeLabel.textContent = timeStr;
 
-      devices.forEach(serial => {
-        const entries = powerCache[serial] || [];
+      inverterArray.forEach((inverter, inverterIndex) => {
+        const entries = powerCache[inverter.serial] || [];
         const match = entries.find(entry => entry.measurement_date === timeStr);
         const power = match ? match.value : null;
 
-        const cell = document.getElementById(`cell-${serial}`);
+        const cell = document.getElementById(`inverter-${inverterIndex}`);
         if (cell) {
           const bgColor = power !== null ? powerToColor(power) : 'transparent';
-          const kwh = computeKWhForDay(serial);
+          const kwh = computeKWhForDay(inverter.serial);
           cell.querySelector(".kwh").textContent = kwh ? `${kwh} kWh` : 'N/A';
           cell.querySelector(".power").textContent = power !== null ? `${power} W` : 'N/A';
           cell.style.backgroundColor = bgColor;
@@ -653,35 +589,42 @@
         }
       });
     }
+    function debounce(func, delay) {
+      let timeout;
+      return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+      };
+    } 
 
-    //slider.addEventListener("input", updateAll);
-    slider.addEventListener("input", () => {
-      updateAll();
+    slider.addEventListener("input", debounce(() => {
+      updateAll(inverters);
       updateSummaryChart();
-    });
+    }, 5));
     
-    datePicker.addEventListener("change", async () => {
+    datePicker.addEventListener("change", dateChanged);
+    async function dateChanged(){
       buildGrid();
       await constrainSliderToSunHours();
-      loadPowerData().then(updateAll);
-    });
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const startDate = urlParams.get("d");
-    const startTime = urlParams.get("t");
-
-    if (startDate) datePicker.value = startDate;
-
-    loadDevices().then(() => {
-      if (startTime) {
-        const [hh, mm] = startTime.split(":").map(Number);
-        const minutes = hh * 60 + mm;
-        const step = Math.floor(minutes / 5);
-        slider.value = step;
-        updateAll();
-      }
-    });
-    buildGridUpdated(inverters);
+      loadPowerData(inverters).then(updateAll(inverters));
+    }
+    function getYesterday(){
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const offset = yesterday.getTimezoneOffset();
+      const localYesterday = new Date(yesterday.getTime() - offset * 60 * 1000);
+      const formattedDate = localYesterday.toISOString().split('T')[0];
+      return formattedDate;
+    }
+    function onStart(){
+      document.getElementById("datePicker").value = getYesterday();
+      const yesterdayString = String(getYesterday());
+      datePicker.max=yesterdayString;
+      dateChanged();
+      buildGrid(inverters);
+      updateAll(inverters);
+    }
+    onStart();
   </script>
 </body>
 </html>
