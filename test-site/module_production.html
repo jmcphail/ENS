@@ -72,7 +72,7 @@
     }
     #arrayContainer{
       display: flex;
-      gap: 1000px;
+      gap: 2000px;
     }
     .arrayImages{
       position: absolute;
@@ -153,6 +153,11 @@
    #bottomArrayContent div span{
     font-size: 8px;
    }
+   #sliderAndChart{
+    position: absolute;
+    left: 1000px;
+    top: 650px;
+   }
     #inverter-12{
       grid-column-start: 6;
       grid-column-end: 7;
@@ -232,19 +237,47 @@
     <div id="leftArray">
       <img src="images/array_wall_left.JPG" class="arrayImages">
       <div id="leftArrayContent"></div>
+      <div id="sliderAndChart">
+        <div id="leftChartContainer" class="chartContainers">
+          <canvas id="leftChart"></canvas>
+        </div>
+        <label for="leftSlider">Select Time: <span id="LeftSliderLabel"></span></label><br>
+        <input type="range" class="Sliders" id="leftSlider" min="0" max="287" step="1" value="287" />
+      </div>
     </div>
 
     <div id="middleArray">
       <img src="images/array_wall_middle.JPG" class="arrayImages">
       <div id="middleArrayContent"></div>
+      <div id="sliderAndChart">
+        <div id="middleChartContainer" class="chartContainers">
+          <canvas id="middleChart"></canvas>
+        </div>
+        <label for="middleSlider">Select Time: <span id="middleSliderLabel"></span></label><br>
+        <input type="range" class="Sliders" id="middleSlider" min="0" max="287" step="1" value="287" />
+      </div>
     </div>
     <div id="rightArray">
       <img src="images/array_wall_right.JPG" class="arrayImages">
       <div id="rightArrayContent"></div>
+      <div id="sliderAndChart">
+        <div id="rightChartContainer" class="chartContainers">
+          <canvas id="rightChart"></canvas>
+        </div>
+        <label for="rightSlider">Select Time: <span id="rightSliderLabel"></span></label><br>
+        <input type="range" class="Sliders" id="rightSlider" min="0" max="287" step="1" value="287" />
+      </div>
     </div>
     <div id="bottomArray">
       <img src="images/array_bottom.JPG" class="arrayImages">
       <div id="bottomArrayContent"></div>  
+      <div id="sliderAndChart">
+        <div id="bottomChartContainer" class="chartContainers">
+          <canvas id="bottomChart"></canvas>
+        </div>
+        <label for="bottomSlider">Select Time: <span id="bottomSliderLabel"></span></label><br>
+        <input type="range" class="Sliders" id="bottomSlider" min="0" max="287" step="1" value="287" />
+      </div>
     </div>
   </div>
   <hr style="margin: 0; border: none; height: 1px; background: #ccc;">
@@ -262,6 +295,15 @@
     const timeLabel = document.getElementById("timeLabel");
     const datePicker = document.getElementById("datePicker");
     const loadingOverlay = document.getElementById("loadingOverlay");
+    const leftChart = document.getElementById("leftChart");
+    const middleChart = document.getElementById("middleChart");
+    const rightChart = document.getElementById("rightChart");
+    const bottomChart = document.getElementById("bottomChart");
+    const leftSlider = document.getElementById("leftSlider");
+    const middleSlider= document.getElementById("middleSlider");
+    const rightSlider = document.getElementById("rightSlider");
+    const bottomSlider = document.getElementById("bottomSlider");
+
     let devices = [];
     let powerCache = {}; // { serial_number: [ { measurement_date, value }, ... ] }
     let sunriseMinutes = 0;
@@ -589,6 +631,57 @@
         }
       });
     }
+    function updateAllUpdated(inverterArray, arrayPosition) {
+      if(typeof inverterArray == "undefined"){
+        console.error("inverter array does not exist");
+        return;
+      }
+      updateSummaryChart();
+      const timeStr = sliderToTime(parseInt(slider.value));
+      if (!timeStr) return;
+      timeLabel.textContent = timeStr;
+      invertersToAdjust = inverters.filter(item => getArrayLocation(item, arrayPosition));
+      invertersToAdjust.forEach((inverter, inverterIndex) => {
+        const entries = powerCache[inverter.serial] || [];
+        const match = entries.find(entry => entry.measurement_date === timeStr);
+        const power = match ? match.value : null;
+
+        const fullIndex = inverters.findIndex(inv => inv.serial === inverter.serial);
+        const cell = document.getElementById(`inverter-${fullIndex}`);
+        if (cell) {
+          const bgColor = power !== null ? powerToColor(power) : 'transparent';
+          const kwh = computeKWhForDay(inverter.serial);
+          cell.querySelector(".kwh").textContent = kwh ? `${kwh} kWh` : 'N/A';
+          cell.querySelector(".power").textContent = power !== null ? `${power} W` : 'N/A';
+          cell.style.backgroundColor = bgColor;
+          cell.style.color = power !== null ? 'white' : 'black';
+        }
+      });
+    }
+    function getArrayLocation(item, location){
+      switch(location){
+        case "left":
+          if(item.array == "left"){
+            return item;
+          }
+          break
+        case "right":
+          if(item.array == "right"){
+            return item;
+          }
+          break
+        case "middle":
+          if(item.array == "middle"){
+            return item;
+          }
+          break
+        case "bottom":
+          if(item.array == "bottom"){
+            return item;
+          }
+          break
+      }
+    }
     function debounce(func, delay) {
       let timeout;
       return function (...args) {
@@ -596,12 +689,29 @@
         timeout = setTimeout(() => func.apply(this, args), delay);
       };
     } 
-
+    document.querySelectorAll(".Sliders").forEach(slider =>{
+      slider.addEventListener("input",() => {
+        const id = slider.id;
+        switch (id){
+          case "leftSlider": 
+            updateAllUpdated(inverters, "left");
+            break;
+          case "rightSlider": 
+            updateAllUpdated(inverters, "right");
+            break;
+          case "middleSlider": 
+            updateAllUpdated(inverters, "middle");
+            break;
+          case "bottomSlider": 
+            updateAllUpdated(inverters, "bottom");
+            break;
+        }
+      }, 5);
+    })
     slider.addEventListener("input", debounce(() => {
       updateAll(inverters);
       updateSummaryChart();
     }, 5));
-    
     datePicker.addEventListener("change", dateChanged);
     async function dateChanged(){
       buildGrid();
@@ -625,6 +735,8 @@
       updateAll(inverters);
     }
     onStart();
+    const invertersInLocation = inverters.filter(item => getArrayLocation(item, "right"));
+    console.log(invertersInLocation);
   </script>
 </body>
 </html>
