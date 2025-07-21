@@ -70,27 +70,112 @@
       box-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
       animation: pulse 2s infinite;
     }
-    #arrayContainer{
+    #imageWrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      max-width: 1000px;
+        }
+    #imageWrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    #slideWrapper {
+      width: 100vw;
+      position: relative;
+      height: 100%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    #contentSpace{
+      position: relative;
+      width: 500vw;
+      height: 100vh;
       display: flex;
-      gap: 2000px;
+      box-sizing: border-box;
     }
     .arrayImages{
-      position: absolute;
+      position: relative;
+      width: 476.25px;
+      height: 268px;
+      max-width: 100%;
+      max-height: 100%;
       z-index: 1;
-      width: 952.5px;
-      height: 536px;
-      top: 0px;
-      left: 0px;
+    }
+    #leftArrayButton{
+      width: 6%;
+      height: 13%;
+      position: absolute;
+      top: 32.5%;
+      left: 45.5%; 
+      transform: translate(-50%, -50%);
+      border: none;
+      background-color: transparent;
+    }
+    #middleArrayButton{
+      width: 15%;
+      height: 29%;
+      position: absolute;
+      top: 39.5%;
+      left: 57.5%; 
+      transform: translate(-50%, -50%);
+      border: none;
+      background-color: transparent;
+    }
+    #rightArrayButton{
+      width: 23%;
+      height: 47.5%;
+      position: absolute;
+      top: 46%;
+      left: 81%; 
+      transform: translate(-50%, -50%);
+      border: none;
+      background-color: transparent;
+    }
+    #bottomArrayButton{
+      width: 42%;
+      height: 52%;
+      position: absolute;
+      top: 65%;
+      left: 29%; 
+      transform: translate(-50%, -50%);
+      border: none;
+      background-color: transparent;
+    }
+    #bottomArrayButton2{
+      width: 20%;
+      height: 40%;
+      position: absolute;
+      top: 74%;
+      left: 60%; 
+      transform: translate(-50%, -50%);
+      border: none;
+      background-color: transparent;
+    }
+    #fullArray{
+      flex: 0 0 100vw;
+      height: 100vh;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
     }
     #leftArray, #middleArray, #rightArray, #bottomArray{
-      position: relative;
-      width: 1920px;
-      height: 1080px;
+      flex: 0 0 100vw;
+      height: 100vh;
+      box-sizing: border-box;
+      align-self: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 100px;
     }
     #leftArrayContent, #middleArrayContent, #rightArrayContent, #bottomArrayContent{
-      position: absolute;
+
       display: grid;
-      z-index: 3;
     }
     #leftArrayContent div, #middleArrayContent div, #rightArrayContent div, #bottomArrayContent div{
       display: flex;
@@ -98,37 +183,38 @@
       align-items: center;
       justify-content: center;
       color: rgb(255, 255, 255);
+      height: 100%;
+      align-items: center;
+      text-align: center;
     }
     #leftArrayContent{
-      grid-template-columns: repeat(5, 85px);
-      grid-auto-rows: 160px;
-      top: 600px;
-      left: 237.5px;
+      grid-template-columns: repeat(5, 42.5px);
+      grid-auto-rows: 80px;
+      transform: translateX(119px);
       grid-column-gap: 2.5px;
     }
     #leftArrayContent div{
       background-color: rgba(204, 0, 0, 0.418);
-      font-size: 9px;
+      font-size: 8px;
     }
+    
     #middleArrayContent{
-      grid-template-columns: repeat(6, 77.5px);
-      grid-auto-rows: 150px;
+      grid-template-columns: repeat(6, 38.8px);
+      grid-auto-rows: 75px;
       grid-row-gap: 5px;
       grid-column-gap: 5.75px;
-      top: 600px;
-      left: 257.5px;
+      transform: translateX(128.8px);
     }
    #middleArrayContent div span{
-    font-size: 10px;
+    font-size: 8px;
    }
     #middleArrayContent div{
       background-color: rgba(204, 0, 0, 0.418);
     }
     #rightArrayContent{
-      grid-template-columns: repeat(4, 75px);
-      grid-auto-rows: 150px;
-      top: 600px;
-      left: 370px;
+      grid-template-columns: repeat(4, 37.5px);
+      grid-auto-rows: 75px;
+      transform: translateX(185px);
       grid-column-gap: 7px;
       grid-row-gap: 2.5px;
     }
@@ -136,27 +222,28 @@
       background-color: rgba(204, 0, 0, 0.418);
     }
    #rightArrayContent div span{
-    font-size: 10px;
+    font-size: 8px;
    }
     #bottomArrayContent{
-      grid-template-columns: repeat(23,32.5px);
-      grid-auto-rows: 60px;
+      grid-template-columns: repeat(23,16.25px);
+      grid-auto-rows: 30px;
       grid-row-gap: 20px;
       grid-column-gap: 1.5px;
-      top: 600px;
-      left: 52.5px;
+      transform: translateX(26.25px);
     }
     #bottomArrayContent div{
       background-color: rgba(204, 0, 0, 0.418);
       gap: 4px;
     }
    #bottomArrayContent div span{
-    font-size: 8px;
+    font-size: 5px;
    }
    #sliderAndChart{
-    position: absolute;
-    left: 1000px;
-    top: 650px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
    }
     #inverter-12{
       grid-column-start: 6;
@@ -200,11 +287,15 @@
     }
     .landscape-top {
       align-self: start;
-      height: 50%;
+      height: 50% !important;
+      padding-top: 2px;
+      padding-bottom: 2px;
     }
     .landscape-bottom {
       align-self: end;
-      height: 50%;
+      height: 50% !important;
+      padding-top: 2px;
+      padding-bottom: 2px;
     }
   @keyframes pulse {
       0% { box-shadow: 0 0 0px rgba(255, 255, 0, 0.5); }
@@ -232,60 +323,86 @@
     <canvas id="dailyChart" width="1000" height="200"></canvas>
     <div id="sitePowerValue" style="font-size: 20px; font-weight: bold; color: #c00; margin-top: 10px;">
       Site Power: -- W
-    </div>
-  <div id="arrayContainer">
-    <div id="leftArray">
-      <img src="images/array_wall_left.JPG" class="arrayImages">
-      <div id="leftArrayContent"></div>
-      <div id="sliderAndChart">
-        <div id="leftChartContainer" class="chartContainers">
-          <canvas id="leftChart"></canvas>
+  </div>
+  <div id="slideWrapper">
+    <div id="contentSpace">
+      <div id="fullArray">
+        <h1 id="fullArrayTitle">Click to view parts of the solar energy system</h1>
+        <div id="imageWrapper">
+          <img src="images/array_full.JPG" alt="Full Array">
+          <button id="leftArrayButton" data-index="1" class="arrayButtons"></button>
+          <button id="middleArrayButton" data-index="2" class="arrayButtons"></button>
+          <button id="rightArrayButton" data-index="3" class="arrayButtons"></button>
+          <button id="bottomArrayButton" data-index="4" class="arrayButtons"></button>
+          <button id="bottomArrayButton2" data-index="4" class="arrayButtons"></button>
         </div>
-        <label for="leftSlider">Select Time: <span id="LeftSliderLabel"></span></label><br>
-        <input type="range" class="Sliders" id="leftSlider" min="0" max="287" step="1" value="287" />
       </div>
-    </div>
-
-    <div id="middleArray">
-      <img src="images/array_wall_middle.JPG" class="arrayImages">
-      <div id="middleArrayContent"></div>
-      <div id="sliderAndChart">
-        <div id="middleChartContainer" class="chartContainers">
-          <canvas id="middleChart"></canvas>
+      <div id="leftArray">
+        <div id="imgAndArray">
+          <img src="images/array_wall_left.JPG" class="arrayImages" alt="Left Array">
+          <div id="leftArrayContent"></div>
         </div>
-        <label for="middleSlider">Select Time: <span id="middleSliderLabel"></span></label><br>
-        <input type="range" class="Sliders" id="middleSlider" min="0" max="287" step="1" value="287" />
+        <div id="sliderAndChart">
+          <div id="leftChartContainer" class="chartContainers">
+            <canvas id="leftChart"></canvas>
+          </div>
+          <label for="leftSlider">Select Time: <span id="LeftSliderLabel"></span></label><br>
+          <input type="range" class="Sliders" id="leftSlider" min="0" max="287" step="1" value="287" />
+          <button class="returnButtons">Return to full system</button>
+        </div>
       </div>
-    </div>
-    <div id="rightArray">
-      <img src="images/array_wall_right.JPG" class="arrayImages">
-      <div id="rightArrayContent"></div>
-      <div id="sliderAndChart">
-        <div id="rightChartContainer" class="chartContainers">
-          <canvas id="rightChart"></canvas>
+      <div id="middleArray">
+        <div id="imgAndArray">
+          <img src="images/array_wall_middle.JPG" class="arrayImages" alt="Middle Array">
+          <div id="middleArrayContent"></div>
         </div>
-        <label for="rightSlider">Select Time: <span id="rightSliderLabel"></span></label><br>
-        <input type="range" class="Sliders" id="rightSlider" min="0" max="287" step="1" value="287" />
+        <div id="sliderAndChart">
+          <div id="middleChartContainer" class="chartContainers">
+            <canvas id="middleChart"></canvas>
+          </div>
+          <label for="middleSlider">Select Time: <span id="middleSliderLabel"></span></label><br>
+          <input type="range" class="Sliders" id="middleSlider" min="0" max="287" step="1" value="287" />
+          <button class="returnButtons">Return to full system</button>
+        </div>
       </div>
-    </div>
-    <div id="bottomArray">
-      <img src="images/array_bottom.JPG" class="arrayImages">
-      <div id="bottomArrayContent"></div>  
-      <div id="sliderAndChart">
-        <div id="bottomChartContainer" class="chartContainers">
-          <canvas id="bottomChart"></canvas>
+      <div id="rightArray">
+        <div id="imgAndArray">
+          <img src="images/array_wall_right.JPG" class="arrayImages" alt="Right Array">
+          <div id="rightArrayContent"></div>
         </div>
-        <label for="bottomSlider">Select Time: <span id="bottomSliderLabel"></span></label><br>
-        <input type="range" class="Sliders" id="bottomSlider" min="0" max="287" step="1" value="287" />
+        <div id="sliderAndChart">
+          <div id="rightChartContainer" class="chartContainers">
+            <canvas id="rightChart"></canvas>
+          </div>
+          <label for="rightSlider">Select Time: <span id="rightSliderLabel"></span></label><br>
+          <input type="range" class="Sliders" id="rightSlider" min="0" max="287" step="1" value="287" />
+          <button class="returnButtons">Return to full system</button>
+        </div>
+      </div>
+      <div id="bottomArray">
+        <div id="imgAndArray">
+          <img src="images/array_bottom.JPG" class="arrayImages" alt="Bottom Array">
+          <div id="bottomArrayContent"></div>  
+        </div>
+        <div id="sliderAndChart">
+          <div id="bottomChartContainer" class="chartContainers">
+            <canvas id="bottomChart"></canvas>
+          </div>
+          <label for="bottomSlider">Select Time: <span id="bottomSliderLabel"></span></label><br>
+          <input type="range" class="Sliders" id="bottomSlider" min="0" max="287" step="1" value="287" />
+          <button class="returnButtons">Return to full system</button>
+        </div>
       </div>
     </div>
   </div>
+
   <hr style="margin: 0; border: none; height: 1px; background: #ccc;">
   <div class="grid" id="grid" style="width: 90%; padding: 10px; box-sizing: border-box; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px;"></div>
   <div id="loadingOverlay">Loading data...</div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
+    const slideElement = document.getElementById("contentSpace");
     const grid = document.getElementById("grid");
     const leftArrayContent = document.getElementById("leftArrayContent")
     const middleArrayContent = document.getElementById("middleArrayContent")
@@ -413,7 +530,19 @@
       {serial : 202407025280, array: "bottom", orientation : "portrait"},
       {serial : 202407025472, array: "bottom", orientation : "portrait"}
     ]
-
+    document.querySelectorAll(".arrayButtons").forEach(button => {
+      button.addEventListener("click", function () {
+        slideElement.style.transform = "";
+        const elementIndex = parseInt(this.getAttribute("data-index"), 10);
+        const translationFactor = elementIndex * 20;
+        slideElement.style.transform = `translateX(-${translationFactor}%)`;
+      });
+    });
+    document.querySelectorAll(".returnButtons").forEach(button => {
+      button.addEventListener("click", function () {
+        slideElement.style.transform = `translateX(0%)`;
+      });
+    });
     async function constrainSliderToSunHours() {
       const dateStr = datePicker.value;
       const res = await fetch(`https://clients.hakaienergy.ca/camosun/date_sun_info.php?date=${dateStr}`);

@@ -27,7 +27,7 @@ const BRIGHTNESSCHANGE = 25;
 const DAILYTIMEINTERVAL = "30 days";
 const WEEKLYTIMEINTERVAL = "3 months";
 const MONTHLYTIMEINTERVAL = "12 months";
-const animationTime = 2100;
+const animationTime = 1600;
 
 document.querySelectorAll("#energyIntervalButtons button").forEach(button =>{
   button.classList.add("inactive-energy-button");

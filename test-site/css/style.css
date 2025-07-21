@@ -299,7 +299,7 @@ canvas {
   transform: translateX(0%);
 }
 .slide-right-iframe, .slide-left-iframe, .slide-right-chart,.slide-left-chart{
-  animation-duration: 2s;
+  animation-duration: 1.5s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards
 }
