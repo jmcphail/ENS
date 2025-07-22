@@ -188,7 +188,7 @@ canvas {
 
 #chartToggleButtons {
   padding: 20px;
-  background-color: rgba(146, 143, 143, 0.121);
+  background-color: rgba(255, 255, 255, 0.121);
   width: fit-content;
   height: fit-content;
   text-align: center;
@@ -210,13 +210,14 @@ canvas {
   border: none;
 }
 .inactive-energy-button{
-  background-color: rgb(216, 216, 216) !important;
+  background-color: rgb(255, 255, 255) !important;
   border: none !important;
   color: black !important;
 }
 .inactive-energy-button:hover{
   transform: translateY(-.3rem);
   box-shadow: 0 1rem 2rem rgba(133, 133, 133, 0.2) !important;
+  background-color: rgb(216, 216, 216) !important;
 }
 #dailyEnergyButton {
   background-color: hsla(120, 88%, 41%, 0.788);
