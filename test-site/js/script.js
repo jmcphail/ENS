@@ -16,7 +16,7 @@ const monthlyEnergy = document.getElementById("monthlyEnergy");
 const totalEnergy = document.getElementById("lifetimeEnergy");
 const totalPower = document.getElementById("totalPower");
 
-let istransitioning = false;
+let isTransitioning = false;
 let  noCacheUrl = "";
 let currentElementIndex = 0;
 let areChartsVisible = true;
@@ -265,15 +265,15 @@ function destroyPopup(){
   document.getElementById("popupIFrameA").src = "";
 }
 chartToggle.onclick = function(){
-  if(istransitioning) return;
+  if(isTransitioning) return;
   clearTransforms(slideElement);
 
   if(currentElementIndex != 0){
     console.log("returning to chart");
     slideElement.classList.add("firstFramePos");  
     slideElement.classList.add("slide-left-chart"); 
-    istransitioning= true;
-    setTimeout(() =>{istransitioning = false}, animationTime)
+    isTransitioning= true;
+    setTimeout(() =>{isTransitioning = false}, animationTime)
   }
   resetButtonColors();
   setPressedButtonColors(chartToggle);
@@ -321,7 +321,7 @@ powerTimeSlider.addEventListener('input', () => {
 });
 document.querySelectorAll(".linkButton").forEach(button => {
   button.addEventListener("click", function () {
-    if(istransitioning){
+    if(isTransitioning){
       return;
     }
     resetButtonColors();
@@ -349,7 +349,7 @@ document.querySelectorAll(".linkButton").forEach(button => {
       slideElement.classList.add("secondFramePos");
       slideElement.classList.add("slide-left-iframe")
     }
-    istransitioning = true;
+    isTransitioning = true;
     sliderTimeout = setTimeout(onSlideTransitionEnd, animationTime);
     currentElementIndex = newElementIndex;
   });
@@ -361,7 +361,7 @@ function onSlideTransitionEnd() {
   } else {
     document.getElementById("popupIFrameB").src = noCacheUrl;
   }
-  istransitioning = false;
+  isTransitioning = false;
 }
 function sliderDecoration() {
   const value = powerTimeSlider.value;
