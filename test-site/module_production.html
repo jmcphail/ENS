@@ -121,6 +121,15 @@
       display: flex;
       box-sizing: border-box;
     }
+    .fade {
+      transition: opacity 0.4s ease-in-out;
+      opacity: 0;
+    }
+
+    .visible {
+      transition: opacity 0.4s ease-in-out;
+      opacity: 1;
+    }
     .arrayImages{
       position: relative;
       width: 476.25px;
@@ -364,7 +373,7 @@
         </div>
         <div id="sliderAndChart">
           <label for="fullDatePicker">Select Date:</label>
-          <input type="date" id="fullDatePicker" class="datePickers" min="2025-06-09"/><br><br>
+          <input type="date" id="fullDatePicker" class="datePickers" min="2025-06-09"/><br>
           <div id="fullChartContainer" class="chartContainers">
             <canvas id="fullChart"></canvas>
           </div>
@@ -380,11 +389,11 @@
         </div>
         <div id="sliderAndChart">
           <label for="leftDatePicker">Select Date:</label>
-          <input type="date" id="leftDatePicker" class="datePickers" min="2025-06-09"/><br><br>
+          <input type="date" id="leftDatePicker" class="datePickers" min="2025-06-09"/><br>
           <div id="leftChartContainer" class="chartContainers">
             <canvas id="leftChart"></canvas>
           </div>
-          <h1 class="sitePowerLabel">Site Power: <span id="leftPowerValue">-- W</span></h1><br>
+          <h1 class="sitePowerLabel">Array Power: <span id="leftPowerValue">-- W</span></h1><br>
           <label for="leftSlider">Select Time: <span id="leftTimeLabel"></span></label>
           <input type="range" class="Sliders" id="leftSlider" min="0" max="287" step="1" value="287" />
           <button class="returnButtons">Return to full system</button>
@@ -401,9 +410,9 @@
           <div id="middleChartContainer" class="chartContainers">
             <canvas id="middleChart"></canvas>
           </div>
-          <h1 class="sitePowerLabel">Site Power: <span id="middlePowerValue">-- W</span></h1><br>
+          <h1 class="sitePowerLabel">Array Power: <span id="middlePowerValue">-- W</span></h1><br>
           <label for="middleSlider">Select Time: <span id="middleTimeLabel"></span></label>
-          <input type="range" class="Sliders" id="middleSlider" min="0" max="287" step="1" value="287" />
+          <input type="range" class="Sliders" id="middleSlider" min="0" max="287" step="1" value="287" /><br>
           <button class="returnButtons">Return to full system</button>
         </div>
       </div>
@@ -414,13 +423,13 @@
         </div>
         <div id="sliderAndChart">
           <label for="rightDatePicker">Select Date:</label>
-          <input type="date" id="rightDatePicker" class="datePickers" min="2025-06-09"/><br><br>
+          <input type="date" id="rightDatePicker" class="datePickers" min="2025-06-09"/><br>
           <div id="rightChartContainer" class="chartContainers">
             <canvas id="rightChart"></canvas>
           </div>
-          <h1 class="sitePowerLabel">Site Power: <span id="rightPowerValue">-- W</span></h1><br>
+          <h1 class="sitePowerLabel">Array Power: <span id="rightPowerValue">-- W</span></h1><br>
           <label for="rightSlider">Select Time: <span id="rightTimeLabel"></span></label>
-          <input type="range" class="Sliders" id="rightSlider" min="0" max="287" step="1" value="287" />
+          <input type="range" class="Sliders" id="rightSlider" min="0" max="287" step="1" value="287" /><br>
           <button class="returnButtons">Return to full system</button>
         </div>
       </div>
@@ -431,13 +440,13 @@
         </div>
         <div id="sliderAndChart">
           <label for="bottomDatePicker">Select Date:</label>
-          <input type="date" id="bottomDatePicker" class="datePickers" min="2025-06-09"/><br><br>
+          <input type="date" id="bottomDatePicker" class="datePickers" min="2025-06-09"/><br>
           <div id="bottomChartContainer" class="chartContainers">
             <canvas id="bottomChart"></canvas>
           </div>
-          <h1 class="sitePowerLabel">Site Power: <span id="bottomPowerValue">-- W</span></h1><br>
+          <h1 class="sitePowerLabel">Array Power: <span id="bottomPowerValue">-- W</span></h1><br>
           <label for="bottomSlider">Select Time: <span id="bottomTimeLabel"></span></label>
-          <input type="range" class="Sliders" id="bottomSlider" min="0" max="287" step="1" value="287" />
+          <input type="range" class="Sliders" id="bottomSlider" min="0" max="287" step="1" value="287" /><br>
           <button class="returnButtons">Return to full system</button>
         </div>
       </div>
@@ -584,15 +593,29 @@
     ]
     document.querySelectorAll(".arrayButtons").forEach(button => {
       button.addEventListener("click", function () {
-        slideElement.style.transform = "";
         const elementIndex = parseInt(this.getAttribute("data-index"), 10);
         const translationFactor = elementIndex * 20;
-        slideElement.style.transform = `translateX(-${translationFactor}%)`;
+
+        slideElement.classList.remove("visible");
+        slideElement.classList.add("fade");
+
+        setTimeout(() => {
+          slideElement.style.transform = `translateX(-${translationFactor}%)`;
+          slideElement.classList.remove("fade");
+          slideElement.classList.add("visible");
+        }, 400);
       });
     });
     document.querySelectorAll(".returnButtons").forEach(button => {
       button.addEventListener("click", function () {
-        slideElement.style.transform = `translateX(0%)`;
+        slideElement.classList.remove("visible");
+        slideElement.classList.add("fade");
+
+        setTimeout(() => {
+          slideElement.style.transform = `translateX(0%)`;
+          slideElement.classList.remove("fade");
+          slideElement.classList.add("visible");
+        }, 400);
       });
     });
     async function constrainSliderToSunHours() {
@@ -1110,7 +1133,7 @@
       const max = parseFloat(slider.max);
 
       const rawPercent = (value - min) / (max - min);
-      const thumbSizePx = 30; // matches your CSS
+      const thumbSizePx = 30;
       const sliderWidthPx = slider.offsetWidth;
 
       const offset = (thumbSizePx / 2 / sliderWidthPx) * 100;
