@@ -558,6 +558,46 @@
         slider.value = slider.max;
       }
     }
+    async function getSunHours(){
+      let timeArray = [];
+      const dateStr = datePicker.value;
+      const res = await fetch(`https://clients.hakaienergy.ca/camosun/date_sun_info.php?date=${dateStr}`);
+      const json = await res.json();
+      if (json.sunrise && json.sunset) {
+        const sunrise = new Date(json.sunrise * 1000);
+        const sunset = new Date(json.sunset * 1000);
+        sunriseMinutes = sunrise.getHours() * 60 + sunrise.getMinutes();
+        sunsetMinutes = sunset.getHours() * 60 + sunset.getMinutes();
+        for(let i = sunriseMinutes; i < sunsetMinutes; i+= 5){
+          const time = Math.floor(i/5);
+          timeArray.push(time);
+        }
+        return timeArray;
+      }
+      else{
+        return null;
+      }
+    }
+    async function getSunBoundaries(){
+      let timeArray = [];
+      const dateStr = datePicker.value;
+      const res = await fetch(`https://clients.hakaienergy.ca/camosun/date_sun_info.php?date=${dateStr}`);
+      const json = await res.json();
+      if (json.sunrise && json.sunset) {
+        const sunrise = new Date(json.sunrise * 1000);
+        const sunset = new Date(json.sunset * 1000);
+        const sunriseMinutes = sunrise.getHours() * 60 + sunrise.getMinutes();
+        const sunsetMinutes = sunset.getHours() * 60 + sunset.getMinutes();
+        const sunriseTime = sliderToTime(sunriseMinutes/5);
+        const sunsetTime = sliderToTime(sunsetMinutes/5);
+        timeArray.push(sunriseTime);
+        timeArray.push(sunsetTime);
+        return timeArray;
+      }
+      else{
+        return null;
+      }
+    }
     function buildGrid(inverterArray){
       if(typeof inverterArray == "undefined"){
         return;
@@ -760,16 +800,23 @@
         }
       });
     }
-    function updateAllUpdated(inverterArray, arrayPosition) {
+    async function updateAllUpdated(inverterArray, arrayPosition, sliderObject) {
+      if(typeof sliderObject == "undefined"){
+        sliderObject = slider;
+      }
       if(typeof inverterArray == "undefined"){
         console.error("inverter array does not exist");
         return;
       }
-      updateSummaryChart();
-      const timeStr = sliderToTime(parseInt(slider.value));
+
+      const timeStr = sliderToTime(parseInt(sliderObject.value));
       if (!timeStr) return;
       timeLabel.textContent = timeStr;
       invertersToAdjust = inverters.filter(item => getArrayLocation(item, arrayPosition));
+      const timeBoundaries = await getSunBoundaries();
+      console.log("timeBoundaries = ", timeBoundaries);
+      console.log("typeof getSunBoundaries = ", typeof getSunBoundaries);
+      await updateSummaryChartUpdated(invertersToAdjust, sliderObject, arrayPosition);
       invertersToAdjust.forEach((inverter, inverterIndex) => {
         const entries = powerCache[inverter.serial] || [];
         const match = entries.find(entry => entry.measurement_date === timeStr);
@@ -787,29 +834,162 @@
         }
       });
     }
-    function getArrayLocation(item, location){
-      switch(location){
-        case "left":
-          if(item.array == "left"){
-            return item;
-          }
-          break
-        case "right":
-          if(item.array == "right"){
-            return item;
-          }
-          break
-        case "middle":
-          if(item.array == "middle"){
-            return item;
-          }
-          break
-        case "bottom":
-          if(item.array == "bottom"){
-            return item;
-          }
-          break
+    function createSliderDotPlugin(sliderObject) {
+      return {
+        id: 'sliderDot',
+        afterDatasetsDraw(chart) {
+          if (!sliderObject || !sliderObject.value) return;
+          const step = parseInt(sliderObject.value);
+          const dataset = chart.data.datasets[0];
+          if (!dataset || !dataset.data.length) return;
+
+          const point = dataset.data.reduce((closest, p) =>
+            Math.abs(p.x - step) < Math.abs(closest.x - step) ? p : closest,
+            dataset.data[0]
+          );
+
+          const x = chart.scales.x.getPixelForValue(point.x);
+          const y = chart.scales.y.getPixelForValue(point.y);
+
+          const ctx = chart.ctx;
+          ctx.save();
+          ctx.fillStyle = 'red';
+          ctx.beginPath();
+          ctx.arc(x, y, 10, 0, 2 * Math.PI);
+          ctx.fill();
+          ctx.restore();
+        }
+      };
+    }
+    async function updateSummaryChartUpdated(inverterArray, sliderObject, arrayPosition) {
+      if (!sliderObject || !sliderObject.value) {
+        sliderObject = document.getElementById("timeSlider");
       }
+      let productionValues = [];
+      const selectedDate = datePicker.value;
+      const ctx = document.getElementById(`${arrayPosition}Chart`).getContext("2d");
+      const timeBoundaries = await getSunBoundaries();
+      const chartData = [];
+      const url = `https://clients.hakaienergy.ca/camosun/get_device_power.php?device_id=${inverterArray[0].serial}&r=${selectedDate}`;
+
+      function findLastBeforeOrEqual(data, targetTime) {
+        let lastValidIndex = -1;
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].measurement_date <= targetTime) {
+            lastValidIndex = i;
+          } else {
+            break;
+          }
+        }
+        return lastValidIndex;
+      }
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!data || !data.length) {
+          console.warn(`No data for inverter ${inverterArray[0].serial} on ${selectedDate}`);
+          return;
+        }
+
+        const initialIndex = findLastBeforeOrEqual(data, timeBoundaries[0]);
+        if (initialIndex === -1) {
+          console.warn(`No data before or at ${timeBoundaries[0]}`);
+          return;
+        }
+
+        const finalIndex = findLastBeforeOrEqual(data, timeBoundaries[1]);
+        if (finalIndex === -1 || finalIndex <= initialIndex) {
+          console.warn(`No valid data range between ${timeBoundaries[0]} and ${timeBoundaries[1]}`);
+          return;
+        }
+// Step 1: Build baseline from first inverter
+        const timeMap = new Map(); // key = measurement_date, value = power sum
+        for (let j = initialIndex; j <= finalIndex; j++) {
+          const entry = data[j];
+          timeMap.set(entry.measurement_date, entry.value); // start with first inverter
+        }
+
+        // Step 2: Add data from remaining inverters
+        for (let k = 1; k < inverterArray.length; k++) {
+          const inverterUrl = `https://clients.hakaienergy.ca/camosun/get_device_power.php?device_id=${inverterArray[k].serial}&r=${selectedDate}`;
+          const tempRes = await fetch(inverterUrl);
+          const sortedData = await tempRes.json();
+
+          for (let entry of sortedData) {
+            if (timeMap.has(entry.measurement_date)) {
+              timeMap.set(entry.measurement_date, timeMap.get(entry.measurement_date) + entry.value);
+            }
+          }
+        }
+
+        // Step 3: Convert Map to chartData
+        for (let [timestamp, value] of timeMap.entries()) {
+          const [h, m] = timestamp.split(" ")[1].split(":");
+          chartData.push({
+            x: (parseInt(h) * 60 + parseInt(m)) / 5,
+            y: value
+          });
+        }
+        }catch (err) {
+        console.warn(`Error fetching data for inverter ${inverterArray[0].serial}:`, err);
+        return;
+      }
+
+      const currentStep = parseInt(sliderObject.value);
+      const nearest = chartData.reduce((a, b) =>
+        Math.abs(b.x - currentStep) < Math.abs(a.x - currentStep) ? b : a, chartData[0]);
+      document.getElementById("sitePowerValue").textContent = `Site Power: ${nearest?.y ?? '--'} W`;
+
+      if (!window.arrayCharts) window.arrayCharts = {};
+      if (window.arrayCharts[arrayPosition]) {
+        window.arrayCharts[arrayPosition].data.datasets[0].data = chartData;
+        window.arrayCharts[arrayPosition].update();
+      } else {
+        window.arrayCharts[arrayPosition] = new Chart(ctx, {
+          type: 'line',
+          data: {
+            datasets: [{
+              label: 'Site Power (W)',
+              data: chartData,
+              borderColor: 'orange',
+              backgroundColor: 'rgba(255,165,0,0.2)',
+              fill: true,
+              pointRadius: 0,
+              tension: 0.2
+            }]
+          },
+          options: {
+            animation: false,
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              x: {
+                type: 'linear',
+                title: { display: true, text: 'Time of Day' },
+                ticks: {
+                  stepSize: 12,
+                  callback: v => {
+                    const hh = Math.floor(v * 5 / 60).toString().padStart(2, '0');
+                    const mm = (v * 5 % 60).toString().padStart(2, '0');
+                    return `${hh}:${mm}`;
+                  }
+                }
+              },
+              y: {
+                beginAtZero: true,
+                min: 0
+              }
+            }
+          },
+          plugins: [createSliderDotPlugin(sliderObject)]
+        });
+      }
+    }
+    function getArrayLocation(item, location){
+      return item.array === location;
     }
     function debounce(func, delay) {
       let timeout;
@@ -819,25 +999,26 @@
       };
     } 
     document.querySelectorAll(".Sliders").forEach(slider =>{
-      slider.addEventListener("input",() => {
+      slider.addEventListener("input",(event) => {
         const id = slider.id;
         switch (id){
           case "leftSlider": 
-            updateAllUpdated(inverters, "left");
+            updateAllUpdated(inverters, "left", event.target);
             break;
           case "rightSlider": 
-            updateAllUpdated(inverters, "right");
+            updateAllUpdated(inverters, "right", event.target);
             break;
           case "middleSlider": 
-            updateAllUpdated(inverters, "middle");
+            updateAllUpdated(inverters, "middle", event.target);
             break;
           case "bottomSlider": 
-            updateAllUpdated(inverters, "bottom");
+            updateAllUpdated(inverters, "bottom", event.target);
             break;
         }
-      }, 5);
+      });
     })
     slider.addEventListener("input", debounce(() => {
+      console.log(slider.value);
       updateAll(inverters);
       updateSummaryChart();
     }, 5));
