@@ -5,8 +5,6 @@
   <title>Microinverter Power Grid</title>
     <style>
     body { font-family: sans-serif; background: #f4f7fa; }
-    #sliderWrapper { margin: 20px; }
-    #timeLabel { font-weight: bold; }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -44,8 +42,8 @@
     }
     input[type=range] {
       appearance: none;
-      width: 300px;
-      height: 6px;
+      width: 90%;
+      height: 8px;
       background: #ccc;
       border-radius: 3px;
       outline: none;
@@ -111,7 +109,6 @@
       left: 45.5%; 
       transform: translate(-50%, -50%);
       border: none;
-      background-color: transparent;
     }
     #middleArrayButton{
       width: 15%;
@@ -121,7 +118,6 @@
       left: 57.5%; 
       transform: translate(-50%, -50%);
       border: none;
-      background-color: transparent;
     }
     #rightArrayButton{
       width: 23%;
@@ -131,7 +127,6 @@
       left: 81%; 
       transform: translate(-50%, -50%);
       border: none;
-      background-color: transparent;
     }
     #bottomArrayButton{
       width: 42%;
@@ -141,7 +136,6 @@
       left: 29%; 
       transform: translate(-50%, -50%);
       border: none;
-      background-color: transparent;
     }
     #bottomArrayButton2{
       width: 20%;
@@ -151,30 +145,34 @@
       left: 60%; 
       transform: translate(-50%, -50%);
       border: none;
-      background-color: transparent;
+    }
+    .chartContainers{
+      width: 100%;
+    }
+    .Sliders{
+      width: 100%;
     }
     #fullArray{
-      flex: 0 0 100vw;
-      height: 100vh;
-      box-sizing: border-box;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      flex-direction: row;
       align-items: center;
-      position: relative;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      gap: 25px;
+      box-sizing: border-box;
     }
     #leftArray, #middleArray, #rightArray, #bottomArray{
-      flex: 0 0 100vw;
-      height: 100vh;
-      box-sizing: border-box;
-      align-self: center;
       display: flex;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
-      gap: 100px;
+      width: 100vw;
+      height: 100vh;
+      gap: 25px;
+      box-sizing: border-box;
     }
     #leftArrayContent, #middleArrayContent, #rightArrayContent, #bottomArrayContent{
-
       display: grid;
     }
     #leftArrayContent div, #middleArrayContent div, #rightArrayContent div, #bottomArrayContent div{
@@ -186,6 +184,7 @@
       height: 100%;
       align-items: center;
       text-align: center;
+      flex: 1;
     }
     #leftArrayContent{
       grid-template-columns: repeat(5, 42.5px);
@@ -238,13 +237,15 @@
    #bottomArrayContent div span{
     font-size: 5px;
    }
-   #sliderAndChart{
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-   }
+  #sliderAndChart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 600px;
+  }
     #inverter-12{
       grid-column-start: 6;
       grid-column-end: 7;
@@ -306,36 +307,33 @@
 </style>
 </head>
 <body style="width: 1000vw; height: 1000vh; margin: 0; background: #f4f7fa;">
-  
-  <div style="width: 500px; display: flex; flex-direction: column; justify-content: flex-start; gap: 10px;">
-    <h2>Microinverter Grid (Power at Selected Time)</h2>
-    <div id="sliderWrapper" style="display: flex; flex-direction: column; gap: 10px;">
-      <label for="datePicker">Select Date:</label>
-      <input type="date" id="datePicker" style="width: 200px;" min="2025-06-09"/><br><br>
 
-      <label for="timeSlider">Select Time: <span id="timeLabel"></span></label><br>
-      <input type="range" id="timeSlider" min="0" max="287" step="1" value="287" />
-    </div>
-
-  </div>
-  <div id="summaryChartWrapper" style="flex: 1; max-width: 900px; min-width: 400px;">
-    <h3 id="summaryDate">Loading chart...</h3>
-    <canvas id="dailyChart" width="1000" height="200"></canvas>
-    <div id="sitePowerValue" style="font-size: 20px; font-weight: bold; color: #c00; margin-top: 10px;">
-      Site Power: -- W
-  </div>
   <div id="slideWrapper">
     <div id="contentSpace">
       <div id="fullArray">
-        <h1 id="fullArrayTitle">Click to view parts of the solar energy system</h1>
-        <div id="imageWrapper">
-          <img src="images/array_full.JPG" alt="Full Array">
-          <button id="leftArrayButton" data-index="1" class="arrayButtons"></button>
-          <button id="middleArrayButton" data-index="2" class="arrayButtons"></button>
-          <button id="rightArrayButton" data-index="3" class="arrayButtons"></button>
-          <button id="bottomArrayButton" data-index="4" class="arrayButtons"></button>
-          <button id="bottomArrayButton2" data-index="4" class="arrayButtons"></button>
+        <div id="imgAndArray">
+          <h1 id="fullArrayTitle">Click to view parts of the solar energy system</h1>
+          <div id="imageWrapper">
+            <img src="images/array_full.JPG" alt="Full Array">
+            <button id="leftArrayButton" data-index="1" class="arrayButtons"></button>
+            <button id="middleArrayButton" data-index="2" class="arrayButtons"></button>
+            <button id="rightArrayButton" data-index="3" class="arrayButtons"></button>
+            <button id="bottomArrayButton" data-index="4" class="arrayButtons"></button>
+            <button id="bottomArrayButton2" data-index="4" class="arrayButtons"></button>
+          </div>
         </div>
+        <div id="sliderAndChart">
+          <label for="fullDatePicker">Select Date:</label>
+          <input type="date" id="fullDatePicker" class="datePickers" min="2025-06-09"/><br><br>
+          <div id="fullChartContainer" class="chartContainers">
+            <canvas id="fullChart"></canvas>
+          </div>
+          <div id="fullPowerValue">
+            Site Power: -- W
+          </div>
+          <label for="fullSlider">Select Time: <span id="fullTimeLabel"></span></label><br>
+          <input type="range" class="Sliders" id="fullSlider" min="0" max="287" step="1" value="287" />
+          </div>
       </div>
       <div id="leftArray">
         <div id="imgAndArray">
@@ -343,10 +341,15 @@
           <div id="leftArrayContent"></div>
         </div>
         <div id="sliderAndChart">
+          <label for="leftDatePicker">Select Date:</label>
+          <input type="date" id="leftDatePicker" class="datePickers" min="2025-06-09"/><br><br>
           <div id="leftChartContainer" class="chartContainers">
             <canvas id="leftChart"></canvas>
           </div>
-          <label for="leftSlider">Select Time: <span id="LeftSliderLabel"></span></label><br>
+          <div id="leftPowerValue">
+            Site Power: -- W
+          </div>
+          <label for="leftSlider">Select Time: <span id="leftTimeLabel"></span></label><br>
           <input type="range" class="Sliders" id="leftSlider" min="0" max="287" step="1" value="287" />
           <button class="returnButtons">Return to full system</button>
         </div>
@@ -357,10 +360,15 @@
           <div id="middleArrayContent"></div>
         </div>
         <div id="sliderAndChart">
+          <label for="middleDatePicker">Select Date:</label>
+          <input type="date" id="middleDatePicker" class="datePickers" min="2025-06-09"/><br><br>
           <div id="middleChartContainer" class="chartContainers">
             <canvas id="middleChart"></canvas>
           </div>
-          <label for="middleSlider">Select Time: <span id="middleSliderLabel"></span></label><br>
+          <div id="middlePowerValue">
+            Site Power: -- W
+          </div>
+          <label for="middleSlider">Select Time: <span id="middleTimeLabel"></span></label><br>
           <input type="range" class="Sliders" id="middleSlider" min="0" max="287" step="1" value="287" />
           <button class="returnButtons">Return to full system</button>
         </div>
@@ -371,10 +379,15 @@
           <div id="rightArrayContent"></div>
         </div>
         <div id="sliderAndChart">
+          <label for="rightDatePicker">Select Date:</label>
+          <input type="date" id="rightDatePicker" class="datePickers" min="2025-06-09"/><br><br>
           <div id="rightChartContainer" class="chartContainers">
             <canvas id="rightChart"></canvas>
           </div>
-          <label for="rightSlider">Select Time: <span id="rightSliderLabel"></span></label><br>
+          <div id="rightPowerValue">
+            Site Power: -- W
+          </div>
+          <label for="rightSlider">Select Time: <span id="rightTimeLabel"></span></label><br>
           <input type="range" class="Sliders" id="rightSlider" min="0" max="287" step="1" value="287" />
           <button class="returnButtons">Return to full system</button>
         </div>
@@ -385,10 +398,15 @@
           <div id="bottomArrayContent"></div>  
         </div>
         <div id="sliderAndChart">
+          <label for="bottomDatePicker">Select Date:</label>
+          <input type="date" id="bottomDatePicker" class="datePickers" min="2025-06-09"/><br><br>
           <div id="bottomChartContainer" class="chartContainers">
             <canvas id="bottomChart"></canvas>
           </div>
-          <label for="bottomSlider">Select Time: <span id="bottomSliderLabel"></span></label><br>
+          <div id="bottomPowerValue">
+            Site Power: -- W
+          </div>
+          <label for="bottomSlider">Select Time: <span id="bottomTimeLabel"></span></label><br>
           <input type="range" class="Sliders" id="bottomSlider" min="0" max="287" step="1" value="287" />
           <button class="returnButtons">Return to full system</button>
         </div>
@@ -402,6 +420,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
+
     const slideElement = document.getElementById("contentSpace");
     const grid = document.getElementById("grid");
     const leftArrayContent = document.getElementById("leftArrayContent")
@@ -410,17 +429,20 @@
     const bottomArrayContent = document.getElementById("bottomArrayContent")
     const slider = document.getElementById("timeSlider");
     const timeLabel = document.getElementById("timeLabel");
-    const datePicker = document.getElementById("datePicker");
+    const datePicker = document.getElementById("fullDatePicker");
     const loadingOverlay = document.getElementById("loadingOverlay");
+    const fullChart = document.getElementById("fullChart");
     const leftChart = document.getElementById("leftChart");
     const middleChart = document.getElementById("middleChart");
     const rightChart = document.getElementById("rightChart");
     const bottomChart = document.getElementById("bottomChart");
+    const fullSlider = document.getElementById("fullSlider");
     const leftSlider = document.getElementById("leftSlider");
     const middleSlider= document.getElementById("middleSlider");
     const rightSlider = document.getElementById("rightSlider");
     const bottomSlider = document.getElementById("bottomSlider");
 
+    const debounceTimers = {};
     let devices = [];
     let powerCache = {}; // { serial_number: [ { measurement_date, value }, ... ] }
     let sunriseMinutes = 0;
@@ -552,10 +574,11 @@
         const sunset = new Date(json.sunset * 1000);
         sunriseMinutes = sunrise.getHours() * 60 + sunrise.getMinutes();
         sunsetMinutes = sunset.getHours() * 60 + sunset.getMinutes();
-
-        slider.min = Math.floor(sunriseMinutes / 5);
-        slider.max = Math.floor(sunsetMinutes / 5);
-        slider.value = slider.max;
+        document.querySelectorAll(".Sliders").forEach(slider =>{
+          slider.min = Math.floor(sunriseMinutes / 5);
+          slider.max = Math.floor(sunsetMinutes / 5);
+          slider.value = slider.max;
+        })
       }
     }
     async function getSunHours(){
@@ -647,10 +670,12 @@
       return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:00`;
     }
 
-    async function updateSummaryChart() {
+    async function updateFullChart() {
       const selectedDate = datePicker.value;
-      document.getElementById("summaryDate").textContent = selectedDate;
-      const ctx = document.getElementById("dailyChart").getContext("2d");
+      const ctx = fullChart.getContext("2d");
+      const timeStr = sliderToTime(parseInt(fullSlider.value));
+      if (!timeStr) return;
+      fullTimeLabel.textContent = timeStr;
 
       try {
         const res = await fetch(`https://clients.hakaienergy.ca/camosun/get_site_power.php?r=${selectedDate}`);
@@ -663,17 +688,17 @@
         });
         
         // Update visible site power at current slider step
-        const currentStep = parseInt(slider.value);
+        const currentStep = parseInt(fullSlider.value);
         let nearest = dataPoints.reduce((a, b) => Math.abs(b.x - currentStep) < Math.abs(a.x - currentStep) ? b : a, dataPoints[0]);
-        document.getElementById("sitePowerValue").textContent = `Site Power: ${nearest?.y ?? '--'} W`;
+        document.getElementById("fullPowerValue").textContent = `Site Power: ${nearest?.y ?? '--'} W`;
 
 
 
-    if (window.summaryChart) {
-      window.summaryChart.data.datasets[0].data = dataPoints;
-      window.summaryChart.update();
+    if (window.fullSummaryChart) {
+      window.fullSummaryChart.data.datasets[0].data = dataPoints;
+      window.fullSummaryChart.update();
     } else {
-      window.summaryChart = new Chart(ctx, {
+      window.fullSummaryChart = new Chart(ctx, {
         type: 'line',
         data: {
           datasets: [{
@@ -713,7 +738,7 @@
         plugins: [{
           id: 'sliderDot',
           afterDatasetsDraw(chart) {
-            const step = parseInt(slider.value);
+            const step = parseInt(fullSlider.value);
             const dataset = chart.data.datasets[0];
             if (!dataset || !dataset.data.length) return;
 
@@ -759,7 +784,7 @@
         }
       });
       await Promise.all(promises);
-      loadingOverlay.style.display = 'none';
+
     }
 
     function powerToColor(value) {
@@ -773,34 +798,7 @@
       const totalWatts = entries.reduce((sum, entry) => sum + (entry.value || 0), 0);
       return (totalWatts * 5 / 60 / 1000).toFixed(2); // convert to kWh, rounded
     }
-
-    function updateAll(inverterArray) {
-      if(typeof inverterArray == "undefined"){
-        console.error("inverter array does not exist");
-        return;
-      }
-      updateSummaryChart();
-      const timeStr = sliderToTime(parseInt(slider.value));
-      if (!timeStr) return;
-      timeLabel.textContent = timeStr;
-
-      inverterArray.forEach((inverter, inverterIndex) => {
-        const entries = powerCache[inverter.serial] || [];
-        const match = entries.find(entry => entry.measurement_date === timeStr);
-        const power = match ? match.value : null;
-
-        const cell = document.getElementById(`inverter-${inverterIndex}`);
-        if (cell) {
-          const bgColor = power !== null ? powerToColor(power) : 'transparent';
-          const kwh = computeKWhForDay(inverter.serial);
-          cell.querySelector(".kwh").textContent = kwh ? `${kwh} kWh` : 'N/A';
-          cell.querySelector(".power").textContent = power !== null ? `${power} W` : 'N/A';
-          cell.style.backgroundColor = bgColor;
-          cell.style.color = power !== null ? 'white' : 'black';
-        }
-      });
-    }
-    async function updateAllUpdated(inverterArray, arrayPosition, sliderObject) {
+    async function updateAllArrays(inverterArray, arrayPosition, sliderObject) {
       if(typeof sliderObject == "undefined"){
         sliderObject = slider;
       }
@@ -811,12 +809,15 @@
 
       const timeStr = sliderToTime(parseInt(sliderObject.value));
       if (!timeStr) return;
-      timeLabel.textContent = timeStr;
-      invertersToAdjust = inverters.filter(item => getArrayLocation(item, arrayPosition));
+      const arrayTimeLabel = document.getElementById(`${arrayPosition}TimeLabel`);
+      arrayTimeLabel.textContent = timeStr;
+
+      const invertersToAdjust = inverters.filter(item => getArrayLocation(item, arrayPosition));
+
       const timeBoundaries = await getSunBoundaries();
       console.log("timeBoundaries = ", timeBoundaries);
       console.log("typeof getSunBoundaries = ", typeof getSunBoundaries);
-      await updateSummaryChartUpdated(invertersToAdjust, sliderObject, arrayPosition);
+      await updateArrayCharts(invertersToAdjust, sliderObject, arrayPosition);
       invertersToAdjust.forEach((inverter, inverterIndex) => {
         const entries = powerCache[inverter.serial] || [];
         const match = entries.find(entry => entry.measurement_date === timeStr);
@@ -861,88 +862,104 @@
         }
       };
     }
-    async function updateSummaryChartUpdated(inverterArray, sliderObject, arrayPosition) {
+    async function updateArrayCharts(inverterArray, sliderObject, arrayPosition) {
       if (!sliderObject || !sliderObject.value) {
         sliderObject = document.getElementById("timeSlider");
       }
-      let productionValues = [];
+
       const selectedDate = datePicker.value;
       const ctx = document.getElementById(`${arrayPosition}Chart`).getContext("2d");
       const timeBoundaries = await getSunBoundaries();
-      const chartData = [];
-      const url = `https://clients.hakaienergy.ca/camosun/get_device_power.php?device_id=${inverterArray[0].serial}&r=${selectedDate}`;
 
-      function findLastBeforeOrEqual(data, targetTime) {
-        let lastValidIndex = -1;
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].measurement_date <= targetTime) {
-            lastValidIndex = i;
-          } else {
-            break;
-          }
-        }
-        return lastValidIndex;
+
+      if (!window.chartDataCache) {
+        window.chartDataCache = {};
+      }
+      if (!window.chartDataCache[arrayPosition]) {
+        window.chartDataCache[arrayPosition] = {};
       }
 
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
+      let chartData;
 
-        if (!data || !data.length) {
-          console.warn(`No data for inverter ${inverterArray[0].serial} on ${selectedDate}`);
-          return;
-        }
 
-        const initialIndex = findLastBeforeOrEqual(data, timeBoundaries[0]);
-        if (initialIndex === -1) {
-          console.warn(`No data before or at ${timeBoundaries[0]}`);
-          return;
-        }
+      if (window.chartDataCache[arrayPosition][selectedDate]) {
+        chartData = window.chartDataCache[arrayPosition][selectedDate];
+      } else {
 
-        const finalIndex = findLastBeforeOrEqual(data, timeBoundaries[1]);
-        if (finalIndex === -1 || finalIndex <= initialIndex) {
-          console.warn(`No valid data range between ${timeBoundaries[0]} and ${timeBoundaries[1]}`);
-          return;
-        }
-// Step 1: Build baseline from first inverter
-        const timeMap = new Map(); // key = measurement_date, value = power sum
-        for (let j = initialIndex; j <= finalIndex; j++) {
-          const entry = data[j];
-          timeMap.set(entry.measurement_date, entry.value); // start with first inverter
-        }
+        const url = `https://clients.hakaienergy.ca/camosun/get_device_power.php?device_id=${inverterArray[0].serial}&r=${selectedDate}`;
 
-        // Step 2: Add data from remaining inverters
-        for (let k = 1; k < inverterArray.length; k++) {
-          const inverterUrl = `https://clients.hakaienergy.ca/camosun/get_device_power.php?device_id=${inverterArray[k].serial}&r=${selectedDate}`;
-          const tempRes = await fetch(inverterUrl);
-          const sortedData = await tempRes.json();
-
-          for (let entry of sortedData) {
-            if (timeMap.has(entry.measurement_date)) {
-              timeMap.set(entry.measurement_date, timeMap.get(entry.measurement_date) + entry.value);
+        function findLastBeforeOrEqual(data, targetTime) {
+          let lastValidIndex = -1;
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].measurement_date <= targetTime) {
+              lastValidIndex = i;
+            } else {
+              break;
             }
           }
+          return lastValidIndex;
         }
 
-        // Step 3: Convert Map to chartData
-        for (let [timestamp, value] of timeMap.entries()) {
-          const [h, m] = timestamp.split(" ")[1].split(":");
-          chartData.push({
-            x: (parseInt(h) * 60 + parseInt(m)) / 5,
-            y: value
-          });
+        try {
+          const res = await fetch(url);
+          const data = await res.json();
+
+          if (!data || !data.length) {
+            console.warn(`No data for inverter ${inverterArray[0].serial} on ${selectedDate}`);
+            return;
+          }
+
+          const initialIndex = findLastBeforeOrEqual(data, timeBoundaries[0]);
+          const finalIndex = findLastBeforeOrEqual(data, timeBoundaries[1]);
+
+          if (initialIndex === -1 || finalIndex === -1 || finalIndex <= initialIndex) {
+            console.warn(`Invalid data range for ${selectedDate}: ${timeBoundaries[0]}–${timeBoundaries[1]}`);
+            return;
+          }
+
+          const timeMap = new Map();
+          for (let j = initialIndex; j <= finalIndex; j++) {
+            const entry = data[j];
+            timeMap.set(entry.measurement_date, entry.value);
+          }
+
+          for (let k = 1; k < inverterArray.length; k++) {
+            const inverterUrl = `https://clients.hakaienergy.ca/camosun/get_device_power.php?device_id=${inverterArray[k].serial}&r=${selectedDate}`;
+            const tempRes = await fetch(inverterUrl);
+            const sortedData = await tempRes.json();
+
+            for (let entry of sortedData) {
+              if (timeMap.has(entry.measurement_date)) {
+                timeMap.set(entry.measurement_date, timeMap.get(entry.measurement_date) + entry.value);
+              }
+            }
+          }
+
+          chartData = [];
+          for (let [timestamp, value] of timeMap.entries()) {
+            const [h, m] = timestamp.split(" ")[1].split(":");
+            chartData.push({
+              x: (parseInt(h) * 60 + parseInt(m)) / 5,
+              y: value
+            });
+          }
+
+          window.chartDataCache[arrayPosition][selectedDate] = chartData;
+
+        } catch (err) {
+          console.warn(`Error fetching data for inverter ${inverterArray[0].serial}:`, err);
+          return;
         }
-        }catch (err) {
-        console.warn(`Error fetching data for inverter ${inverterArray[0].serial}:`, err);
-        return;
       }
+
 
       const currentStep = parseInt(sliderObject.value);
       const nearest = chartData.reduce((a, b) =>
         Math.abs(b.x - currentStep) < Math.abs(a.x - currentStep) ? b : a, chartData[0]);
-      document.getElementById("sitePowerValue").textContent = `Site Power: ${nearest?.y ?? '--'} W`;
+      document.getElementById(`${arrayPosition}PowerValue`).textContent = `Site Power: ${nearest?.y ?? '--'} W`;
 
       if (!window.arrayCharts) window.arrayCharts = {};
+
       if (window.arrayCharts[arrayPosition]) {
         window.arrayCharts[arrayPosition].data.datasets[0].data = chartData;
         window.arrayCharts[arrayPosition].update();
@@ -962,9 +979,7 @@
           },
           options: {
             animation: false,
-            plugins: {
-              legend: { display: false }
-            },
+            plugins: { legend: { display: false } },
             scales: {
               x: {
                 type: 'linear',
@@ -988,6 +1003,7 @@
         });
       }
     }
+
     function getArrayLocation(item, location){
       return item.array === location;
     }
@@ -998,35 +1014,56 @@
         timeout = setTimeout(() => func.apply(this, args), delay);
       };
     } 
-    document.querySelectorAll(".Sliders").forEach(slider =>{
-      slider.addEventListener("input",(event) => {
+    async function updateAllCharts(){
+      updateFullChart();
+      updateAllArrays(inverters, "left", leftSlider);
+      updateAllArrays(inverters, "right", rightSlider);
+      updateAllArrays(inverters, "middle", middleSlider);
+      updateAllArrays(inverters, "bottom", bottomSlider).then(() =>{
+        loadingOverlay.style.display = 'none';
+      })
+    }
+    document.querySelectorAll(".Sliders").forEach(slider => {
+      slider.addEventListener("input", (event) => {
         const id = slider.id;
-        switch (id){
-          case "leftSlider": 
-            updateAllUpdated(inverters, "left", event.target);
-            break;
-          case "rightSlider": 
-            updateAllUpdated(inverters, "right", event.target);
-            break;
-          case "middleSlider": 
-            updateAllUpdated(inverters, "middle", event.target);
-            break;
-          case "bottomSlider": 
-            updateAllUpdated(inverters, "bottom", event.target);
-            break;
-        }
+        
+        clearTimeout(debounceTimers[id]);
+
+        debounceTimers[id] = setTimeout(() => {
+          switch (id) {
+            case "fullSlider":
+              updateFullChart();
+              break;
+            case "leftSlider":
+              updateAllArrays(inverters, "left", slider);
+              break;
+            case "rightSlider":
+              updateAllArrays(inverters, "right", slider);
+              break;
+            case "middleSlider":
+              updateAllArrays(inverters, "middle", slider);
+              break;
+            case "bottomSlider":
+              updateAllArrays(inverters, "bottom", slider);
+              break;
+          }
+        }, 70);
+      });
+    });
+
+    document.querySelectorAll(".datePickers").forEach(datePicker =>{
+      datePicker.addEventListener("change", () =>{
+        dateChanged(datePicker);
       });
     })
-    slider.addEventListener("input", debounce(() => {
-      console.log(slider.value);
-      updateAll(inverters);
-      updateSummaryChart();
-    }, 5));
-    datePicker.addEventListener("change", dateChanged);
-    async function dateChanged(){
-      buildGrid();
+    async function dateChanged(datePicker){
+      const newDate = datePicker.value;
+      document.querySelectorAll(".datePickers").forEach(picker => {
+        picker.value = newDate;
+      });
+      buildGrid(inverters);
       await constrainSliderToSunHours();
-      loadPowerData(inverters).then(updateAll(inverters));
+      await loadPowerData(inverters).then(updateAllCharts);
     }
     function getYesterday(){
       const yesterday = new Date();
@@ -1036,13 +1073,13 @@
       const formattedDate = localYesterday.toISOString().split('T')[0];
       return formattedDate;
     }
-    function onStart(){
-      document.getElementById("datePicker").value = getYesterday();
-      const yesterdayString = String(getYesterday());
-      datePicker.max=yesterdayString;
-      dateChanged();
-      buildGrid(inverters);
-      updateAll(inverters);
+    async function onStart(){
+      document.querySelectorAll(".datePickers").forEach(datePicker =>{
+        datePicker.value = getYesterday()
+        const yesterdayString = String(getYesterday());
+        datePicker.max=yesterdayString;
+      })
+      dateChanged(fullDatePicker);
     }
     onStart();
     const invertersInLocation = inverters.filter(item => getArrayLocation(item, "right"));
