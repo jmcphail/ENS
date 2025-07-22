@@ -4,7 +4,13 @@
 <head>
   <title>Microinverter Power Grid</title>
     <style>
-    body { font-family: sans-serif; background: #f4f7fa; }
+    body {
+      margin: 0;
+      background: #ffffff;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -25,6 +31,39 @@
       font-size: 10px;
       margin-bottom: 2px;
       display: block;
+    }
+    label{
+      font-weight: bold;
+      font-size: 20px;
+    }
+    label span{
+      font-weight: normal;
+      font-size: 20px;
+    }
+    .sitePowerLabel{
+      font-size: 25px;
+    }
+    .sitePowerLabel span{
+      color: rgb(255, 102, 0);
+    }
+    .returnButtons{
+      background-color: rgb(255, 255, 255);
+      border: none !important;
+      color: black !important;
+      padding: clamp(7px, 2.5vw, 14px);
+      font-size: clamp(0.5rem, 2.25vw, 1.5rem);
+      border-radius: 8px;
+      border: none;
+      font-family: sans-serif;
+      transition: 0.3s;
+    }
+    .returnButtons:hover{
+      transform: translateY(-.3rem);
+      box-shadow: 0 1rem 2rem rgba(133, 133, 133, 0.2) !important;
+      background-color: rgb(255, 169, 103);
+    }
+    #fullArrayTitle{
+      text-align: center;
     }
     #loadingOverlay {
       position: fixed;
@@ -52,8 +91,8 @@
 
     .Sliders::-webkit-slider-thumb {
       appearance: none;
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
       background: orange;
       border-radius: 50%;
       cursor: pointer;
@@ -72,9 +111,8 @@
     #slideWrapper {
       width: 100vw;
       position: relative;
-      height: 100%;
-      padding-top: 10px;
-      padding-bottom: 10px;
+      height: 100vh;
+      overflow-x: hidden;
     }
     #contentSpace{
       position: relative;
@@ -147,6 +185,9 @@
     .Sliders{
       width: 100%;
     }
+    .datePickers{
+      width: 50%;
+    }
     #fullArray{
       display: flex;
       flex-direction: row;
@@ -156,6 +197,11 @@
       height: 100vh;
       gap: 25px;
       box-sizing: border-box;
+    }
+    #imgAndArray {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
     }
     #leftArray, #middleArray, #rightArray, #bottomArray{
       display: flex;
@@ -301,12 +347,11 @@
   
 </style>
 </head>
-<body style="width: 1000vw; height: 1000vh; margin: 0; background: #f4f7fa;">
-
+<body>
   <div id="slideWrapper">
     <div id="contentSpace">
       <div id="fullArray">
-        <div id="imgAndArray">
+        <div id="fullImgAndArray">
           <h1 id="fullArrayTitle">Click to view parts of the solar energy system</h1>
           <div id="imageWrapper">
             <img src="images/array_full.JPG" alt="Full Array">
@@ -323,10 +368,8 @@
           <div id="fullChartContainer" class="chartContainers">
             <canvas id="fullChart"></canvas>
           </div>
-          <div id="fullPowerValue">
-            Site Power: -- W
-          </div>
-          <label for="fullSlider">Select Time: <span id="fullTimeLabel"></span></label><br>
+          <h1 class="sitePowerLabel">Site Power: <span id="fullPowerValue">-- W</span></h1><br>
+          <label for="fullSlider">Select Time: <span id="fullTimeLabel"></span></label>
           <input type="range" class="Sliders" id="fullSlider" min="0" max="287" step="1" value="287" />
           </div>
       </div>
@@ -341,10 +384,8 @@
           <div id="leftChartContainer" class="chartContainers">
             <canvas id="leftChart"></canvas>
           </div>
-          <div id="leftPowerValue">
-            Site Power: -- W
-          </div>
-          <label for="leftSlider">Select Time: <span id="leftTimeLabel"></span></label><br>
+          <h1 class="sitePowerLabel">Site Power: <span id="leftPowerValue">-- W</span></h1><br>
+          <label for="leftSlider">Select Time: <span id="leftTimeLabel"></span></label>
           <input type="range" class="Sliders" id="leftSlider" min="0" max="287" step="1" value="287" />
           <button class="returnButtons">Return to full system</button>
         </div>
@@ -360,10 +401,8 @@
           <div id="middleChartContainer" class="chartContainers">
             <canvas id="middleChart"></canvas>
           </div>
-          <div id="middlePowerValue">
-            Site Power: -- W
-          </div>
-          <label for="middleSlider">Select Time: <span id="middleTimeLabel"></span></label><br>
+          <h1 class="sitePowerLabel">Site Power: <span id="middlePowerValue">-- W</span></h1><br>
+          <label for="middleSlider">Select Time: <span id="middleTimeLabel"></span></label>
           <input type="range" class="Sliders" id="middleSlider" min="0" max="287" step="1" value="287" />
           <button class="returnButtons">Return to full system</button>
         </div>
@@ -379,10 +418,8 @@
           <div id="rightChartContainer" class="chartContainers">
             <canvas id="rightChart"></canvas>
           </div>
-          <div id="rightPowerValue">
-            Site Power: -- W
-          </div>
-          <label for="rightSlider">Select Time: <span id="rightTimeLabel"></span></label><br>
+          <h1 class="sitePowerLabel">Site Power: <span id="rightPowerValue">-- W</span></h1><br>
+          <label for="rightSlider">Select Time: <span id="rightTimeLabel"></span></label>
           <input type="range" class="Sliders" id="rightSlider" min="0" max="287" step="1" value="287" />
           <button class="returnButtons">Return to full system</button>
         </div>
@@ -398,10 +435,8 @@
           <div id="bottomChartContainer" class="chartContainers">
             <canvas id="bottomChart"></canvas>
           </div>
-          <div id="bottomPowerValue">
-            Site Power: -- W
-          </div>
-          <label for="bottomSlider">Select Time: <span id="bottomTimeLabel"></span></label><br>
+          <h1 class="sitePowerLabel">Site Power: <span id="bottomPowerValue">-- W</span></h1><br>
+          <label for="bottomSlider">Select Time: <span id="bottomTimeLabel"></span></label>
           <input type="range" class="Sliders" id="bottomSlider" min="0" max="287" step="1" value="287" />
           <button class="returnButtons">Return to full system</button>
         </div>
@@ -685,7 +720,7 @@
         // Update visible site power at current slider step
         const currentStep = parseInt(fullSlider.value);
         let nearest = dataPoints.reduce((a, b) => Math.abs(b.x - currentStep) < Math.abs(a.x - currentStep) ? b : a, dataPoints[0]);
-        document.getElementById("fullPowerValue").textContent = `Site Power: ${nearest?.y ?? '--'} W`;
+        document.getElementById("fullPowerValue").textContent = `${nearest?.y ?? '--'} W`;
 
 
 
@@ -951,7 +986,7 @@
       const currentStep = parseInt(sliderObject.value);
       const nearest = chartData.reduce((a, b) =>
         Math.abs(b.x - currentStep) < Math.abs(a.x - currentStep) ? b : a, chartData[0]);
-      document.getElementById(`${arrayPosition}PowerValue`).textContent = `Site Power: ${nearest?.y ?? '--'} W`;
+      document.getElementById(`${arrayPosition}PowerValue`).textContent = `${nearest?.y ?? '--'} W`;
 
       if (!window.arrayCharts) window.arrayCharts = {};
 
@@ -1074,12 +1109,10 @@
       const min = parseFloat(slider.min);
       const max = parseFloat(slider.max);
 
-      // How far we are from min to max as a 0–1 ratio
       const rawPercent = (value - min) / (max - min);
-      const thumbSizePx = 20; // matches your CSS
+      const thumbSizePx = 30; // matches your CSS
       const sliderWidthPx = slider.offsetWidth;
 
-      // Convert to actual % along the usable track
       const offset = (thumbSizePx / 2 / sliderWidthPx) * 100;
       const percent = rawPercent * 100 + offset;
 
