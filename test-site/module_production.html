@@ -40,33 +40,23 @@
       z-index: 9999;
       display: none;
     }
-    input[type=range] {
+    .Sliders {
       appearance: none;
       width: 90%;
       height: 8px;
-      background: #ccc;
-      border-radius: 3px;
+      background: rgb(221, 221, 221);
       outline: none;
+      border-radius: 5px;
+      padding: 0;
     }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
+
+    .Sliders::-webkit-slider-thumb {
       appearance: none;
-      width: 24px;
-      height: 24px;
-      background-color: darkorange;
+      width: 20px;
+      height: 20px;
+      background: orange;
       border-radius: 50%;
       cursor: pointer;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
-      animation: pulse 2s infinite;
-    }
-    input[type=range]::-moz-range-thumb {
-      width: 24px;
-      height: 24px;
-      background-color: darkorange;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
-      animation: pulse 2s infinite;
     }
     #imageWrapper {
       position: relative;
@@ -109,6 +99,7 @@
       left: 45.5%; 
       transform: translate(-50%, -50%);
       border: none;
+      background-color: transparent;
     }
     #middleArrayButton{
       width: 15%;
@@ -118,6 +109,7 @@
       left: 57.5%; 
       transform: translate(-50%, -50%);
       border: none;
+      background-color: transparent;
     }
     #rightArrayButton{
       width: 23%;
@@ -127,6 +119,7 @@
       left: 81%; 
       transform: translate(-50%, -50%);
       border: none;
+      background-color: transparent;
     }
     #bottomArrayButton{
       width: 42%;
@@ -136,6 +129,7 @@
       left: 29%; 
       transform: translate(-50%, -50%);
       border: none;
+      background-color: transparent;
     }
     #bottomArrayButton2{
       width: 20%;
@@ -145,6 +139,7 @@
       left: 60%; 
       transform: translate(-50%, -50%);
       border: none;
+      background-color: transparent;
     }
     .chartContainers{
       width: 100%;
@@ -1025,6 +1020,7 @@
     }
     document.querySelectorAll(".Sliders").forEach(slider => {
       slider.addEventListener("input", (event) => {
+        sliderDecoration(slider);
         const id = slider.id;
         
         clearTimeout(debounceTimers[id]);
@@ -1073,6 +1069,27 @@
       const formattedDate = localYesterday.toISOString().split('T')[0];
       return formattedDate;
     }
+    function sliderDecoration(slider) {
+      const value = parseFloat(slider.value);
+      const min = parseFloat(slider.min);
+      const max = parseFloat(slider.max);
+
+      // How far we are from min to max as a 0–1 ratio
+      const rawPercent = (value - min) / (max - min);
+      const thumbSizePx = 20; // matches your CSS
+      const sliderWidthPx = slider.offsetWidth;
+
+      // Convert to actual % along the usable track
+      const offset = (thumbSizePx / 2 / sliderWidthPx) * 100;
+      const percent = rawPercent * 100 + offset;
+
+      slider.style.background = `
+        linear-gradient(to right,
+          orange 0%,
+          orange ${percent}%,
+          #ebe9e7 ${percent}%,
+          #ebe9e7 100%)`;
+    }
     async function onStart(){
       document.querySelectorAll(".datePickers").forEach(datePicker =>{
         datePicker.value = getYesterday()
@@ -1080,6 +1097,9 @@
         datePicker.max=yesterdayString;
       })
       dateChanged(fullDatePicker);
+      document.querySelectorAll(".Sliders").forEach(slider => {
+        sliderDecoration(slider);
+      });
     }
     onStart();
     const invertersInLocation = inverters.filter(item => getArrayLocation(item, "right"));
