@@ -87,7 +87,7 @@
       transition: all 0.7s ease-in-out;
     }
     #documentation-title{
-      font-size: clamp(1.5rem, 4.5vw, 2.5rem);
+      font-size: clamp(1rem, 3vw, 2rem);
       color:#2e7d32; 
       margin:0;
     }
@@ -99,7 +99,28 @@
       font-size: clamp(0.45rem, 1vw, 1.25rem);
       text-align: left;
   } 
-
+  #documentation-qr-codes{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+  }
+  #titleAndQrCode{
+    display: flex;
+    flex-direction: column;
+  }
+  .qrCodes{
+    width: 256px;
+    height: 256px;
+  }
+  .qrCodeTitles{
+    font-size: clamp(0.45rem, 1vw, 1.25rem);
+  }
+  #fullDocumentation{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+  }
   </style>
 </head>
 <body>
@@ -347,6 +368,8 @@
             </mrow>`;
 
             statisticHTML=`<li>The "Average" Canadian tree will sequester about 200kg C over an 80-year period in an urban environment.</li>`;
+
+            documentationHTML=`<div id="titleAndQrCode"><h1 class="qrCodeTitles">Source 1:</h1><img class="qrCodes" src="images/tree_source_1.png" alt="tree source 1"></div>`;
         }
         else if(card.id === "carButton"){
           equationHTML = `
@@ -380,6 +403,9 @@
 
             statisticHTML = `<li>Average energy consumption per km for electric cars: 189Wh</li><br>
                              <li>Average Km driven by Canadians per year: 16249</li>`
+
+            documentationHTML=`<div id="titleAndQrCode"><h1 class="qrCodeTitles">Source 1:</h1><img class="qrCodes" src="images/electric_car_source_1.png" alt="electric car source 1"></div>
+                               <div id="titleAndQrCode"><h1 class="qrCodeTitles">Source 2:</h1><img class="qrCodes" src="images/electric_car_source_2.png" alt="electric car source 2"></div>`;
         }
         else if(card.id === "CO2Button"){
           equationHTML = `
@@ -414,6 +440,8 @@
             </mrow>`;
 
             statisticHTML = `<li>BC Hydro's grid emits 9.9 tonnes of CO<sub>2</sub> emissions per GWh of consumed energy</li>`;
+
+            documentationHTML=`<div id="titleAndQrCode"><h1 class="qrCodeTitles">Source 1:</h1><img class="qrCodes" src="images/CO2_source_1.png" alt="CO2 source 1"></div>`;
         }
         else if(card.id === "lifetimeButton"){
           equationHTML = `
@@ -480,6 +508,9 @@
 
           statisticHTML = `<li>Average phone voltage is 3.7V </li><br>
                            <li>Higher end of battery capacities is 5000 mAh</li>`;
+
+          documentationHTML=`<div id="titleAndQrCode"><h1 class="qrCodeTitles">Source 1:</h1><img class="qrCodes" src="images/phone_source_1.png" alt="phone source 1"></div>
+                             <div id="titleAndQrCode"><h1 class="qrCodeTitles">Source 2:</h1><img class="qrCodes" src="images/phone_source_2.png" alt="phone source 2"></div>`;
         }
         else if(card.id === "gasolineButton"){
           equationHTML=`
@@ -521,6 +552,8 @@
             </mrow>`;
 
             statisticHTML = `<li>Motor gasoline emits 2307g of CO<sub>2</sub> emissions per litre of fuel in Canada</li>`;
+
+            documentationHTML=`<div id="titleAndQrCode"><h1 class="qrCodeTitles">Source 1:</h1><img class="qrCodes" src="images/gasoline_source_1.png" alt="gasoline source 1"></div>`;
         }
         else if(card.id === "kmsButton"){
           equationHTML=`
@@ -574,6 +607,8 @@
 
             statisticHTML = `<li>Average consumed gasoline per 100km of highway and city driving in Canada is 10.74L </li><br>
                              <li>9.371 x 10<sup>-3</sup> metric tons of CO<sub>2</sub> are emitted per gallon of gasoline consumed</li>`;
+
+            documentationHTML=`<div id="titleAndQrCode"><h1 class="qrCodeTitles">Source 1:</h1><img class="qrCodes" src="images/kms_source_1.png" alt="kms source 1"></div>`;
         }
         else if(card.id === "displayEnergyButton"){
           equationHTML=`
@@ -612,6 +647,9 @@
 
           statisticHTML = `<li>The typical power consumption of the loft D375B display is 200W </li><br>
                            <li>The power that the Access 4 display chip consumes is 15W</li>`;
+
+          documentationHTML=`<div id="titleAndQrCode"><h1 class="qrCodeTitles">Source 1:</h1><img class="qrCodes" src="images/display_source_1.png" alt="display source 1"></div>
+                             <div id="titleAndQrCode"><h1 class="qrCodeTitles">Source 2:</h1><img class="qrCodes" src="images/display_source_2.png" alt="display source 2"></div>`;
         }
         else if(card.id === "litterButton"){
           equationHTML=`
@@ -675,6 +713,9 @@
 
             statisticHTML = `<li>Photodegradation of floating plastic debris emits 32-122t C of Greenhouse Gas emissions per year (median of 77t C) </li><br>
                              <li>around 96400 tons of plastic are contained in the Grand Pacific Ocean</li>`;
+
+            documentationHTML=`<div id="titleAndQrCode"><h1 class="qrCodeTitles">Source 1:</h1><img class="qrCodes" src="images/litter_source_1.png" alt="litter source 1"></div>
+                               <div id="titleAndQrCode"><h1 class="qrCodeTitles">Source 2:</h1><img class="qrCodes" src="images/litter_source_2.png" alt="litter source 2"></div>`;
         }
         const identity = card.id;
         const container = document.querySelector(".container");
@@ -713,9 +754,12 @@
         });
 
         setTimeout(() => {
-          clone.innerHTML = `<h1 id="documentation-title">${title}</h1> <br><br>
-                             <ol id="documentation-statistic">${statisticHTML}</ol><br><br>
-                             <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" id="documentation-equation">${equationHTML}</math>`
+          clone.innerHTML =`<div id="fullDocumentation">
+                              <h1 id="documentation-title">${title}</h1> <br><br>
+                              <ol id="documentation-statistic">${statisticHTML}</ol><br><br>
+                              <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" id="documentation-equation">${equationHTML}</math><br><br>
+                              <div id="documentation-qr-codes">${documentationHTML}</div>
+                            </div>`
 
           clone.addEventListener("click", () => {
             Object.assign(clone.style, {
@@ -725,9 +769,12 @@
               height: orig.height,
               borderRadius: orig.radius
             });
-              clone.innerHTML = card.innerHTML;
-            clone.addEventListener("transitionend", () => {
-              clone.remove();
+          const fullDocumentDiv = document.getElementById("fullDocumentation");
+          fullDocumentDiv.style.width = orig.width;
+          fullDocumentDiv.style.height = orig.height;
+          clone.innerHTML = card.innerHTML;
+          clone.addEventListener("transitionend", () => {
+          clone.remove();
             }, { once: true });
           }, { once: true });
         }, 650);

@@ -1118,6 +1118,9 @@
       buildGrid(inverters);
       await constrainSliderToSunHours();
       await loadPowerData(inverters).then(updateAllCharts);
+      document.querySelectorAll(".Sliders").forEach(slider => {
+        sliderDecoration(slider);
+      });
     }
     function getYesterday(){
       const yesterday = new Date();
