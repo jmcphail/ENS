@@ -276,7 +276,7 @@
       return operationalSeconds;
     }
 
-    //returns the total energy produced by the solar system throughout its lifetime (from the systems summary API)
+    // returns the total energy produced by the solar system throughout its lifetime (from the systems summary API)
     async function getTotalEnergyProduced() {
       const response = await fetch("https://clients.hakaienergy.ca/camosun/api-update.php?api=systems_summary");
       const rawData = await response.json();
@@ -291,7 +291,7 @@
       return values.reduce(sumArray);
     }
 
-    //sets the values of all cards in the grid
+    // sets the values of all cards in the grid
     async function setEnvironmentalBenefits() {
       let energy = await getTotalEnergyProduced();
       energy /= 1000;
@@ -741,7 +741,7 @@
         const rect = card.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
 
-        //sets orig to the dimensions of the pressed card
+        // sets orig to the dimensions of the pressed card
         const orig = {
           top: rect.top - containerRect.top + "px",
           left: rect.left - containerRect.left + "px",
@@ -749,7 +749,7 @@
           height: rect.height + "px",
           radius: getComputedStyle(card).borderRadius
         };
-        //creates a clone, adds an expansion class and gives it the same dimensions as the card
+        // creates a clone, adds an expansion class and gives it the same dimensions as the card
         const clone = card.cloneNode(true);
         clone.classList.add("expand");
         Object.assign(clone.style, {
@@ -765,7 +765,7 @@
 
         container.appendChild(clone);
         void clone.offsetWidth;
-        //makes the clone expand to the full size of the grid
+        // makes the clone expand to the full size of the grid
         Object.assign(clone.style, {
           top: "0",
           left: "0",
@@ -773,7 +773,7 @@
           height: "100%",
           borderRadius: "0"
         });
-        //fills the html of the expanded clone to include the title, the statistics, the equations, and the documentation QR codes
+        // fills the html of the expanded clone to include the title, the statistics, the equations, and the documentation QR codes
         setTimeout(() => {
           clone.innerHTML =`<div id="fullDocumentation">
                               <h1 id="documentation-title">${title}</h1> <br><br>
@@ -781,7 +781,7 @@
                               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" id="documentation-equation">${equationHTML}</math><br><br>
                               <div id="documentation-qr-codes">${documentationHTML}</div>
                             </div>`
-          //returns the clone to it's small size when the expanded card is clicked
+          // returns the clone to it's small size when the expanded card is clicked
           clone.addEventListener("click", () => {
             Object.assign(clone.style, {
               top: orig.top,
@@ -793,10 +793,10 @@
           const fullDocumentDiv = document.getElementById("fullDocumentation");
           fullDocumentDiv.style.width = orig.width;
           fullDocumentDiv.style.height = orig.height;
-          //resets the html to the html of the small card
+          // resets the html to the html of the small card
           clone.innerHTML = card.innerHTML;
           clone.addEventListener("transitionend", () => {
-          //destroys the clone when it has shrunk down to the small size
+          // destroys the clone when it has shrunk down to the small size
           clone.remove();
             }, { once: true });
           }, { once: true });

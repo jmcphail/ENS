@@ -487,7 +487,7 @@
     let sunriseMinutes = 0;
     let sunsetMinutes = 1435;
     
-    //arrays of inverter serial numbers per array (from left to right, top to bottom)
+    // arrays of inverter serial numbers per array (from left to right, top to bottom)
     const inverters = [
       {serial : 202350032713, array: "left", orientation : "portrait"},
       {serial : 202350033317, array: "left", orientation : "portrait"},
@@ -591,6 +591,8 @@
       {serial : 202407025280, array: "bottom", orientation : "portrait"},
       {serial : 202407025472, array: "bottom", orientation : "portrait"}
     ]
+
+    // when the array buttons are pressed (they are invisible on top of each array), the image fades out and then the array that was pressed is faded in
     document.querySelectorAll(".arrayButtons").forEach(button => {
       button.addEventListener("click", function () {
         const elementIndex = parseInt(this.getAttribute("data-index"), 10);
@@ -606,6 +608,8 @@
         }, 400);
       });
     });
+
+    // when the return button with each array page is pressed, the array is faded out and then the image with all of the arrays is faded in
     document.querySelectorAll(".returnButtons").forEach(button => {
       button.addEventListener("click", function () {
         slideElement.classList.remove("visible");
@@ -618,6 +622,8 @@
         }, 400);
       });
     });
+
+    // ensures that the slider can only select hours where the sun was present
     async function constrainSliderToSunHours() {
       const dateStr = datePicker.value;
       const res = await fetch(`https://clients.hakaienergy.ca/camosun/date_sun_info.php?date=${dateStr}`);
@@ -634,26 +640,10 @@
         })
       }
     }
-    async function getSunHours(){
-      let timeArray = [];
-      const dateStr = datePicker.value;
-      const res = await fetch(`https://clients.hakaienergy.ca/camosun/date_sun_info.php?date=${dateStr}`);
-      const json = await res.json();
-      if (json.sunrise && json.sunset) {
-        const sunrise = new Date(json.sunrise * 1000);
-        const sunset = new Date(json.sunset * 1000);
-        sunriseMinutes = sunrise.getHours() * 60 + sunrise.getMinutes();
-        sunsetMinutes = sunset.getHours() * 60 + sunset.getMinutes();
-        for(let i = sunriseMinutes; i < sunsetMinutes; i+= 5){
-          const time = Math.floor(i/5);
-          timeArray.push(time);
-        }
-        return timeArray;
-      }
-      else{
-        return null;
-      }
-    }
+
+    // returns an array with 2 time values, the earliest time where the system is producing energy and the latest time where the system is producing energy
+    // format is "2025-07-31 05:45:00"
+    // if no time values are found, returns null
     async function getSunBoundaries(){
       let timeArray = [];
       const dateStr = datePicker.value;
@@ -668,32 +658,43 @@
         const sunsetTime = sliderToTime(sunsetMinutes/5);
         timeArray.push(sunriseTime);
         timeArray.push(sunsetTime);
+        console.log(timeArray);
         return timeArray;
       }
       else{
         return null;
       }
     }
+
+    // takes the inverterArray
+    // empties the HTML's of all of the arrays
+    // creates a model solar panel for each inverter with a span for a power value and a span for a energy value
     function buildGrid(inverterArray){
+      // function does nothing if inverterArray is empty
       if(typeof inverterArray == "undefined"){
         return;
       }
+      // empties all of the array contents
       leftArrayContent.innerHTML = "";
       middleArrayContent.innerHTML = "";
       rightArrayContent.innerHTML = "";
       bottomArrayContent.innerHTML = "";
       inverterArray.forEach((inverter, inverterIndex) =>{
+        // creates a div for each solar panel with a span for energy values and a span for power values
+        // cell id is the index of the array in inverterArray
         const cell = document.createElement("div");
         cell.id= `inverter-${inverterIndex}`;
         cell.innerHTML = `
           <span class="power">loading...</span>
           <span class="kwh">- kWh</span>`;
+        // if the solar panel is in landscape mode, determines which side it's on and gives it a class for it
         if(inverter.orientation == "landscape-top"){
           cell.classList.add("landscape-top");
         }
         else if(inverter.orientation == "landscape-bottom"){
           cell.classList.add("landscape-bottom");
         }
+        // adds the solar panels to the correct arrays 
         switch (inverter.array) {
           case "left":
             leftArrayContent.appendChild(cell);
@@ -711,6 +712,7 @@
       })
     }
 
+    // converts the slider value into a date in the format "2025-07-31 05:45:00"
     function sliderToTime(sliderValue) {
       const selectedDate = datePicker.value;
       if (!selectedDate) return null;
@@ -722,8 +724,10 @@
       console.log(`${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:00`)
       return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:00`;
     }
-
+    // creates a power chart with the power of all modules on the selected day
+    // highlights the area that the slider is correlated with and gives the site power value
     async function updateFullChart() {
+      // gets the selected date and selected time
       const selectedDate = datePicker.value;
       const ctx = fullChart.getContext("2d");
       const timeStr = sliderToTime(parseInt(fullSlider.value));
@@ -731,9 +735,10 @@
       fullTimeLabel.textContent = timeStr;
 
       try {
+        // gets power data for the full day
         const res = await fetch(`https://clients.hakaienergy.ca/camosun/get_site_power.php?r=${selectedDate}`);
         const json = await res.json();
-
+        // API contains values for all days leading up to that day so this filters out only the values from that day
         const filtered = json.filter(e => e.measurement_date.startsWith(selectedDate));
         const dataPoints = filtered.map(e => {
           const [h, m] = e.measurement_date.split(" ")[1].split(":");
@@ -746,7 +751,7 @@
         document.getElementById("fullPowerValue").textContent = `${nearest?.y ?? '--'} W`;
 
 
-
+    // if not chart exists, creates a chart, otherwise update it with the new power values
     if (window.fullSummaryChart) {
       window.fullSummaryChart.data.datasets[0].data = dataPoints;
       window.fullSummaryChart.update();
@@ -818,6 +823,7 @@
   }
 } 
 
+    // creates an array with the power values of each inverter during the selected day
     async function loadPowerData(inverterArray) {
       if(typeof inverterArray == "undefined"){
         console.error("array does not exist");
@@ -836,21 +842,26 @@
           powerCache[inverter.serial] = [];
         }
       });
+      console.log(powerCache);
       await Promise.all(promises);
 
     }
 
+    // returns a colour depending on the power value (red when value is large and black when it is small)
     function powerToColor(value) {
       const clamped = Math.max(0, Math.min(500, value));
       const intensity = Math.round((clamped / 500) * 255);
       return `rgb(${intensity}, 0, 0)`;
     }
     
+    // returns the total energy in kWh for the day
     function computeKWhForDay(serial) {
       const entries = powerCache[serial] || [];
       const totalWatts = entries.reduce((sum, entry) => sum + (entry.value || 0), 0);
       return (totalWatts * 5 / 60 / 1000).toFixed(2); // convert to kWh, rounded
     }
+
+    // updates the chart and the modules for the array at arrayPosition 
     async function updateAllArrays(inverterArray, arrayPosition, sliderObject) {
       if(typeof sliderObject == "undefined"){
         sliderObject = slider;
@@ -865,12 +876,15 @@
       const arrayTimeLabel = document.getElementById(`${arrayPosition}TimeLabel`);
       arrayTimeLabel.textContent = timeStr;
 
+      // creates an array with only the inverters in the correct arrayPosition (left, right ,middle, or bottom)
       const invertersToAdjust = inverters.filter(item => getArrayLocation(item, arrayPosition));
 
       const timeBoundaries = await getSunBoundaries();
       console.log("timeBoundaries = ", timeBoundaries);
       console.log("typeof getSunBoundaries = ", typeof getSunBoundaries);
+      // updates the chart for the array
       await updateArrayCharts(invertersToAdjust, sliderObject, arrayPosition);
+      // for each inverter in the specific array, finds a match with the powerCache and then uses the value of the powerCache inverter to change the background colour of the array and change the power value and energy value
       invertersToAdjust.forEach((inverter, inverterIndex) => {
         const entries = powerCache[inverter.serial] || [];
         const match = entries.find(entry => entry.measurement_date === timeStr);
@@ -888,6 +902,8 @@
         }
       });
     }
+    
+    // creates a marker on the chart for where the slider location is on the chart
     function createSliderDotPlugin(sliderObject) {
       return {
         id: 'sliderDot',
@@ -915,6 +931,8 @@
         }
       };
     }
+
+    // updates a chart using inverters from inverterArrar, the array position and the slider value
     async function updateArrayCharts(inverterArray, sliderObject, arrayPosition) {
       if (!sliderObject || !sliderObject.value) {
         sliderObject = document.getElementById("timeSlider");
@@ -941,6 +959,7 @@
 
         const url = `https://clients.hakaienergy.ca/camosun/get_device_power.php?device_id=${inverterArray[0].serial}&r=${selectedDate}`;
 
+        // from the selected array's objects, returns the index of the closest matching time to targetTime
         function findLastBeforeOrEqual(data, targetTime) {
           let lastValidIndex = -1;
           for (let i = 0; i < data.length; i++) {
@@ -961,7 +980,7 @@
             console.warn(`No data for inverter ${inverterArray[0].serial} on ${selectedDate}`);
             return;
           }
-
+          // finds the index of the object that is the earliest time where energy is produced and the index of the object that is the latest time where energy is produced
           const initialIndex = findLastBeforeOrEqual(data, timeBoundaries[0]);
           const finalIndex = findLastBeforeOrEqual(data, timeBoundaries[1]);
 
@@ -970,12 +989,14 @@
             return;
           }
 
+          // from the earliest and latest index where energy is produced, creates a map where the key is the measurement date and the value is the power value
           const timeMap = new Map();
           for (let j = initialIndex; j <= finalIndex; j++) {
             const entry = data[j];
             timeMap.set(entry.measurement_date, entry.value);
           }
 
+          // going through every inverter, matches dates from the inverter to the dates in timeMap, if it matches add it to chartData
           for (let k = 1; k < inverterArray.length; k++) {
             const inverterUrl = `https://clients.hakaienergy.ca/camosun/get_device_power.php?device_id=${inverterArray[k].serial}&r=${selectedDate}`;
             const tempRes = await fetch(inverterUrl);
@@ -987,7 +1008,7 @@
               }
             }
           }
-
+          // formats the data so that it is compatible with JScharts
           chartData = [];
           for (let [timestamp, value] of timeMap.entries()) {
             const [h, m] = timestamp.split(" ")[1].split(":");
@@ -1005,14 +1026,14 @@
         }
       }
 
-
+      // determines the closest power value to the time value on the slider
       const currentStep = parseInt(sliderObject.value);
       const nearest = chartData.reduce((a, b) =>
         Math.abs(b.x - currentStep) < Math.abs(a.x - currentStep) ? b : a, chartData[0]);
       document.getElementById(`${arrayPosition}PowerValue`).textContent = `${nearest?.y ?? '--'} W`;
-
+  
       if (!window.arrayCharts) window.arrayCharts = {};
-
+      // renders chart
       if (window.arrayCharts[arrayPosition]) {
         window.arrayCharts[arrayPosition].data.datasets[0].data = chartData;
         window.arrayCharts[arrayPosition].update();
@@ -1057,16 +1078,21 @@
       }
     }
 
+    // used with the filter method to get a new array with only the inverters in the specific location
     function getArrayLocation(item, location){
       return item.array === location;
     }
+
+    // adds a delay to a function
     function debounce(func, delay) {
       let timeout;
       return function (...args) {
         clearTimeout(timeout);
         timeout = setTimeout(() => func.apply(this, args), delay);
       };
-    } 
+    }
+    
+    // updates all charts, while they are updating, nothing is interactible and "loading" is displayed over a foggy white background, after everything is loaded the website functions as normal
     async function updateAllCharts(){
       updateFullChart();
       updateAllArrays(inverters, "left", leftSlider);
@@ -1076,6 +1102,8 @@
         loadingOverlay.style.display = 'none';
       })
     }
+
+    // whenever one of the sliders is interacted with, identifies which slider was adjusted and adjusts the array that the slider is located with
     document.querySelectorAll(".Sliders").forEach(slider => {
       slider.addEventListener("input", (event) => {
         sliderDecoration(slider);
@@ -1105,11 +1133,18 @@
       });
     });
 
+    // whenever the value of the date pickers is changed, call dateChanged with the datepicker that was changed
     document.querySelectorAll(".datePickers").forEach(datePicker =>{
       datePicker.addEventListener("change", () =>{
         dateChanged(datePicker);
       });
     })
+
+    // sets the values of all date pickers to the same value as the changed date picker
+    // rebuilds the grid of inverters
+    // adds power data to inverters
+    // gets new earliest and latest times where energy is produced
+    // ensures that all sliders have the correct decorations
     async function dateChanged(datePicker){
       const newDate = datePicker.value;
       document.querySelectorAll(".datePickers").forEach(picker => {
@@ -1122,6 +1157,8 @@
         sliderDecoration(slider);
       });
     }
+
+    // returns the date of yesterday
     function getYesterday(){
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
@@ -1130,6 +1167,8 @@
       const formattedDate = localYesterday.toISOString().split('T')[0];
       return formattedDate;
     }
+
+   // sets the orange trail of the slider to go from the far left to the current location of the slider handle
     function sliderDecoration(slider) {
       const value = parseFloat(slider.value);
       const min = parseFloat(slider.min);
@@ -1149,6 +1188,10 @@
           #ebe9e7 ${percent}%,
           #ebe9e7 100%)`;
     }
+
+    // activates when the webpage is opened
+    // sets the values of all date pickers to yesterday
+    // sets the sliders decoration
     async function onStart(){
       document.querySelectorAll(".datePickers").forEach(datePicker =>{
         datePicker.value = getYesterday()
@@ -1161,8 +1204,6 @@
       });
     }
     onStart();
-    const invertersInLocation = inverters.filter(item => getArrayLocation(item, "right"));
-    console.log(invertersInLocation);
   </script>
 </body>
 </html>

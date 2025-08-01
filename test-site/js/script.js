@@ -25,13 +25,13 @@ const BRIGHTNESSCHANGE = 25;
 const DAILYTIMEINTERVAL = "30 days";
 const WEEKLYTIMEINTERVAL = "3 months";
 const MONTHLYTIMEINTERVAL = "12 months";
-// Time in ms that the slide animation inside of css takes + 100ms, see the css class towards the bottom with each slide animation for the value
+// time in ms that the slide animation inside of css takes + 100ms, see the css class towards the bottom with each slide animation for the value
 const animationTime = 1600;
 
-// Adds the inactive-energy-button class to each energy interval button
+// adds the inactive-energy-button class to each energy interval button
 document.querySelectorAll("#energyIntervalButtons button").forEach(button =>{
   button.classList.add("inactive-energy-button");
-  // Whenever one of the energy interval buttons are pressed, adds the inactive-energy-button class to each energy interval button and then removes the inactive-energy-button class from the selected button (the default values of each button are the green colours)
+  // whenever one of the energy interval buttons are pressed, adds the inactive-energy-button class to each energy interval button and then removes the inactive-energy-button class from the selected button (the default values of each button are the green colours)
   button.addEventListener("click", () =>{
     document.querySelectorAll("#energyIntervalButtons button").forEach(button =>{
       button.classList.add("inactive-energy-button");
@@ -75,7 +75,7 @@ function clearTransforms(element){
   ];
   classes.forEach(cls => slideElement.classList.remove(cls));
 
-  // Trigger reflow to allow re-adding same class for repeated animations
+  // trigger reflow to allow re-adding same class for repeated animations
   void slideElement.offsetWidth;
 }
 // resets all buttons on the main button row to the button-default class (white background with gray colour when hovered)
@@ -320,7 +320,7 @@ monthlyEnergyButton.onclick = function(){
   renderEnergyChart("MONTH", formattedMonthlyInterval);
   energyGenLabel.textContent = "Monthly Energy Generation for last " + MONTHLYTIMEINTERVAL;
 }
-// activataes whenever the power slider is adjusted
+// activates whenever the power slider is adjusted
 // moves the yellow trail to match the current location of the moving circle
 // adjusts the text above to display the amount of hours that are selected
 // sets the power chart to display the amount of hours that the slider is set to
@@ -377,7 +377,7 @@ document.querySelectorAll(".linkButton").forEach(button => {
     currentElementIndex = newElementIndex;
   });
 });
-//sets the url of the other iframe to be the same as the current iframe
+// sets the url of the other iframe to be the same as the current iframe
 function onSlideTransitionEnd() {
   if (slideElement.classList.contains("slide-right-iframe")) {
     document.getElementById("popupIFrameA").src = noCacheUrl;
@@ -386,7 +386,7 @@ function onSlideTransitionEnd() {
   }
   isTransitioning = false;
 }
-//sets the orange trail of the slider to go from the far left to the current location of the slider handle
+// sets the orange trail of the slider to go from the far left to the current location of the slider handle
 function sliderDecoration() {
   const value = powerTimeSlider.value;
   const max = powerTimeSlider.max;
