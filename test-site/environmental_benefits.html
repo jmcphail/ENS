@@ -214,60 +214,76 @@
     const displayHours = document.getElementById("displayHours");
     const yearlyTrash = document.getElementById("yearlyTrash");
 
+    // used with the reduce method to return the sum of all elements in an array
     function sumArray(accumulator, element) {
       return accumulator + element;
     }
 
+    // returns the CO2 emissions avoided by the given energy in kWh
+    // CO2 emissions are in tonnes
     function getCO2(energy) {
       return energy * 9.9e-6;
     }
 
+    // returns the amount of smartphones that could be charted with the given energy in kWh
     function getSmartphonesCharged(energy) {
       return (energy / 0.02035).toFixed(0);
     }
 
+    // returns the amount of tree lifetimes that would avoid the equivalent amount of CO2 emissions as the given energy in kWh
     function getTreeCount(energy) {
       return (getCO2(energy) / 0.06).toFixed(0);
     }
-
+    
+    // returns the amount of gasoline gallons that would emit the equivalent amount of CO2 emissions that are avoided by the given energy in kWh
     function getGasolineGallons(energy) {
       return (getCO2(energy) / 0.0093715).toFixed(2);
     }
 
+    // returns the amount of electric cars that could be powered for a year by the given energy in kWh
     function getYearlyCarsPowered(energy) {
       return (energy / 3071).toFixed(0);
     }
 
+    // returns the amount of kilometers that would be driven by a gas-powered vehicle to emit the equivalent amount of CO2 emissions that are avoided by the given energy in kWh
     function getKmsDriven(energy) {
       return (getCO2(energy) / 2.66e-4).toFixed(2);
     }
 
+    // returns the amount of hours that the Loft D375 interactive display and the azulle access 4 could be powered by the given energy in kWh
     function getDisplayHours(energy) {
       return (energy / 0.215).toFixed(0);
     }
 
+    //returns the amount of tons of litter that would emit the equivalent amount of CO2 emissions that are avoided by the given energy in kWh
     function getLitterRemoved(yearlyEnergy) {
       return (getCO2(yearlyEnergy) * 365).toFixed(2);
     }
 
+    //returns the operational time of the solar system in days (from the systems summary API)
     async function getOperationalTime() {
       const response = await fetch("https://clients.hakaienergy.ca/camosun/api-update.php?api=systems_summary");
       const rawData = await response.json();
       const operationalSeconds = rawData.last_report_at - rawData.operational_at;
       return (operationalSeconds / 86400).toFixed(0);
     }
+
+    // returns the operational time of the solar system in seconds (from the systems summary API)
     async function getOperationalSeconds(){
       const response = await fetch("https://clients.hakaienergy.ca/camosun/api-update.php?api=systems_summary");
       const rawData = await response.json();
       const operationalSeconds = rawData.last_report_at - rawData.operational_at;
       return operationalSeconds;
     }
+
+    //returns the total energy produced by the solar system throughout its lifetime (from the systems summary API)
     async function getTotalEnergyProduced() {
       const response = await fetch("https://clients.hakaienergy.ca/camosun/api-update.php?api=systems_summary");
       const rawData = await response.json();
       return rawData.energy_lifetime;
     }
 
+    // returns the energy produced in the past year (from the site energy API)
     async function getYearlyEnergyProduced() {
       const response = await fetch("https://clients.hakaienergy.ca/camosun/get_site_energy.php?t=DAY&r=-1 year&f=json");
       const rawData = await response.json();
@@ -275,6 +291,7 @@
       return values.reduce(sumArray);
     }
 
+    //sets the values of all cards in the grid
     async function setEnvironmentalBenefits() {
       let energy = await getTotalEnergyProduced();
       energy /= 1000;
@@ -294,7 +311,9 @@
 
     setEnvironmentalBenefits();
 
-    // Animation handler
+    // activates whenever one of the cards are clicked
+    // sets the html contents of the expanded card using mathML notation for the equations, images for the qr codes, and ordered lists for the various statistics that are used
+    // expands the card to take up the entire grid then fills its html with documentation supporting the displayed value
     document.querySelectorAll(".card").forEach(card => {
       card.addEventListener("click", async() => {
         const title = card.getAttribute("data-title");
@@ -722,6 +741,7 @@
         const rect = card.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
 
+        //sets orig to the dimensions of the pressed card
         const orig = {
           top: rect.top - containerRect.top + "px",
           left: rect.left - containerRect.left + "px",
@@ -729,6 +749,7 @@
           height: rect.height + "px",
           radius: getComputedStyle(card).borderRadius
         };
+        //creates a clone, adds an expansion class and gives it the same dimensions as the card
         const clone = card.cloneNode(true);
         clone.classList.add("expand");
         Object.assign(clone.style, {
@@ -744,7 +765,7 @@
 
         container.appendChild(clone);
         void clone.offsetWidth;
-
+        //makes the clone expand to the full size of the grid
         Object.assign(clone.style, {
           top: "0",
           left: "0",
@@ -752,7 +773,7 @@
           height: "100%",
           borderRadius: "0"
         });
-
+        //fills the html of the expanded clone to include the title, the statistics, the equations, and the documentation QR codes
         setTimeout(() => {
           clone.innerHTML =`<div id="fullDocumentation">
                               <h1 id="documentation-title">${title}</h1> <br><br>
@@ -760,7 +781,7 @@
                               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" id="documentation-equation">${equationHTML}</math><br><br>
                               <div id="documentation-qr-codes">${documentationHTML}</div>
                             </div>`
-
+          //returns the clone to it's small size when the expanded card is clicked
           clone.addEventListener("click", () => {
             Object.assign(clone.style, {
               top: orig.top,
@@ -772,8 +793,10 @@
           const fullDocumentDiv = document.getElementById("fullDocumentation");
           fullDocumentDiv.style.width = orig.width;
           fullDocumentDiv.style.height = orig.height;
+          //resets the html to the html of the small card
           clone.innerHTML = card.innerHTML;
           clone.addEventListener("transitionend", () => {
+          //destroys the clone when it has shrunk down to the small size
           clone.remove();
             }, { once: true });
           }, { once: true });

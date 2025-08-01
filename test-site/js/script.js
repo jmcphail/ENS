@@ -39,29 +39,6 @@ document.querySelectorAll("#energyIntervalButtons button").forEach(button =>{
     button.classList.remove("inactive-energy-button");
   })
 })
-// Calculates the avoided CO2 emissions from an energy value in kWh
-function getCO2(energy){
-  const CO2 = energy * 9.9e-6;
-  return CO2;
-}
-// Calculates the amount of smartphones charged from an energy value in kWh
-function getSmartphonesCharged(energy){
-  const smartphones = (energy/0.019).toFixed(0);
-  return smartphones;
-}
-// calculates the amount of "tree lifetimes" that the energy value in kWh avoids in CO2 emissions
-function getTreeCount(energy){
-  const CO2 = getCO2(energy);
-  const trees = (CO2/0.06).toFixed(0);
-  return trees;
-}
-// calculates the gallons of gasoline that the energy value in kWh avoids in CO2 emissions
-function getGasolineGallons(energy){
-  const CO2 = getCO2(energy);
-  const gasolineLiters = CO2/0.002347;
-  const gasolineGallons = gasolineLiters/3.785;
-  return gasolineGallons.toFixed(2);
-}
 // a function used with the reduce method to return the sum of all elements in an array
 function sumArray(accumulator, element){
   return accumulator + element;
