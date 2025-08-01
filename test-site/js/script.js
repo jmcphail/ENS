@@ -167,6 +167,17 @@ async function setEnergies(){
   currentPower.textContent = `${currentPowerAmount.toFixed(2)} kW`;
 }
 async function renderEnergyChart(timeInterval, timeRange) {
+  switch(timeInterval){
+    case "DAY":
+      lowerCaseTimeInterval = "Daily";
+      break;
+    case "WEEK":
+      lowerCaseTimeInterval = "Weekly";
+      break;
+    case "MONTH":
+      lowerCaseTimeInterval = "Monthly";
+      break;
+  };
   const rawData = await fetchEnergyData(timeInterval, timeRange);
   const { labels, values } = formatChartData(rawData);
 
@@ -176,7 +187,7 @@ async function renderEnergyChart(timeInterval, timeRange) {
     data: {
       labels: labels,
       datasets: [{
-        label: "Daily Energy (Wh)",
+        label: `${lowerCaseTimeInterval} Energy (Wh)`,
         data: values,
         backgroundColor: getBackgroundColor(values),
         maintainAspectRatio: true,
