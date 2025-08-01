@@ -34,14 +34,6 @@ body {
   transform: translateY(-.3rem);
   box-shadow: 0 1rem 2rem rgba(82, 167, 45, 0.2);
 }
-.alternate-background-button{
-  color: white;
-  background-color: rgb(49, 156, 217);
-}
-.alternate-background-button:hover{
-  transform: translateY(-.3rem);
-  box-shadow: 0 1rem 2rem rgb(49, 156, 217, 0.2);
-}
 .button-default{
   background-color: white;
   color: black;
